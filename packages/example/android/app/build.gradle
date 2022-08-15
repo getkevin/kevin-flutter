@@ -28,10 +28,6 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 android {
     compileSdk flutter.compileSdkVersion
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-
     defaultConfig {
         applicationId "eu.kevin.flutter.example"
         // You can update the following values to match your application needs.

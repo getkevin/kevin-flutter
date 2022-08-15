@@ -35,12 +35,9 @@ apply plugin: 'kotlinx-serialization'
 android {
     compileSdk 31
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-
     defaultConfig {
         minSdk 21
+        targetSdk 31
     }
 }
 
