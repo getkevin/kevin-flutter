@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kevin_flutter_example/domain/payment_type.dart';
+import 'package:kevin_flutter_example/domain/kevin_payment_type_extensions.dart';
 import 'package:kevin_flutter_example/presentation/core/widgets/kevin_demo_tab_indicator.dart';
+import 'package:kevin_flutter_in_app_payments/kevin_payments.dart';
 
 class PaymentTypeSelector extends StatelessWidget {
-  final List<PaymentType> options;
+  final List<KevinPaymentType> options;
   final TabController controller;
 
   const PaymentTypeSelector({

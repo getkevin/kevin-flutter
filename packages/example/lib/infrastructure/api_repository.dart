@@ -75,6 +75,7 @@ class ApiRepository implements IApiRepository {
     required String email,
     required String iban,
     required String creditorName,
+    required String redirectUrl,
   }) async {
     try {
       final url = '$kevinMobileDemoBaseUrl/payments/bank/';
@@ -86,6 +87,7 @@ class ApiRepository implements IApiRepository {
           'email': email,
           'iban': iban,
           'creditorName': creditorName,
+          'redirectUrl': redirectUrl,
         },
       );
 
@@ -110,6 +112,7 @@ class ApiRepository implements IApiRepository {
     required String email,
     required String iban,
     required String creditorName,
+    required String redirectUrl,
   }) async {
     try {
       final response = await _dio.post(
@@ -119,6 +122,7 @@ class ApiRepository implements IApiRepository {
           'email': email,
           'iban': iban,
           'creditorName': creditorName,
+          'redirectUrl': redirectUrl,
         },
       );
 

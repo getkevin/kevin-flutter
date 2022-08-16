@@ -14,6 +14,7 @@ abstract class IApiRepository {
     required String email,
     required String iban,
     required String creditorName,
+    required String redirectUrl,
   });
   Future<Either<RepositoryFailure, PaymentInitializationState>>
       initializeCardPayment({
@@ -21,5 +22,6 @@ abstract class IApiRepository {
     required String email,
     required String iban,
     required String creditorName,
+    required String redirectUrl,
   });
 }

@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin_flutter_example/application/payment_bloc.dart';
 import 'package:kevin_flutter_example/domain/creditor/creditor.dart';
-import 'package:kevin_flutter_example/domain/payment_type.dart';
 import 'package:kevin_flutter_example/presentation/core/country_name_helper.dart';
 import 'package:kevin_flutter_example/presentation/core/text_styles.dart';
 import 'package:kevin_flutter_example/presentation/core/widgets/kevin_demo_bottom_sheet_item.dart';
@@ -17,6 +16,7 @@ import 'package:kevin_flutter_example/presentation/core/widgets/kevin_demo_text_
 import 'package:kevin_flutter_example/presentation/home/widgets/country_row.dart';
 import 'package:kevin_flutter_example/presentation/home/widgets/creditor_selector.dart';
 import 'package:kevin_flutter_example/presentation/home/widgets/payment_type_selector.dart';
+import 'package:kevin_flutter_in_app_payments/kevin_payments.dart';
 import 'package:styled_text/styled_text.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -29,9 +29,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  final List<PaymentType> _paymentOptions = [
-    PaymentType.bank,
-    PaymentType.card,
+  final List<KevinPaymentType> _paymentOptions = [
+    KevinPaymentType.bank,
+    KevinPaymentType.card,
   ];
   TabController? _tabController;
 

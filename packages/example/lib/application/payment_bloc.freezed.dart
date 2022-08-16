@@ -22,7 +22,8 @@ class _$PaymentEventTearOff {
     return const PaymentLoadInitiated();
   }
 
-  PaymentTypeSelected paymentTypeSelected({required PaymentType paymentType}) {
+  PaymentTypeSelected paymentTypeSelected(
+      {required KevinPaymentType paymentType}) {
     return PaymentTypeSelected(
       paymentType: paymentType,
     );
@@ -75,7 +76,7 @@ mixin _$PaymentEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadInitiated,
-    required TResult Function(PaymentType paymentType) paymentTypeSelected,
+    required TResult Function(KevinPaymentType paymentType) paymentTypeSelected,
     required TResult Function(String countryCode) countrySelected,
     required TResult Function(Creditor creditor) creditorSelected,
     required TResult Function(String email) emailUpdated,
@@ -88,7 +89,7 @@ mixin _$PaymentEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -101,7 +102,7 @@ mixin _$PaymentEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -213,7 +214,7 @@ class _$PaymentLoadInitiated implements PaymentLoadInitiated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadInitiated,
-    required TResult Function(PaymentType paymentType) paymentTypeSelected,
+    required TResult Function(KevinPaymentType paymentType) paymentTypeSelected,
     required TResult Function(String countryCode) countrySelected,
     required TResult Function(Creditor creditor) creditorSelected,
     required TResult Function(String email) emailUpdated,
@@ -229,7 +230,7 @@ class _$PaymentLoadInitiated implements PaymentLoadInitiated {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -245,7 +246,7 @@ class _$PaymentLoadInitiated implements PaymentLoadInitiated {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -324,7 +325,7 @@ abstract class $PaymentTypeSelectedCopyWith<$Res> {
   factory $PaymentTypeSelectedCopyWith(
           PaymentTypeSelected value, $Res Function(PaymentTypeSelected) then) =
       _$PaymentTypeSelectedCopyWithImpl<$Res>;
-  $Res call({PaymentType paymentType});
+  $Res call({KevinPaymentType paymentType});
 }
 
 /// @nodoc
@@ -346,7 +347,7 @@ class _$PaymentTypeSelectedCopyWithImpl<$Res>
       paymentType: paymentType == freezed
           ? _value.paymentType
           : paymentType // ignore: cast_nullable_to_non_nullable
-              as PaymentType,
+              as KevinPaymentType,
     ));
   }
 }
@@ -357,7 +358,7 @@ class _$PaymentTypeSelected implements PaymentTypeSelected {
   const _$PaymentTypeSelected({required this.paymentType});
 
   @override
-  final PaymentType paymentType;
+  final KevinPaymentType paymentType;
 
   @override
   String toString() {
@@ -386,7 +387,7 @@ class _$PaymentTypeSelected implements PaymentTypeSelected {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadInitiated,
-    required TResult Function(PaymentType paymentType) paymentTypeSelected,
+    required TResult Function(KevinPaymentType paymentType) paymentTypeSelected,
     required TResult Function(String countryCode) countrySelected,
     required TResult Function(Creditor creditor) creditorSelected,
     required TResult Function(String email) emailUpdated,
@@ -402,7 +403,7 @@ class _$PaymentTypeSelected implements PaymentTypeSelected {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -418,7 +419,7 @@ class _$PaymentTypeSelected implements PaymentTypeSelected {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -489,10 +490,10 @@ class _$PaymentTypeSelected implements PaymentTypeSelected {
 }
 
 abstract class PaymentTypeSelected implements PaymentEvent {
-  const factory PaymentTypeSelected({required PaymentType paymentType}) =
+  const factory PaymentTypeSelected({required KevinPaymentType paymentType}) =
       _$PaymentTypeSelected;
 
-  PaymentType get paymentType;
+  KevinPaymentType get paymentType;
   @JsonKey(ignore: true)
   $PaymentTypeSelectedCopyWith<PaymentTypeSelected> get copyWith =>
       throw _privateConstructorUsedError;
@@ -566,7 +567,7 @@ class _$PaymentCountrySelected implements PaymentCountrySelected {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadInitiated,
-    required TResult Function(PaymentType paymentType) paymentTypeSelected,
+    required TResult Function(KevinPaymentType paymentType) paymentTypeSelected,
     required TResult Function(String countryCode) countrySelected,
     required TResult Function(Creditor creditor) creditorSelected,
     required TResult Function(String email) emailUpdated,
@@ -582,7 +583,7 @@ class _$PaymentCountrySelected implements PaymentCountrySelected {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -598,7 +599,7 @@ class _$PaymentCountrySelected implements PaymentCountrySelected {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -754,7 +755,7 @@ class _$PaymentCreditorSelected implements PaymentCreditorSelected {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadInitiated,
-    required TResult Function(PaymentType paymentType) paymentTypeSelected,
+    required TResult Function(KevinPaymentType paymentType) paymentTypeSelected,
     required TResult Function(String countryCode) countrySelected,
     required TResult Function(Creditor creditor) creditorSelected,
     required TResult Function(String email) emailUpdated,
@@ -770,7 +771,7 @@ class _$PaymentCreditorSelected implements PaymentCreditorSelected {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -786,7 +787,7 @@ class _$PaymentCreditorSelected implements PaymentCreditorSelected {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -931,7 +932,7 @@ class _$EmailUpdated implements EmailUpdated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadInitiated,
-    required TResult Function(PaymentType paymentType) paymentTypeSelected,
+    required TResult Function(KevinPaymentType paymentType) paymentTypeSelected,
     required TResult Function(String countryCode) countrySelected,
     required TResult Function(Creditor creditor) creditorSelected,
     required TResult Function(String email) emailUpdated,
@@ -947,7 +948,7 @@ class _$EmailUpdated implements EmailUpdated {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -963,7 +964,7 @@ class _$EmailUpdated implements EmailUpdated {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -1107,7 +1108,7 @@ class _$AmountUpdated implements AmountUpdated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadInitiated,
-    required TResult Function(PaymentType paymentType) paymentTypeSelected,
+    required TResult Function(KevinPaymentType paymentType) paymentTypeSelected,
     required TResult Function(String countryCode) countrySelected,
     required TResult Function(Creditor creditor) creditorSelected,
     required TResult Function(String email) emailUpdated,
@@ -1123,7 +1124,7 @@ class _$AmountUpdated implements AmountUpdated {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -1139,7 +1140,7 @@ class _$AmountUpdated implements AmountUpdated {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -1286,7 +1287,7 @@ class _$PrivacyAgreementUpdated implements PrivacyAgreementUpdated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadInitiated,
-    required TResult Function(PaymentType paymentType) paymentTypeSelected,
+    required TResult Function(KevinPaymentType paymentType) paymentTypeSelected,
     required TResult Function(String countryCode) countrySelected,
     required TResult Function(Creditor creditor) creditorSelected,
     required TResult Function(String email) emailUpdated,
@@ -1302,7 +1303,7 @@ class _$PrivacyAgreementUpdated implements PrivacyAgreementUpdated {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -1318,7 +1319,7 @@ class _$PrivacyAgreementUpdated implements PrivacyAgreementUpdated {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -1440,7 +1441,7 @@ class _$InitiateDonation implements InitiateDonation {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadInitiated,
-    required TResult Function(PaymentType paymentType) paymentTypeSelected,
+    required TResult Function(KevinPaymentType paymentType) paymentTypeSelected,
     required TResult Function(String countryCode) countrySelected,
     required TResult Function(Creditor creditor) creditorSelected,
     required TResult Function(String email) emailUpdated,
@@ -1456,7 +1457,7 @@ class _$InitiateDonation implements InitiateDonation {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -1472,7 +1473,7 @@ class _$InitiateDonation implements InitiateDonation {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -1588,7 +1589,7 @@ class _$SuccessPresented implements SuccessPresented {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loadInitiated,
-    required TResult Function(PaymentType paymentType) paymentTypeSelected,
+    required TResult Function(KevinPaymentType paymentType) paymentTypeSelected,
     required TResult Function(String countryCode) countrySelected,
     required TResult Function(Creditor creditor) creditorSelected,
     required TResult Function(String email) emailUpdated,
@@ -1604,7 +1605,7 @@ class _$SuccessPresented implements SuccessPresented {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -1620,7 +1621,7 @@ class _$SuccessPresented implements SuccessPresented {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loadInitiated,
-    TResult Function(PaymentType paymentType)? paymentTypeSelected,
+    TResult Function(KevinPaymentType paymentType)? paymentTypeSelected,
     TResult Function(String countryCode)? countrySelected,
     TResult Function(Creditor creditor)? creditorSelected,
     TResult Function(String email)? emailUpdated,
@@ -1703,12 +1704,12 @@ class _$PaymentStateTearOff {
       required TextEditingController amountController,
       required FocusNode emailFocusNode,
       required FocusNode amountFocusNode,
-      PaymentType selectedPaymentType = PaymentType.bank,
+      KevinPaymentType selectedPaymentType = KevinPaymentType.bank,
       List<String> countryList = const [],
       String? selectedCountryCode,
       List<Creditor> creditors = const [],
       Creditor? selectedCreditor,
-      String email = "",
+      String email = '',
       double amount = 0.0,
       bool isPrivacyPolicyAccepted = false,
       bool isCountryRequestInProgress = false,
@@ -1751,7 +1752,8 @@ mixin _$PaymentState {
       throw _privateConstructorUsedError;
   FocusNode get emailFocusNode => throw _privateConstructorUsedError;
   FocusNode get amountFocusNode => throw _privateConstructorUsedError;
-  PaymentType get selectedPaymentType => throw _privateConstructorUsedError;
+  KevinPaymentType get selectedPaymentType =>
+      throw _privateConstructorUsedError;
   List<String> get countryList => throw _privateConstructorUsedError;
   String? get selectedCountryCode => throw _privateConstructorUsedError;
   List<Creditor> get creditors => throw _privateConstructorUsedError;
@@ -1781,7 +1783,7 @@ abstract class $PaymentStateCopyWith<$Res> {
       TextEditingController amountController,
       FocusNode emailFocusNode,
       FocusNode amountFocusNode,
-      PaymentType selectedPaymentType,
+      KevinPaymentType selectedPaymentType,
       List<String> countryList,
       String? selectedCountryCode,
       List<Creditor> creditors,
@@ -1848,7 +1850,7 @@ class _$PaymentStateCopyWithImpl<$Res> implements $PaymentStateCopyWith<$Res> {
       selectedPaymentType: selectedPaymentType == freezed
           ? _value.selectedPaymentType
           : selectedPaymentType // ignore: cast_nullable_to_non_nullable
-              as PaymentType,
+              as KevinPaymentType,
       countryList: countryList == freezed
           ? _value.countryList
           : countryList // ignore: cast_nullable_to_non_nullable
@@ -1928,7 +1930,7 @@ abstract class _$PaymentStateCopyWith<$Res>
       TextEditingController amountController,
       FocusNode emailFocusNode,
       FocusNode amountFocusNode,
-      PaymentType selectedPaymentType,
+      KevinPaymentType selectedPaymentType,
       List<String> countryList,
       String? selectedCountryCode,
       List<Creditor> creditors,
@@ -1998,7 +2000,7 @@ class __$PaymentStateCopyWithImpl<$Res> extends _$PaymentStateCopyWithImpl<$Res>
       selectedPaymentType: selectedPaymentType == freezed
           ? _value.selectedPaymentType
           : selectedPaymentType // ignore: cast_nullable_to_non_nullable
-              as PaymentType,
+              as KevinPaymentType,
       countryList: countryList == freezed
           ? _value.countryList
           : countryList // ignore: cast_nullable_to_non_nullable
@@ -2063,12 +2065,12 @@ class _$_PaymentState implements _PaymentState {
       required this.amountController,
       required this.emailFocusNode,
       required this.amountFocusNode,
-      this.selectedPaymentType = PaymentType.bank,
+      this.selectedPaymentType = KevinPaymentType.bank,
       this.countryList = const [],
       this.selectedCountryCode,
       this.creditors = const [],
       this.selectedCreditor,
-      this.email = "",
+      this.email = '',
       this.amount = 0.0,
       this.isPrivacyPolicyAccepted = false,
       this.isCountryRequestInProgress = false,
@@ -2088,7 +2090,7 @@ class _$_PaymentState implements _PaymentState {
   final FocusNode amountFocusNode;
   @JsonKey()
   @override
-  final PaymentType selectedPaymentType;
+  final KevinPaymentType selectedPaymentType;
   @JsonKey()
   @override
   final List<String> countryList;
@@ -2204,7 +2206,7 @@ abstract class _PaymentState implements PaymentState {
       required TextEditingController amountController,
       required FocusNode emailFocusNode,
       required FocusNode amountFocusNode,
-      PaymentType selectedPaymentType,
+      KevinPaymentType selectedPaymentType,
       List<String> countryList,
       String? selectedCountryCode,
       List<Creditor> creditors,
@@ -2228,7 +2230,7 @@ abstract class _PaymentState implements PaymentState {
   @override
   FocusNode get amountFocusNode;
   @override
-  PaymentType get selectedPaymentType;
+  KevinPaymentType get selectedPaymentType;
   @override
   List<String> get countryList;
   @override

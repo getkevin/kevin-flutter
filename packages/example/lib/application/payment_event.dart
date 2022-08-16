@@ -4,7 +4,7 @@ part of 'payment_bloc.dart';
 class PaymentEvent with _$PaymentEvent {
   const factory PaymentEvent.loadInitiated() = PaymentLoadInitiated;
   const factory PaymentEvent.paymentTypeSelected({
-    required PaymentType paymentType,
+    required KevinPaymentType paymentType,
   }) = PaymentTypeSelected;
   const factory PaymentEvent.countrySelected({
     required String countryCode,

@@ -7,7 +7,7 @@ class PaymentState with _$PaymentState {
     required TextEditingController amountController,
     required FocusNode emailFocusNode,
     required FocusNode amountFocusNode,
-    @Default(PaymentType.bank) PaymentType selectedPaymentType,
+    @Default(KevinPaymentType.bank) KevinPaymentType selectedPaymentType,
     @Default([]) List<String> countryList,
     String? selectedCountryCode,
     @Default([]) List<Creditor> creditors,

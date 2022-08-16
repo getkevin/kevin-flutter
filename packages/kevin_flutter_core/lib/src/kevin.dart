@@ -1,6 +1,14 @@
 import 'package:kevin_flutter_core/src/kevin_flutter_platform_interface.dart';
 
 class Kevin {
+  static Kevin? _instance;
+
+  static Kevin get instance {
+    _instance ??= Kevin();
+
+    return _instance!;
+  }
+
   Future<void> setLocale(String languageCode) {
     return KevinFlutterPlatform.instance.setLocale(languageCode);
   }

@@ -4,5 +4,6 @@ import 'package:injectable/injectable.dart';
 @module
 abstract class InjectableModule {
   @lazySingleton
-  Dio get dio => Dio();
+  Dio get dio => Dio()
+    ..interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
 }
