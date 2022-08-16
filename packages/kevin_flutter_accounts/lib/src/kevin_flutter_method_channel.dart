@@ -11,7 +11,8 @@ import 'package:kevin_flutter_core/kevin.dart';
 
 import 'kevin_flutter_platform_interface.dart';
 
-class MethodChannelKevinAccountsFlutter extends KevinAccountsFlutterPlatform {
+class MethodChannelKevinAccountsFlutter
+    implements KevinAccountsFlutterPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel('kevin_flutter_accounts');
 
@@ -50,6 +51,20 @@ class MethodChannelKevinAccountsFlutter extends KevinAccountsFlutterPlatform {
     }
   }
 
+  @override
+  Future<String> getCallbackUrl() async {
+    final callbackUrl =
+        await methodChannel.invokeMethod<String>(_Methods.getCallbackUrl);
+    return callbackUrl!;
+  }
+
+  @override
+  Future<bool> isShowUnsupportedBanks() async {
+    final isShowUnsupportedBanks =
+        await methodChannel.invokeMethod<bool>(_Methods.isShowUnsupportedBanks);
+    return isShowUnsupportedBanks!;
+  }
+
   KevinSessionResult _parseError(PlatformException error) {
     if (error.code == _Errors.cancelled) {
       return KevinSessionResultCancelled();
@@ -64,6 +79,8 @@ class MethodChannelKevinAccountsFlutter extends KevinAccountsFlutterPlatform {
 class _Methods {
   static const setAccountsConfiguration = 'setAccountsConfiguration';
   static const startAccountLinking = 'startAccountLinking';
+  static const getCallbackUrl = 'getCallbackUrl';
+  static const isShowUnsupportedBanks = 'isShowUnsupportedBanks';
 }
 
 class _Errors {

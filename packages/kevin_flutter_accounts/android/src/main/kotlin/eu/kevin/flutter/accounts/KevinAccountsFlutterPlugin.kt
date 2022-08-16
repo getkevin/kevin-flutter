@@ -53,6 +53,8 @@ class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
                 result
             )
             KevinMethod.START_ACCOUNT_LINKING -> onStartAccountLinking(call, result)
+            KevinMethod.GET_CALLBACK_URL -> onGetCallbackUrl(result)
+            KevinMethod.IS_SHOW_UNSUPPORTED_BANKS -> onIsShowUnsupportedBanks(result)
             else -> result.notImplemented()
         }
     }
@@ -90,6 +92,14 @@ class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         intent.putExtra(AccountSessionContract.CONFIGURATION_KEY, accountLinkingConfiguration)
 
         activity?.startActivityForResult(intent, REQUEST_CODE_LINKING)
+    }
+
+    private fun onGetCallbackUrl(result: MethodChannel.Result) {
+        result.success(KevinAccountsPlugin.getCallbackUrl())
+    }
+
+    private fun onIsShowUnsupportedBanks(result: MethodChannel.Result) {
+        result.success(KevinAccountsPlugin.isShowUnsupportedBanks())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
