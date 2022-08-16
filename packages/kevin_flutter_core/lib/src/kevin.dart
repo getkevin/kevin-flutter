@@ -17,4 +17,16 @@ class Kevin {
     return KevinFlutterPlatform.instance
         .setDeepLinkingEnabled(deepLinkingEnabled);
   }
+
+  Future<String?> getLocale() {
+    return KevinFlutterPlatform.instance.getLocale();
+  }
+
+  Future<bool> isSandbox() {
+    return KevinFlutterPlatform.instance.isSandbox();
+  }
+
+  Future<bool> isDeepLinkingEnabled() {
+    return KevinFlutterPlatform.instance.isDeepLinkingEnabled();
+  }
 }

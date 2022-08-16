@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'kevin_flutter_platform_interface.dart';
 
-class MethodChannelKevinFlutter extends KevinFlutterPlatform {
+class MethodChannelKevinFlutter implements KevinFlutterPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel('kevin_flutter_core');
 
@@ -32,6 +32,21 @@ class MethodChannelKevinFlutter extends KevinFlutterPlatform {
       _Arguments.deepLinkingEnabled: deepLinkingEnabled,
     });
   }
+
+  @override
+  Future<String?> getLocale() async {
+    return await methodChannel.invokeMethod(_Methods.getLocale);
+  }
+
+  @override
+  Future<bool> isSandbox() async {
+    return await methodChannel.invokeMethod(_Methods.isSandbox);
+  }
+
+  @override
+  Future<bool> isDeepLinkingEnabled() async {
+    return await methodChannel.invokeMethod(_Methods.isDeepLinkingEnabled);
+  }
 }
 
 class _Methods {
@@ -39,6 +54,9 @@ class _Methods {
   static const setTheme = 'setTheme';
   static const setSandbox = 'setSandbox';
   static const setDeepLinkingEnabled = 'setDeepLinkingEnabled';
+  static const getLocale = 'getLocale';
+  static const isSandbox = 'isSandbox';
+  static const isDeepLinkingEnabled = 'isDeepLinkingEnabled';
 }
 
 class _Arguments {
@@ -46,4 +64,3 @@ class _Arguments {
   static const sandbox = 'sandbox';
   static const deepLinkingEnabled = 'deepLinkingEnabled';
 }
-

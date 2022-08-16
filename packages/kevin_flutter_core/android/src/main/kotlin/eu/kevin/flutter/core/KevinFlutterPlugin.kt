@@ -28,6 +28,9 @@ class KevinFlutterPlugin : FlutterPlugin, MethodCallHandler {
             KevinMethod.SET_THEME -> onSetTheme(call)
             KevinMethod.SET_SANDBOX -> onSetSandbox(call, result)
             KevinMethod.SET_DEEP_LINKING_ENABLED -> onSetDeepLinkingEnabled(call, result)
+            KevinMethod.GET_LOCALE -> onGetLocale(result)
+            KevinMethod.IS_SANDBOX -> onIsSandbox(result)
+            KevinMethod.IS_DEEP_LINKING_ENABLED -> onIsDeepLinkingEnabled(result)
             else -> result.notImplemented()
         }
     }
@@ -52,5 +55,18 @@ class KevinFlutterPlugin : FlutterPlugin, MethodCallHandler {
             call.argument<Boolean>(KevinMethodArguments.deepLinkingEnabled) ?: false
         Kevin.setDeepLinkingEnabled(isDeepLinkingEnabled)
         result.success(null)
+    }
+
+    private fun onGetLocale(result: MethodChannel.Result) {
+        val locale = Kevin.getLocale()?.toString()
+        result.success(locale)
+    }
+
+    private fun onIsSandbox(result: MethodChannel.Result) {
+        result.success(Kevin.isSandbox())
+    }
+
+    private fun onIsDeepLinkingEnabled(result: MethodChannel.Result) {
+        result.success(Kevin.isDeepLinkingEnabled())
     }
 }
