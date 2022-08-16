@@ -1,6 +1,5 @@
 package eu.kevin.flutter.accounts
 
-import android.app.Activity
 import android.content.Intent
 import androidx.annotation.NonNull
 import eu.kevin.accounts.KevinAccountsConfiguration
@@ -33,7 +32,7 @@ class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
 
     private lateinit var channel: MethodChannel
 
-    private var activity: Activity? = null
+    private var pluginBinding: ActivityPluginBinding? = null
 
     private var accountResult: MethodChannel.Result? = null
 
@@ -86,17 +85,17 @@ class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
 
         this.accountResult = result
 
-        val intent = Intent(activity, AccountSessionActivity::class.java)
+        val intent = Intent(pluginBinding?.activity, AccountSessionActivity::class.java)
         intent.putExtra(AccountSessionContract.CONFIGURATION_KEY, accountLinkingConfiguration)
 
-        activity?.startActivityForResult(intent, REQUEST_CODE_LINKING)
+        pluginBinding?.activity?.startActivityForResult(intent, REQUEST_CODE_LINKING)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         val result = getActivityResult(requestCode, data)
 
         if (result == null) {
-            this.accountResult?.success(null)
+            this.accountResult?.error(ERROR_GENERAL, "Account linking result can not be null", null)
             this.accountResult = null
             return false
         }
@@ -106,11 +105,16 @@ class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         return true
     }
 
-    private fun getActivityResult(requestCode: Int, data: Intent?) = when {
-        requestCode == REQUEST_CODE_LINKING && data != null -> {
-            data.getParcelableExtra<SessionResult<AccountSessionResult>>(AccountSessionContract.RESULT_KEY)
+    private fun getActivityResult(
+        requestCode: Int,
+        data: Intent?
+    ): SessionResult<AccountSessionResult>? {
+        return when {
+            requestCode == REQUEST_CODE_LINKING && data != null -> {
+                data.getParcelableExtra(AccountSessionContract.RESULT_KEY)
+            }
+            else -> null
         }
-        else -> null
     }
 
     private fun emitActivityResult(result: SessionResult<AccountSessionResult>) {
@@ -149,35 +153,37 @@ class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val accountLinkingType =
             AccountLinkingType.valueOf(configurationData.accountLinkingType.uppercase())
 
-        return AccountSessionConfiguration.Builder(configurationData.state)
-            .apply {
-                setPreselectedCountry(preselectedCountry)
-                setDisableCountrySelection(configurationData.disableCountrySelection)
-                setCountryFilter(countryFilter)
-                setBankFilter(configurationData.bankFilter)
-                configurationData.preselectedBank?.let { setPreselectedBank(it) }
-                setSkipBankSelection(configurationData.skipBankSelection)
-                setLinkingType(accountLinkingType)
-            }
-            .build()
+        val configurationBuilder = AccountSessionConfiguration.Builder(configurationData.state)
+            .setPreselectedCountry(preselectedCountry)
+            .setDisableCountrySelection(configurationData.disableCountrySelection)
+            .setCountryFilter(countryFilter)
+            .setBankFilter(configurationData.bankFilter)
+            .setSkipBankSelection(configurationData.skipBankSelection)
+            .setLinkingType(accountLinkingType)
+
+        configurationData.preselectedBank?.let { configurationBuilder.setPreselectedBank(it) }
+
+        return configurationBuilder.build()
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-        activity = binding.activity
+        pluginBinding = binding
         binding.addActivityResultListener(this)
     }
 
     override fun onDetachedFromActivity() {
-        activity = null
+        pluginBinding?.removeActivityResultListener(this)
+        pluginBinding = null
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-        activity = binding.activity
+        pluginBinding = binding
         binding.addActivityResultListener(this)
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
-        activity = null
+        pluginBinding?.removeActivityResultListener(this)
+        pluginBinding = null
     }
 
     private companion object {
