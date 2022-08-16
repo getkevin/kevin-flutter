@@ -187,7 +187,7 @@ class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
     }
 
     private companion object {
-        const val REQUEST_CODE_PAYMENT = 100
+        const val REQUEST_CODE_PAYMENT = 101
 
         const val ERROR_GENERAL = "general"
         const val ERROR_CANCELLED = "cancelled"
