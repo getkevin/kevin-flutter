@@ -35,17 +35,21 @@ class MethodChannelKevinFlutter implements KevinFlutterPlatform {
 
   @override
   Future<String?> getLocale() async {
-    return await methodChannel.invokeMethod(_Methods.getLocale);
+    return methodChannel.invokeMethod<String?>(_Methods.getLocale);
   }
 
   @override
   Future<bool> isSandbox() async {
-    return await methodChannel.invokeMethod(_Methods.isSandbox);
+    final isSandbox =
+        await methodChannel.invokeMethod<bool>(_Methods.isSandbox);
+    return isSandbox!;
   }
 
   @override
   Future<bool> isDeepLinkingEnabled() async {
-    return await methodChannel.invokeMethod(_Methods.isDeepLinkingEnabled);
+    final isDeepLinkingEnabled =
+        await methodChannel.invokeMethod(_Methods.isDeepLinkingEnabled);
+    return isDeepLinkingEnabled!;
   }
 }
 

@@ -24,4 +24,8 @@ class KevinPayments {
   ) {
     return KevinPaymentsFlutterPlatform.instance.startPayment(configuration);
   }
+
+  Future<String> getCallbackUrl() {
+    return KevinPaymentsFlutterPlatform.instance.getCallbackUrl();
+  }
 }

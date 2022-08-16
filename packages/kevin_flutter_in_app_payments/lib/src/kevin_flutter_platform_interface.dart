@@ -36,4 +36,8 @@ abstract class KevinPaymentsFlutterPlatform extends PlatformInterface {
   ) {
     throw UnimplementedError('Not implemented.');
   }
+
+  Future<String> getCallbackUrl() {
+    throw UnimplementedError('Not implemented.');
+  }
 }
