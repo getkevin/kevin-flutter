@@ -85,7 +85,8 @@ class ApiRepository implements IApiRepository {
         data: {
           'amount': amount,
           'email': email,
-          'iban': iban,
+          // TODO: change to proper IBAN when fixed
+          'iban': null,
           'creditorName': creditorName,
           'redirectUrl': redirectUrl,
         },
@@ -120,7 +121,8 @@ class ApiRepository implements IApiRepository {
         data: {
           'amount': amount,
           'email': email,
-          'iban': iban,
+          // TODO: change to proper IBAN when fixed
+          'iban': null,
           'creditorName': creditorName,
           'redirectUrl': redirectUrl,
         },
