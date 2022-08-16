@@ -91,7 +91,6 @@ class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         val result = getActivityResult(requestCode, data)
 
-        // Unexpected result
         if (result == null) {
             this.paymentResult?.success(null)
             this.paymentResult = null

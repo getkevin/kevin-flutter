@@ -95,7 +95,6 @@ class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         val result = getActivityResult(requestCode, data)
 
-        // Unexpected result
         if (result == null) {
             this.accountResult?.success(null)
             this.accountResult = null
