@@ -1,26 +1,26 @@
-import 'package:kevin_flutter_accounts/src/kevin_flutter_method_channel.dart';
+import 'package:kevin_flutter_accounts/src/kevin_flutter_accounts_method_channel.dart';
 import 'package:kevin_flutter_accounts/src/model/account/kevin_account_session_configuration.dart';
 import 'package:kevin_flutter_accounts/src/model/account/kevin_accounts_configuration.dart';
 import 'package:kevin_flutter_core/kevin.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-abstract class KevinAccountsFlutterPlatform extends PlatformInterface {
-  KevinAccountsFlutterPlatform() : super(token: _token);
+abstract class KevinFlutterAccountsPlatformInterface extends PlatformInterface {
+  KevinFlutterAccountsPlatformInterface() : super(token: _token);
 
   static final Object _token = Object();
 
-  static KevinAccountsFlutterPlatform _instance =
-      MethodChannelKevinAccountsFlutter();
+  static KevinFlutterAccountsPlatformInterface _instance =
+      KevinFlutterAccountsMethodChannel();
 
-  /// The default instance of [KevinAccountsFlutterPlatform] to use.
+  /// The default instance of [KevinFlutterAccountsPlatformInterface] to use.
   ///
-  /// Defaults to [MethodChannelKevinFlutter].
-  static KevinAccountsFlutterPlatform get instance => _instance;
+  /// Defaults to [KevinFlutterAccountsMethodChannel].
+  static KevinFlutterAccountsPlatformInterface get instance => _instance;
 
   /// Platform-specific implementations should set this with their own
-  /// platform-specific class that extends [KevinAccountsFlutterPlatform] when
+  /// platform-specific class that extends [KevinFlutterAccountsPlatformInterface] when
   /// they register themselves.
-  static set instance(KevinAccountsFlutterPlatform instance) {
+  static set instance(KevinFlutterAccountsPlatformInterface instance) {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }

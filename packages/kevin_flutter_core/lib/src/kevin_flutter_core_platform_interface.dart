@@ -1,22 +1,23 @@
-import 'package:kevin_flutter_core/src/kevin_flutter_method_channel.dart';
+import 'package:kevin_flutter_core/src/kevin_flutter_core_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-abstract class KevinFlutterPlatform extends PlatformInterface {
-  KevinFlutterPlatform() : super(token: _token);
+abstract class KevinFlutterCorePlatformInterface extends PlatformInterface {
+  KevinFlutterCorePlatformInterface() : super(token: _token);
 
   static final Object _token = Object();
 
-  static KevinFlutterPlatform _instance = MethodChannelKevinFlutter();
+  static KevinFlutterCorePlatformInterface _instance =
+      KevinFlutterCoreMethodChannel();
 
-  /// The default instance of [KevinFlutterPlatform] to use.
+  /// The default instance of [KevinFlutterCorePlatformInterface] to use.
   ///
-  /// Defaults to [MethodChannelKevinFlutter].
-  static KevinFlutterPlatform get instance => _instance;
+  /// Defaults to [KevinFlutterCoreMethodChannel].
+  static KevinFlutterCorePlatformInterface get instance => _instance;
 
   /// Platform-specific implementations should set this with their own
-  /// platform-specific class that extends [KevinFlutterPlatform] when
+  /// platform-specific class that extends [KevinFlutterCorePlatformInterface] when
   /// they register themselves.
-  static set instance(KevinFlutterPlatform instance) {
+  static set instance(KevinFlutterCorePlatformInterface instance) {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }

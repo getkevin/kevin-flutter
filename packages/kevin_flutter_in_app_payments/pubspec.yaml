@@ -28,6 +28,6 @@ flutter:
     platforms:
       android:
         package: eu.kevin.flutter.payments
-        pluginClass: KevinPaymentsFlutterPlugin
+        pluginClass: KevinFlutterPaymentsPlugin
       ios:
-        pluginClass: KevinPaymentsFlutterPlugin
+        pluginClass: KevinFlutterPaymentsPlugin

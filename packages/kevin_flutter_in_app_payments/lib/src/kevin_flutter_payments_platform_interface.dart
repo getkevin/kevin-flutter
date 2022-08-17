@@ -1,26 +1,26 @@
 import 'package:kevin_flutter_core/kevin.dart';
-import 'package:kevin_flutter_in_app_payments/src/kevin_flutter_method_channel.dart';
+import 'package:kevin_flutter_in_app_payments/src/kevin_flutter_payments_method_channel.dart';
 import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payment_session_configuration.dart';
 import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payments_configuration.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-abstract class KevinPaymentsFlutterPlatform extends PlatformInterface {
-  KevinPaymentsFlutterPlatform() : super(token: _token);
+abstract class KevinFlutterPaymentsPlatformInterface extends PlatformInterface {
+  KevinFlutterPaymentsPlatformInterface() : super(token: _token);
 
   static final Object _token = Object();
 
-  static KevinPaymentsFlutterPlatform _instance =
-      MethodChannelKevinPaymentsFlutter();
+  static KevinFlutterPaymentsPlatformInterface _instance =
+      KevinFlutterPaymentsMethodChannel();
 
-  /// The default instance of [KevinPaymentsFlutterPlatform] to use.
+  /// The default instance of [KevinFlutterPaymentsPlatformInterface] to use.
   ///
-  /// Defaults to [MethodChannelKevinFlutter].
-  static KevinPaymentsFlutterPlatform get instance => _instance;
+  /// Defaults to [KevinFlutterPaymentsMethodChannel].
+  static KevinFlutterPaymentsPlatformInterface get instance => _instance;
 
   /// Platform-specific implementations should set this with their own
-  /// platform-specific class that extends [KevinPaymentsFlutterPlatform] when
+  /// platform-specific class that extends [KevinFlutterPaymentsPlatformInterface] when
   /// they register themselves.
-  static set instance(KevinPaymentsFlutterPlatform instance) {
+  static set instance(KevinFlutterPaymentsPlatformInterface instance) {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }

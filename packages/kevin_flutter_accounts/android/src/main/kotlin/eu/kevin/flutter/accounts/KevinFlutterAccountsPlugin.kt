@@ -28,7 +28,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 
-class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
+class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     PluginRegistry.ActivityResultListener {
 
     private lateinit var channel: MethodChannel
