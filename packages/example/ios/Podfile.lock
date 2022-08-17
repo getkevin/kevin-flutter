@@ -1,0 +1,40 @@
+PODS:
+  - Flutter (1.0.0)
+  - kevin_flutter_accounts (0.0.1):
+    - Flutter
+  - kevin_flutter_core (0.0.1):
+    - Flutter
+  - kevin_flutter_in_app_payments (0.0.1):
+    - Flutter
+  - url_launcher_ios (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - kevin_flutter_accounts (from `.symlinks/plugins/kevin_flutter_accounts/ios`)
+  - kevin_flutter_core (from `.symlinks/plugins/kevin_flutter_core/ios`)
+  - kevin_flutter_in_app_payments (from `.symlinks/plugins/kevin_flutter_in_app_payments/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  kevin_flutter_accounts:
+    :path: ".symlinks/plugins/kevin_flutter_accounts/ios"
+  kevin_flutter_core:
+    :path: ".symlinks/plugins/kevin_flutter_core/ios"
+  kevin_flutter_in_app_payments:
+    :path: ".symlinks/plugins/kevin_flutter_in_app_payments/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  kevin_flutter_accounts: 7445053c3d17ba9d26c648c885ea2a4ef3a7f30f
+  kevin_flutter_core: 463b140cff353bc8d7366507f7cac49d0d8a55cd
+  kevin_flutter_in_app_payments: 85aec0e9b4f2d3b1b98c2378ebd9c0f92eae1cf6
+  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.11.3

@@ -30,4 +30,4 @@ flutter:
         package: eu.kevin.flutter.payments
         pluginClass: KevinFlutterPaymentsPlugin
       ios:
-        pluginClass: KevinFlutterPaymentsPlugin
+        pluginClass: KevinFlutterInAppPaymentsPlugin

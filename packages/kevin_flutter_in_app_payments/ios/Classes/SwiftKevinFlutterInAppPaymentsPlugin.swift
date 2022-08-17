@@ -1,10 +1,10 @@
 import Flutter
 import UIKit
 
-public class SwiftKevinFlutterPaymentsPlugin: NSObject, FlutterPlugin {
+public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "kevin_flutter_payments", binaryMessenger: registrar.messenger())
-    let instance = SwiftKevinFlutterPaymentsPlugin()
+    let channel = FlutterMethodChannel(name: "kevin_flutter_in_app_payments", binaryMessenger: registrar.messenger())
+    let instance = SwiftKevinFlutterInAppPaymentsPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
