@@ -11,8 +11,7 @@ import 'package:kevin_flutter_core/kevin.dart';
 
 import 'kevin_flutter_platform_interface.dart';
 
-class MethodChannelKevinAccountsFlutter
-    implements KevinAccountsFlutterPlatform {
+class MethodChannelKevinAccountsFlutter extends KevinAccountsFlutterPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel('kevin_flutter_accounts');
 

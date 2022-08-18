@@ -11,7 +11,7 @@ import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payments_c
 
 import 'kevin_flutter_platform_interface.dart';
 
-class MethodChannelKevinPaymentsFlutter implements KevinPaymentsFlutterPlatform {
+class MethodChannelKevinPaymentsFlutter extends KevinPaymentsFlutterPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel('kevin_flutter_payments');
 

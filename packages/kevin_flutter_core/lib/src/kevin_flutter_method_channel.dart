@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'kevin_flutter_platform_interface.dart';
 
-class MethodChannelKevinFlutter implements KevinFlutterPlatform {
+class MethodChannelKevinFlutter extends KevinFlutterPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel('kevin_flutter_core');
 
