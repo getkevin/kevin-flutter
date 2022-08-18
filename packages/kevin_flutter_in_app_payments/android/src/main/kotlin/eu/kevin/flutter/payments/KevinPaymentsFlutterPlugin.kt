@@ -33,7 +33,7 @@ class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
 
     private lateinit var channel: MethodChannel
 
-    private var activity: Activity? = null
+    private var pluginBinding: ActivityPluginBinding? = null
 
     private var paymentResult: MethodChannel.Result? = null
 
@@ -83,10 +83,10 @@ class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
 
         val paymentConfiguration = getPaymentSessionConfiguration(data)
 
-        val intent = Intent(activity, PaymentSessionActivity::class.java)
+        val intent = Intent(pluginBinding?.activity, PaymentSessionActivity::class.java)
         intent.putExtra(PaymentSessionContract.CONFIGURATION_KEY, paymentConfiguration)
 
-        activity?.startActivityForResult(intent, REQUEST_CODE_PAYMENT)
+        pluginBinding?.activity?.startActivityForResult(intent, REQUEST_CODE_PAYMENT)
     }
 
     private fun onGetCallbackUrl(result: MethodChannel.Result) {
@@ -96,9 +96,8 @@ class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         val result = getActivityResult(requestCode, data)
 
-        // Unexpected result
         if (result == null) {
-            this.paymentResult?.success(null)
+            this.paymentResult?.error(ERROR_GENERAL, "Payment result can not be null", null)
             this.paymentResult = null
             return false
         }
@@ -108,11 +107,16 @@ class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         return true
     }
 
-    private fun getActivityResult(requestCode: Int, data: Intent?) = when {
-        requestCode == REQUEST_CODE_PAYMENT && data != null -> {
-            data.getParcelableExtra<SessionResult<PaymentSessionResult>>(PaymentSessionContract.RESULT_KEY)
+    private fun getActivityResult(
+        requestCode: Int,
+        data: Intent?
+    ): SessionResult<PaymentSessionResult>? {
+        return when {
+            requestCode == REQUEST_CODE_PAYMENT && data != null -> {
+                data.getParcelableExtra(PaymentSessionContract.RESULT_KEY)
+            }
+            else -> null
         }
-        else -> null
     }
 
     private fun emitActivityResult(result: SessionResult<PaymentSessionResult>) {
@@ -153,41 +157,44 @@ class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val preselectedCountry = KevinCountry.parse(configurationData.preselectedCountry)
         val countryFilter = configurationData.countryFilter.mapNotNull { KevinCountry.parse(it) }
 
-        return PaymentSessionConfiguration.Builder(configurationData.paymentId)
-            .apply {
-                setPaymentType(paymentType)
-                setPreselectedCountry(preselectedCountry)
-                setDisableCountrySelection(configurationData.disableCountrySelection)
-                setCountryFilter(countryFilter)
-                setBankFilter(configurationData.bankFilter)
-                configurationData.preselectedBank?.let { setPreselectedBank(it) }
-                setSkipBankSelection(configurationData.skipBankSelection)
-                setSkipAuthentication(configurationData.skipAuthentication)
-            }
-            .build()
+        val configurationBuilder = PaymentSessionConfiguration.Builder(configurationData.paymentId)
+            .setPaymentType(paymentType)
+            .setPreselectedCountry(preselectedCountry)
+            .setDisableCountrySelection(configurationData.disableCountrySelection)
+            .setCountryFilter(countryFilter)
+            .setBankFilter(configurationData.bankFilter)
+            .setSkipBankSelection(configurationData.skipBankSelection)
+            .setSkipAuthentication(configurationData.skipAuthentication)
 
+        configurationData.preselectedBank?.let {
+            configurationBuilder.setPreselectedBank(it)
+        }
+
+        return configurationBuilder.build()
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-        activity = binding.activity
+        pluginBinding = binding
         binding.addActivityResultListener(this)
     }
 
     override fun onDetachedFromActivity() {
-        activity = null
+        pluginBinding?.removeActivityResultListener(this)
+        pluginBinding = null
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-        activity = binding.activity
+        pluginBinding = binding
         binding.addActivityResultListener(this)
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
-        activity = null
+        pluginBinding?.removeActivityResultListener(this)
+        pluginBinding = null
     }
 
     private companion object {
-        const val REQUEST_CODE_PAYMENT = 101
+        const val REQUEST_CODE_PAYMENT = 100
 
         const val ERROR_GENERAL = "general"
         const val ERROR_CANCELLED = "cancelled"
