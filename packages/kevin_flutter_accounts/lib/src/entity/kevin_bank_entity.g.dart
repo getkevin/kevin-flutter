@@ -14,3 +14,12 @@ KevinBankEntity _$KevinBankEntityFromJson(Map<String, dynamic> json) =>
       imageUri: json['imageUri'] as String,
       bic: json['bic'] as String?,
     );
+
+Map<String, dynamic> _$KevinBankEntityToJson(KevinBankEntity instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'officialName': instance.officialName,
+      'imageUri': instance.imageUri,
+      'bic': instance.bic,
+    };

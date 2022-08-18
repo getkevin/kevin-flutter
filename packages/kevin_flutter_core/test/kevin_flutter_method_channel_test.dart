@@ -135,7 +135,7 @@ void main() {
       () async {
         await platform.isSandbox();
       },
-      throwsA(anything),
+      throwsA(isA<TypeError>()),
     );
     expect(log, <Matcher>[
       isMethodCall(
@@ -166,7 +166,7 @@ void main() {
       () async {
         await platform.isDeepLinkingEnabled();
       },
-      throwsA(anything),
+      throwsA(isA<TypeError>()),
     );
     expect(log, <Matcher>[
       isMethodCall(
