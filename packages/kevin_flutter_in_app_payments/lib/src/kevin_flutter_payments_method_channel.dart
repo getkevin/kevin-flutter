@@ -10,8 +10,9 @@ import 'package:kevin_flutter_in_app_payments/src/kevin_flutter_payments_platfor
 import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payment_session_configuration.dart';
 import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payments_configuration.dart';
 
-class KevinFlutterPaymentsMethodChannel
-    implements KevinFlutterPaymentsPlatformInterface {
+import 'kevin_flutter_platform_interface.dart';
+
+class KevinFlutterPaymentsMethodChannel extends KevinFlutterPaymentsPlatformInterface {
   @visibleForTesting
   final methodChannel = const MethodChannel('kevin_flutter_payments');
 

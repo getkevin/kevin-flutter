@@ -2,8 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:kevin_flutter_core/src/kevin_flutter_core_platform_interface.dart';
 
-class KevinFlutterCoreMethodChannel
-    implements KevinFlutterCorePlatformInterface {
+import 'kevin_flutter_platform_interface.dart';
+
+class KevinFlutterCoreMethodChannel extends KevinFlutterCorePlatformInterface {
   @visibleForTesting
   final methodChannel = const MethodChannel('kevin_flutter_core');
 
@@ -41,14 +42,14 @@ class KevinFlutterCoreMethodChannel
   @override
   Future<bool> isSandbox() async {
     final isSandbox =
-        await methodChannel.invokeMethod<bool>(_Methods.isSandbox);
+    await methodChannel.invokeMethod<bool>(_Methods.isSandbox);
     return isSandbox!;
   }
 
   @override
   Future<bool> isDeepLinkingEnabled() async {
     final isDeepLinkingEnabled =
-        await methodChannel.invokeMethod(_Methods.isDeepLinkingEnabled);
+    await methodChannel.invokeMethod(_Methods.isDeepLinkingEnabled);
     return isDeepLinkingEnabled!;
   }
 }

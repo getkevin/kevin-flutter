@@ -10,8 +10,9 @@ import 'package:kevin_flutter_accounts/src/model/account/kevin_account_session_c
 import 'package:kevin_flutter_accounts/src/model/account/kevin_accounts_configuration.dart';
 import 'package:kevin_flutter_core/kevin.dart';
 
-class KevinFlutterAccountsMethodChannel
-    implements KevinFlutterAccountsPlatformInterface {
+import 'kevin_flutter_platform_interface.dart';
+
+class KevinFlutterAccountsMethodChannel extends KevinFlutterAccountsPlatformInterface {
   @visibleForTesting
   final methodChannel = const MethodChannel('kevin_flutter_accounts');
 
