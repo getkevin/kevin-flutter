@@ -1,6 +1,5 @@
 package eu.kevin.flutter.payments
 
-import android.app.Activity
 import android.content.Intent
 import androidx.annotation.NonNull
 import eu.kevin.core.entities.SessionResult
