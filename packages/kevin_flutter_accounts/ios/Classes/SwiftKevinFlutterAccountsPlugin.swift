@@ -1,6 +1,7 @@
 import Flutter
 import UIKit
 import kevin_ios
+import kevin_flutter_core
 
 public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAccountLinkingSessionDelegate {
     private var accountResult: FlutterResult? = nil
@@ -37,7 +38,8 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
     }
     
     public func onKevinAccountLinkingCanceled(error: Error?) {
-        self.accountResult?.self(parseFlutterError(error: error))
+        let parsedError = KevinFlutterErrorParser.parseFlutterError(error: error)
+        self.accountResult?.self(parsedError)
         self.accountResult = nil
     }
     
@@ -50,7 +52,8 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
             self.accountResult?.self(jsonString)
             self.accountResult = nil
         } catch {
-            self.accountResult?.self(parseFlutterUnexpectedError(error: error))
+            let parsedError = KevinFlutterErrorParser.parseFlutterUnexpectedError(error: error)
+            self.accountResult?.self(parsedError)
             self.accountResult = nil
         }
     }
@@ -67,7 +70,8 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
             KevinAccountsPlugin.shared.configure(configuration)
             result(nil)
         } catch {
-            result(parseFlutterUnexpectedError(error: error))
+            let parsedError = KevinFlutterErrorParser.parseFlutterUnexpectedError(error: error)
+            result(parsedError)
         }
     }
     
@@ -85,7 +89,8 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
             KevinAccountLinkingSession.shared.delegate = self
             KevinAccountLinkingSession.shared.initiateAccountLinking(configuration: accountLinkingConfiguration)
         } catch {
-            result(parseFlutterUnexpectedError(error: error))
+            let parsedError = KevinFlutterErrorParser.parseFlutterUnexpectedError(error: error)
+            result(parsedError)
         }
     }
     
@@ -94,7 +99,8 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
             let callbackUrl = try KevinAccountsPlugin.shared.getCallbackUrl()
             result(callbackUrl.absoluteString)
         } catch {
-            result(parseFlutterUnexpectedError(error: error))
+            let parsedError = KevinFlutterErrorParser.parseFlutterUnexpectedError(error: error)
+            result(parsedError)
         }
     }
     
@@ -103,7 +109,8 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
             let isShowUnsupportedBanks = try !KevinAccountsPlugin.shared.shouldExcludeBanksWithoutAccountLinkingSupport()
             result(isShowUnsupportedBanks)
         } catch {
-            result(parseFlutterUnexpectedError(error: error))
+            let parsedError = KevinFlutterErrorParser.parseFlutterUnexpectedError(error: error)
+            result(parsedError)
         }
     }
     
@@ -147,30 +154,5 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
         
         
         return try configurationBuilder.build()
-    }
-    
-    private func parseFlutterUnexpectedError(error: Error) -> FlutterError {
-        return parseFlutterError(error: error, defaultCode: KevinErrorCodes.unexpected)
-    }
-    
-    private func parseFlutterError(error: Error?, defaultCode: String = KevinErrorCodes.general) -> FlutterError {
-        let errorCode: String
-        var errorDescription: String? = nil
-        
-        switch error {
-        case is KevinCancelationError:
-            errorCode = KevinErrorCodes.cancelled
-            break
-        case is KevinError:
-            errorCode = defaultCode
-            errorDescription = (error as! KevinError).description
-            break
-        default:
-            errorCode = defaultCode
-            errorDescription = error?.localizedDescription
-            break
-        }
-        
-        return FlutterError(code: errorCode, message: errorDescription, details: nil)
     }
 }
