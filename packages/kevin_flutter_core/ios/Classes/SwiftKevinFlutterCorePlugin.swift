@@ -13,20 +13,28 @@ public class SwiftKevinFlutterCorePlugin: NSObject, FlutterPlugin {
         switch KevinMethod(rawValue: call.method) {
         case .setLocale:
             onSetLocale(call: call, result: result)
+            break
         case .setTheme:
             onSetTheme()
+            break
         case .setSandbox:
             onSetSandbox(call: call, result: result)
+            break
         case .setDeepLinkingEnabled:
             onSetDeepLinkingEnabled(call: call, result: result)
+            break
         case .getLocale:
             onGetLocale(result: result)
+            break
         case .isSandbox:
             onIsSandbox(result: result)
+            break
         case .isDeepLinkingEnabled:
             onIsDeepLinkingEnabled(result: result)
+            break
         default:
             result(FlutterMethodNotImplemented)
+            break
         }
     }
     

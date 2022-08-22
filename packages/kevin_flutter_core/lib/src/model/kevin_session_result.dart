@@ -3,7 +3,7 @@ abstract class KevinSessionResult {
 }
 
 class KevinSessionResultGeneralError extends KevinSessionResult {
-  final String message;
+  final String? message;
 
   const KevinSessionResultGeneralError({
     required this.message,

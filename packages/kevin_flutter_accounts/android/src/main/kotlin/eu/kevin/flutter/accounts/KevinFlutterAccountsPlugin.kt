@@ -62,11 +62,17 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val data = call.arguments<Map<String, Any?>>()
 
         if (data == null) {
-            result.error(ERROR_GENERAL, "Accounts configuration can not be null", null)
+            result.error(ERROR_UNEXPECTED, "Accounts configuration can not be null", null)
             return
         }
 
-        val configuration = getAccountConfiguration(data)
+        val configuration = try {
+            getAccountConfiguration(data)
+        } catch (error: Throwable) {
+            result.error(ERROR_UNEXPECTED, error.localizedMessage ?: error.message, null)
+            return
+        }
+
         KevinAccountsPlugin.configure(configuration)
         result.success(null)
     }
@@ -76,14 +82,19 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
 
         if (data == null) {
             result.error(
-                ERROR_GENERAL,
+                ERROR_UNEXPECTED,
                 "Account linking session configuration can not be null",
                 null
             )
             return
         }
 
-        val accountLinkingConfiguration = getAccountSessionConfiguration(data)
+        val accountLinkingConfiguration = try {
+            getAccountSessionConfiguration(data)
+        } catch (error: Throwable) {
+            result.error(ERROR_UNEXPECTED, error.localizedMessage ?: error.message, null)
+            return
+        }
 
         this.accountResult = result
 
@@ -94,11 +105,25 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
     }
 
     private fun onGetCallbackUrl(result: MethodChannel.Result) {
-        result.success(KevinAccountsPlugin.getCallbackUrl())
+        val callbackUrl = try {
+            KevinAccountsPlugin.getCallbackUrl()
+        } catch (error: Throwable) {
+            result.error(ERROR_UNEXPECTED, error.localizedMessage ?: error.message, null)
+            return
+        }
+
+        result.success(callbackUrl)
     }
 
     private fun onIsShowUnsupportedBanks(result: MethodChannel.Result) {
-        result.success(KevinAccountsPlugin.isShowUnsupportedBanks())
+        val isShowUnsupportedBanks = try {
+            KevinAccountsPlugin.isShowUnsupportedBanks()
+        } catch (error: Throwable) {
+            result.error(ERROR_UNEXPECTED, error.localizedMessage ?: error.message, null)
+            return
+        }
+
+        result.success(isShowUnsupportedBanks)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
@@ -129,10 +154,7 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
 
     private fun emitActivityResult(result: SessionResult<AccountSessionResult>) {
         when (result) {
-            is SessionResult.Success -> {
-                val linkingResult = Json.encodeToString(result.value.toKevinAccountResult())
-                this.accountResult?.success(linkingResult)
-            }
+            is SessionResult.Success -> onSessionResultSuccess(result.value)
             is SessionResult.Failure -> this.accountResult?.error(
                 ERROR_GENERAL,
                 result.error.localizedMessage ?: result.error.message,
@@ -142,15 +164,26 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         }
     }
 
+    private fun onSessionResultSuccess(result: AccountSessionResult) {
+        try {
+            val linkingResult = Json.encodeToString(result.toKevinAccountResult())
+            this.accountResult?.success(linkingResult)
+        } catch (error: Throwable) {
+            this.accountResult?.error(
+                ERROR_UNEXPECTED,
+                error.localizedMessage ?: error.message,
+                null
+            )
+        }
+    }
+
     private fun getAccountConfiguration(data: Map<String, Any?>): KevinAccountsConfiguration {
         val configurationData =
             Json.decodeFromJsonElement<AccountsConfigurationEntity>(data.toJsonElement())
 
         return KevinAccountsConfiguration.builder()
-            .apply {
-                setCallbackUrl(configurationData.callbackUrl)
-                setShowUnsupportedBanks(configurationData.showUnsupportedBanks)
-            }
+            .setCallbackUrl(configurationData.callbackUrl)
+            .setShowUnsupportedBanks(configurationData.showUnsupportedBanks)
             .build()
     }
 
@@ -201,5 +234,6 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
 
         const val ERROR_GENERAL = "general"
         const val ERROR_CANCELLED = "cancelled"
+        const val ERROR_UNEXPECTED = "unexpected"
     }
 }

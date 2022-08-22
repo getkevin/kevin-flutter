@@ -46,7 +46,13 @@ class KevinFlutterAccountsMethodChannel
 
       return KevinSessionResultLinkingSuccessEntity.fromJson(result).toModel();
     } on PlatformException catch (error) {
-      return _parseError(error);
+      final parsedError = _parseError(error);
+
+      if (parsedError != null) {
+        return parsedError;
+      }
+
+      rethrow;
     }
   }
 
@@ -64,14 +70,17 @@ class KevinFlutterAccountsMethodChannel
     return isShowUnsupportedBanks!;
   }
 
-  KevinSessionResult _parseError(PlatformException error) {
-    if (error.code == _Errors.cancelled) {
-      return KevinSessionResultCancelled();
+  KevinSessionResult? _parseError(PlatformException error) {
+    switch (error.code) {
+      case _Errors.cancelled:
+        return KevinSessionResultCancelled();
+      case _Errors.general:
+        return KevinSessionResultGeneralError(
+          message: error.message,
+        );
+      default:
+        return null;;
     }
-
-    return KevinSessionResultGeneralError(
-      message: error.message ?? _Errors.general,
-    );
   }
 }
 

@@ -3,6 +3,7 @@ PODS:
   - kevin-ios (2.2.2)
   - kevin_flutter_accounts (0.0.1):
     - Flutter
+    - kevin-ios (= 2.2.2)
   - kevin_flutter_core (0.0.1):
     - Flutter
     - kevin-ios (= 2.2.2)
@@ -37,7 +38,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   kevin-ios: 143e5fc1f2fb8b24829c0b80f4bcb60af3d5f769
-  kevin_flutter_accounts: 7445053c3d17ba9d26c648c885ea2a4ef3a7f30f
+  kevin_flutter_accounts: 72734fdcc463d71ea8f8485329a20263cafdc6fe
   kevin_flutter_core: e333dbdab8296c11b1d2a2c043b32a894c243e2c
   kevin_flutter_in_app_payments: 85aec0e9b4f2d3b1b98c2378ebd9c0f92eae1cf6
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
