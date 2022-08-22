@@ -16,6 +16,7 @@ import eu.kevin.flutter.accounts.entity.AccountsConfigurationEntity
 import eu.kevin.flutter.accounts.model.KevinAccountsMethod
 import eu.kevin.flutter.accounts.model.toKevinAccountResult
 import eu.kevin.flutter.core.model.KevinErrorCodes
+import eu.kevin.flutter.core.util.KevinFlutterErrorHelper
 import eu.kevin.kevin_flutter.extension.toJsonElement
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -63,10 +64,9 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val data = call.arguments<Map<String, Any?>>()
 
         if (data == null) {
-            result.error(
-                KevinErrorCodes.ERROR_UNEXPECTED,
-                "Accounts configuration can not be null",
-                null
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(
+                result = result,
+                message = "Accounts configuration can not be null"
             )
             return
         }
@@ -74,11 +74,7 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val configuration = try {
             getAccountConfiguration(data)
         } catch (error: Throwable) {
-            result.error(
-                KevinErrorCodes.ERROR_UNEXPECTED,
-                error.localizedMessage ?: error.message,
-                null
-            )
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = result, error = error)
             return
         }
 
@@ -90,10 +86,9 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val data = call.arguments<Map<String, Any?>>()
 
         if (data == null) {
-            result.error(
-                KevinErrorCodes.ERROR_UNEXPECTED,
-                "Account linking session configuration can not be null",
-                null
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(
+                result = result,
+                message = "Account linking session configuration can not be null"
             )
             return
         }
@@ -101,11 +96,7 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val accountLinkingConfiguration = try {
             getAccountSessionConfiguration(data)
         } catch (error: Throwable) {
-            result.error(
-                KevinErrorCodes.ERROR_UNEXPECTED,
-                error.localizedMessage ?: error.message,
-                null
-            )
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = result, error = error)
             return
         }
 
@@ -121,39 +112,29 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         try {
             KevinAccountsPlugin.getCallbackUrl()
         } catch (error: Throwable) {
-            result.error(
-                KevinErrorCodes.ERROR_UNEXPECTED,
-                error.localizedMessage ?: error.message,
-                null
-            )
-            return
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = result, error = error)
         }
     }
 
     private fun onIsShowUnsupportedBanks(result: MethodChannel.Result) {
-        val isShowUnsupportedBanks = try {
-            KevinAccountsPlugin.isShowUnsupportedBanks()
+        try {
+            result.success(KevinAccountsPlugin.isShowUnsupportedBanks())
         } catch (error: Throwable) {
-            result.error(
-                KevinErrorCodes.ERROR_UNEXPECTED,
-                error.localizedMessage ?: error.message,
-                null
-            )
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = result, error = error)
             return
         }
-
-        result.success(isShowUnsupportedBanks)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         val result = getActivityResult(requestCode, data)
 
         if (result == null) {
-            this.accountResult?.error(
-                KevinErrorCodes.ERROR_UNEXPECTED,
-                "Account linking result can not be null",
-                null
-            )
+            this.accountResult?.let {
+                KevinFlutterErrorHelper.emitUnexpectedFlutterError(
+                    result = it,
+                    message = "Account linking result can not be null"
+                )
+            }
             this.accountResult = null
             return false
         }
@@ -178,16 +159,12 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
     private fun emitActivityResult(result: SessionResult<AccountSessionResult>) {
         when (result) {
             is SessionResult.Success -> onSessionResultSuccess(result.value)
-            is SessionResult.Failure -> this.accountResult?.error(
-                KevinErrorCodes.ERROR_GENERAL,
-                result.error.localizedMessage ?: result.error.message,
-                null
-            )
-            is SessionResult.Canceled -> this.accountResult?.error(
-                KevinErrorCodes.ERROR_CANCELLED,
-                null,
-                null
-            )
+            is SessionResult.Failure -> this.accountResult?.let {
+                KevinFlutterErrorHelper.emitFlutterError(it, error = result.error)
+            }
+            is SessionResult.Canceled -> this.accountResult?.let {
+                KevinFlutterErrorHelper.emitFlutterError(it, code = KevinErrorCodes.ERROR_CANCELLED)
+            }
         }
     }
 
@@ -196,11 +173,9 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
             val linkingResult = Json.encodeToString(result.toKevinAccountResult())
             this.accountResult?.success(linkingResult)
         } catch (error: Throwable) {
-            this.accountResult?.error(
-                KevinErrorCodes.ERROR_UNEXPECTED,
-                error.localizedMessage ?: error.message,
-                null
-            )
+            this.accountResult?.let {
+                KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = it, error = error)
+            }
         }
     }
 
