@@ -13,7 +13,7 @@ import eu.kevin.core.entities.SessionResult
 import eu.kevin.core.enums.KevinCountry
 import eu.kevin.flutter.accounts.entity.AccountSessionConfigurationEntity
 import eu.kevin.flutter.accounts.entity.AccountsConfigurationEntity
-import eu.kevin.flutter.accounts.model.KevinMethod
+import eu.kevin.flutter.accounts.model.KevinAccountsMethod
 import eu.kevin.flutter.accounts.model.toKevinAccountResult
 import eu.kevin.kevin_flutter.extension.toJsonElement
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -46,14 +46,14 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: MethodChannel.Result) {
-        when (KevinMethod.getByKey(call.method)) {
-            KevinMethod.SET_ACCOUNTS_CONFIGURATION -> onSetAccountsConfiguration(
+        when (KevinAccountsMethod.getByKey(call.method)) {
+            KevinAccountsMethod.SET_ACCOUNTS_CONFIGURATION -> onSetAccountsConfiguration(
                 call,
                 result
             )
-            KevinMethod.START_ACCOUNT_LINKING -> onStartAccountLinking(call, result)
-            KevinMethod.GET_CALLBACK_URL -> onGetCallbackUrl(result)
-            KevinMethod.IS_SHOW_UNSUPPORTED_BANKS -> onIsShowUnsupportedBanks(result)
+            KevinAccountsMethod.START_ACCOUNT_LINKING -> onStartAccountLinking(call, result)
+            KevinAccountsMethod.GET_CALLBACK_URL -> onGetCallbackUrl(result)
+            KevinAccountsMethod.IS_SHOW_UNSUPPORTED_BANKS -> onIsShowUnsupportedBanks(result)
             else -> result.notImplemented()
         }
     }

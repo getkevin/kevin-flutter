@@ -1,6 +1,6 @@
 package eu.kevin.flutter.accounts.model
 
-internal enum class KevinMethod(val key: String) {
+internal enum class KevinAccountsMethod(val key: String) {
     SET_ACCOUNTS_CONFIGURATION("setAccountsConfiguration"),
     START_ACCOUNT_LINKING("startAccountLinking"),
     GET_CALLBACK_URL("getCallbackUrl"),
@@ -8,8 +8,8 @@ internal enum class KevinMethod(val key: String) {
 
     companion object {
         private val methods = values()
-            .associateBy(KevinMethod::key)
+            .associateBy(KevinAccountsMethod::key)
 
-        internal fun getByKey(key: String): KevinMethod? = methods[key]
+        internal fun getByKey(key: String): KevinAccountsMethod? = methods[key]
     }
 }

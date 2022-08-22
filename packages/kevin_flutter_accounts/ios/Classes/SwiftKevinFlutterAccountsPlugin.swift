@@ -12,9 +12,7 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        let method = KevinMethod(rawValue: call.method)
-        
-        switch method {
+        switch KevinAccountsMethod(rawValue: call.method) {
         case .setAccountsConfiguration:
             onSetAccountsConfiguration(call: call, result: result)
             break
