@@ -50,6 +50,13 @@ class MethodChannelKevinPaymentsFlutter extends KevinPaymentsFlutterPlatform {
     }
   }
 
+  @override
+  Future<String> getCallbackUrl() async {
+    final callbackUrl =
+        await methodChannel.invokeMethod<String>(_Methods.getCallbackUrl);
+    return callbackUrl!;
+  }
+
   KevinSessionResult _parseError(PlatformException error) {
     if (error.code == _Errors.cancelled) {
       return KevinSessionResultCancelled();
@@ -64,6 +71,7 @@ class MethodChannelKevinPaymentsFlutter extends KevinPaymentsFlutterPlatform {
 class _Methods {
   static const setPaymentsConfiguration = 'setPaymentsConfiguration';
   static const startPayment = 'startPayment';
+  static const getCallbackUrl = 'getCallbackUrl';
 }
 
 class _Errors {

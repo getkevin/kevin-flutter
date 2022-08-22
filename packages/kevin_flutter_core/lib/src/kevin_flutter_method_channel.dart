@@ -32,6 +32,25 @@ class MethodChannelKevinFlutter extends KevinFlutterPlatform {
       _Arguments.deepLinkingEnabled: deepLinkingEnabled,
     });
   }
+
+  @override
+  Future<String?> getLocale() async {
+    return methodChannel.invokeMethod<String?>(_Methods.getLocale);
+  }
+
+  @override
+  Future<bool> isSandbox() async {
+    final isSandbox =
+        await methodChannel.invokeMethod<bool>(_Methods.isSandbox);
+    return isSandbox!;
+  }
+
+  @override
+  Future<bool> isDeepLinkingEnabled() async {
+    final isDeepLinkingEnabled =
+        await methodChannel.invokeMethod(_Methods.isDeepLinkingEnabled);
+    return isDeepLinkingEnabled!;
+  }
 }
 
 class _Methods {
@@ -39,6 +58,9 @@ class _Methods {
   static const setTheme = 'setTheme';
   static const setSandbox = 'setSandbox';
   static const setDeepLinkingEnabled = 'setDeepLinkingEnabled';
+  static const getLocale = 'getLocale';
+  static const isSandbox = 'isSandbox';
+  static const isDeepLinkingEnabled = 'isDeepLinkingEnabled';
 }
 
 class _Arguments {
@@ -46,4 +68,3 @@ class _Arguments {
   static const sandbox = 'sandbox';
   static const deepLinkingEnabled = 'deepLinkingEnabled';
 }
-

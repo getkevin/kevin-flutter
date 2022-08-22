@@ -4,6 +4,14 @@ import 'package:kevin_flutter_accounts/src/model/account/kevin_accounts_configur
 import 'package:kevin_flutter_core/kevin.dart';
 
 class KevinAccounts {
+  static KevinAccounts? _instance;
+
+  static KevinAccounts get instance {
+    _instance ??= KevinAccounts();
+
+    return _instance!;
+  }
+
   /// Set accounts configuration.
   ///
   /// Accounts configuration must be set before starting account
@@ -24,5 +32,13 @@ class KevinAccounts {
   ) {
     return KevinAccountsFlutterPlatform.instance
         .startAccountLinking(configuration);
+  }
+
+  Future<String> getCallbackUrl() {
+    return KevinAccountsFlutterPlatform.instance.getCallbackUrl();
+  }
+
+  Future<bool> isShowUnsupportedBanks() {
+    return KevinAccountsFlutterPlatform.instance.isShowUnsupportedBanks();
   }
 }

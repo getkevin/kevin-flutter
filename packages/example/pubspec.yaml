@@ -1,16 +1,28 @@
 name: kevin_flutter_example
-description: Example ass using kevin. SDK flutter plugins
-version: 0.0.1
+description: Example using kevin. SDK flutter plugins
 homepage: https://github.com/getkevin/kevin-flutter/tree/master/packages/example
 publish_to: none
+version: 1.0.0+1
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
-  flutter: ">=1.17.0"
+  flutter: ">=2.5.0"
 
 dependencies:
   flutter:
     sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  flutter_svg: ^1.0.2
+  dio: ^4.0.4
+  dartz: ^0.10.1
+  freezed_annotation: ^1.1.0
+  json_annotation: ^4.4.0
+  injectable: ^1.5.3
+  get_it: ^7.2.0
+  flutter_bloc: ^7.0.0
+  styled_text: ^4.0.0+1
+  url_launcher: ^6.0.18
   kevin_flutter_core:
     path: ../kevin_flutter_core
   kevin_flutter_in_app_payments:
@@ -21,4 +33,28 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+
+  flutter_lints: ^1.0.0
+  freezed: ^1.1.1
+  build_runner: ^2.1.7
+  json_serializable: ^6.1.4
+  injectable_generator: ^1.5.3
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+
+  fonts:
+    - family: "SFUIText"
+      fonts:
+        - asset: fonts/SFUIText-Light.ttf
+          weight: 300
+        - asset: fonts/SFUIText-Regular.ttf
+          weight: 400
+        - asset: fonts/SFUIText-Semibold.ttf
+          weight: 600
+        - asset: fonts/SFUIText-Bold.ttf
+          weight: 700

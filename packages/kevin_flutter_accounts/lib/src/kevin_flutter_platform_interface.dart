@@ -36,4 +36,12 @@ abstract class KevinAccountsFlutterPlatform extends PlatformInterface {
   ) {
     throw UnimplementedError('Not implemented.');
   }
+
+  Future<String> getCallbackUrl() {
+    throw UnimplementedError('Not implemented.');
+  }
+
+  Future<bool> isShowUnsupportedBanks() {
+    throw UnimplementedError('Not implemented.');
+  }
 }

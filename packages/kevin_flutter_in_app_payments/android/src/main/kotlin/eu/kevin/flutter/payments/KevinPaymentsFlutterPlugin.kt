@@ -52,6 +52,7 @@ class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
                 result
             )
             KevinPaymentsMethod.START_PAYMENT -> onStartPayment(call, result)
+            KevinPaymentsMethod.GET_CALLBACK_URL -> onGetCallbackUrl(result)
             else -> result.notImplemented()
         }
     }
@@ -85,6 +86,10 @@ class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         intent.putExtra(PaymentSessionContract.CONFIGURATION_KEY, paymentConfiguration)
 
         pluginBinding?.activity?.startActivityForResult(intent, REQUEST_CODE_PAYMENT)
+    }
+
+    private fun onGetCallbackUrl(result: MethodChannel.Result) {
+        result.success(KevinPaymentsPlugin.getCallbackUrl())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {

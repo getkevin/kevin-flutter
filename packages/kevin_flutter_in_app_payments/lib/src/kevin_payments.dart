@@ -4,6 +4,14 @@ import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payment_se
 import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payments_configuration.dart';
 
 class KevinPayments {
+  static KevinPayments? _instance;
+
+  static KevinPayments get instance {
+    _instance ??= KevinPayments();
+
+    return _instance!;
+  }
+
   /// Set payments configuration.
   ///
   /// Payments configuration must be set before starting payment
@@ -23,5 +31,9 @@ class KevinPayments {
     KevinPaymentSessionConfiguration configuration,
   ) {
     return KevinPaymentsFlutterPlatform.instance.startPayment(configuration);
+  }
+
+  Future<String> getCallbackUrl() {
+    return KevinPaymentsFlutterPlatform.instance.getCallbackUrl();
   }
 }

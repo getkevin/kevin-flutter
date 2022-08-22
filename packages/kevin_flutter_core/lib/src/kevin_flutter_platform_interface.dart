@@ -36,4 +36,16 @@ abstract class KevinFlutterPlatform extends PlatformInterface {
   Future<void> setDeepLinkingEnabled(bool deepLinkingEnabled) {
     throw UnimplementedError('Not implemented.');
   }
+
+  Future<String?> getLocale() {
+    throw UnimplementedError('Not implemented.');
+  }
+
+  Future<bool> isSandbox() {
+    throw UnimplementedError('Not implemented.');
+  }
+
+  Future<bool> isDeepLinkingEnabled() {
+    throw UnimplementedError('Not implemented.');
+  }
 }
