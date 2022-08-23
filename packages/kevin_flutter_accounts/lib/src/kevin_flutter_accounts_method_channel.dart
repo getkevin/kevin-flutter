@@ -79,7 +79,7 @@ class KevinFlutterAccountsMethodChannel
           message: error.message,
         );
       default:
-        return null;;
+        return null;
     }
   }
 }
