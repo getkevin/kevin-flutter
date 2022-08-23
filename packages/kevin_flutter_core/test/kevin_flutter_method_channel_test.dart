@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kevin_flutter_core/src/kevin_flutter_method_channel.dart';
-import 'package:kevin_flutter_core/src/kevin_flutter_platform_interface.dart';
+import 'package:kevin_flutter_core/src/kevin_flutter_core_method_channel.dart';
+import 'package:kevin_flutter_core/src/kevin_flutter_core_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 void main() {
@@ -10,9 +10,9 @@ void main() {
   const channel = MethodChannel('kevin_flutter_core');
   final log = <MethodCall>[];
 
-  final platform = MethodChannelKevinFlutter();
+  final platform = KevinFlutterCoreMethodChannel();
 
-  final initialInstance = KevinFlutterPlatform.instance;
+  final initialInstance = KevinFlutterCorePlatformInterface.instance;
 
   setUp(() {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
@@ -25,26 +25,28 @@ void main() {
     log.clear();
   });
 
-  test('$MethodChannelKevinFlutter() is the default instance', () {
-    expect(initialInstance, isInstanceOf<MethodChannelKevinFlutter>());
+  test('$KevinFlutterCoreMethodChannel() is the default instance', () {
+    expect(initialInstance, isInstanceOf<KevinFlutterCoreMethodChannel>());
   });
 
   test('Cannot be implemented with `implements`', () {
     expect(
       () {
-        KevinFlutterPlatform.instance = ImplementsKevinFlutterPlatform();
+        KevinFlutterCorePlatformInterface.instance =
+            ImplementsKevinFlutterCorePlatform();
       },
       throwsA(anything),
     );
   });
 
   test('Can be mocked with `implements`', () {
-    final mock = KevinFlutterPlatformMock();
-    KevinFlutterPlatform.instance = mock;
+    final mock = KevinFlutterCorePlatformMock();
+    KevinFlutterCorePlatformInterface.instance = mock;
   });
 
   test('Can be extended', () {
-    KevinFlutterPlatform.instance = ExtendsKevinFlutterPlatform();
+    KevinFlutterCorePlatformInterface.instance =
+        ExtendsKevinFlutterCorePlatform();
   });
 
   test('setLocale', () async {
@@ -177,16 +179,18 @@ void main() {
   });
 }
 
-class KevinFlutterPlatformMock
+class KevinFlutterCorePlatformMock
     with MockPlatformInterfaceMixin
-    implements KevinFlutterPlatform {
+    implements KevinFlutterCorePlatformInterface {
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class ImplementsKevinFlutterPlatform implements KevinFlutterPlatform {
+class ImplementsKevinFlutterCorePlatform
+    implements KevinFlutterCorePlatformInterface {
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class ExtendsKevinFlutterPlatform extends KevinFlutterPlatform {}
+class ExtendsKevinFlutterCorePlatform
+    extends KevinFlutterCorePlatformInterface {}

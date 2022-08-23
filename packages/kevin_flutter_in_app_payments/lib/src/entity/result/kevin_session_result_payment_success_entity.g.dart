@@ -12,3 +12,9 @@ KevinSessionResultPaymentSuccessEntity
         KevinSessionResultPaymentSuccessEntity(
           paymentId: json['paymentId'] as String,
         );
+
+Map<String, dynamic> _$KevinSessionResultPaymentSuccessEntityToJson(
+        KevinSessionResultPaymentSuccessEntity instance) =>
+    <String, dynamic>{
+      'paymentId': instance.paymentId,
+    };

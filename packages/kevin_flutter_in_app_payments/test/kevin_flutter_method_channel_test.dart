@@ -2,23 +2,24 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kevin_flutter_accounts/src/entity/kevin_bank_entity.dart';
-import 'package:kevin_flutter_accounts/src/entity/result/kevin_session_result_linking_success_entity.dart';
-import 'package:kevin_flutter_accounts/src/kevin_flutter_accounts_method_channel.dart';
-import 'package:kevin_flutter_accounts/src/kevin_flutter_accounts_platform_interface.dart';
-import 'package:kevin_flutter_accounts/src/model/kevin_accounts_models.dart';
 import 'package:kevin_flutter_core/kevin.dart';
+import 'package:kevin_flutter_in_app_payments/src/entity/result/kevin_session_result_payment_success_entity.dart';
+import 'package:kevin_flutter_in_app_payments/src/kevin_flutter_payments_method_channel.dart';
+import 'package:kevin_flutter_in_app_payments/src/kevin_flutter_payments_platform_interface.dart';
+import 'package:kevin_flutter_in_app_payments/src/model/kevin_session_result_payment_success.dart';
+import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payment_session_configuration.dart';
+import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payments_configuration.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  const channel = MethodChannel('kevin_flutter_accounts');
+  const channel = MethodChannel('kevin_flutter_payments');
   final log = <MethodCall>[];
 
-  final platform = KevinFlutterAccountsMethodChannel();
+  final platform = KevinFlutterPaymentsMethodChannel();
 
-  final initialInstance = KevinFlutterAccountsPlatformInterface.instance;
+  final initialInstance = KevinFlutterPaymentsPlatformInterface.instance;
 
   setUp(() {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
@@ -31,191 +32,191 @@ void main() {
     log.clear();
   });
 
-  test('$KevinFlutterAccountsMethodChannel() is the default instance', () {
-    expect(initialInstance, isInstanceOf<KevinFlutterAccountsMethodChannel>());
+  test('$KevinFlutterPaymentsMethodChannel() is the default instance', () {
+    expect(initialInstance, isInstanceOf<KevinFlutterPaymentsMethodChannel>());
   });
 
   test('Cannot be implemented with `implements`', () {
     expect(
       () {
-        KevinFlutterAccountsPlatformInterface.instance =
-            ImplementsKevinFlutterAccountsPlatform();
+        KevinFlutterPaymentsPlatformInterface.instance =
+            ImplementsKevinFlutterPaymentsPlatform();
       },
       throwsA(anything),
     );
   });
 
   test('Can be mocked with `implements`', () {
-    final mock = KevinFlutterAccountsPlatformMock();
-    KevinFlutterAccountsPlatformInterface.instance = mock;
+    final mock = KevinFlutterPaymentsPlatformMock();
+    KevinFlutterPaymentsPlatformInterface.instance = mock;
   });
 
   test('Can be extended', () {
-    KevinFlutterAccountsPlatformInterface.instance =
-        ExtendsKevinFlutterAccountsPlatform();
+    KevinFlutterPaymentsPlatformInterface.instance =
+        ExtendsKevinFlutterPaymentsPlatform();
   });
 
-  test('setAccountsConfiguration', () async {
-    const configuration = KevinAccountsConfiguration(
+  test('setPaymentsConfiguration', () async {
+    const configuration = KevinPaymentsConfiguration(
       callbackUrl: 'callbackUrl',
-      showUnsupportedBanks: true,
     );
-    await platform.setAccountsConfiguration(configuration);
+    await platform.setPaymentsConfiguration(configuration);
     expect(log, <Matcher>[
       isMethodCall(
-        'setAccountsConfiguration',
+        'setPaymentsConfiguration',
         arguments: <String, dynamic>{
           'callbackUrl': 'callbackUrl',
-          'showUnsupportedBanks': true
         },
       )
     ]);
   });
 
-  test('startAccountLinking: success', () async {
+  test('startPayment: success', () async {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
       log.add(methodCall);
 
-      const success = KevinSessionResultLinkingSuccessEntity(
-        bank: KevinBankEntity(
-          id: 'id',
-          name: 'name',
-          officialName: 'officialName',
-          imageUri: 'imageUri',
-          bic: 'bic',
-        ),
-        authorizationCode: 'authorizationCode',
-        linkingType: 'bank',
+      const success = KevinSessionResultPaymentSuccessEntity(
+        paymentId: 'paymentId',
       );
 
       return jsonEncode(success.toJson());
     });
 
-    const configuration = KevinAccountSessionConfiguration(state: 'state');
-    final result = await platform.startAccountLinking(configuration);
-    expect(result, isInstanceOf<KevinSessionResultLinkingSuccess>());
+    const configuration =
+        KevinPaymentSessionConfiguration(paymentId: 'paymentId');
+    final result = await platform.startPayment(configuration);
+    expect(result, isInstanceOf<KevinSessionResultPaymentSuccess>());
     expect(log, <Matcher>[
       isMethodCall(
-        'startAccountLinking',
+        'startPayment',
         arguments: <String, dynamic>{
-          'state': 'state',
+          'paymentId': 'paymentId',
+          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
+          'skipAuthentication': false,
         },
       )
     ]);
   });
 
-  test('startAccountLinking: cancelled', () async {
+  test('startPayment: cancelled', () async {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
       log.add(methodCall);
 
       throw PlatformException(code: 'cancelled');
     });
 
-    const configuration = KevinAccountSessionConfiguration(state: 'state');
-    final result = await platform.startAccountLinking(configuration);
+    const configuration =
+        KevinPaymentSessionConfiguration(paymentId: 'paymentId');
+    final result = await platform.startPayment(configuration);
     expect(result, isInstanceOf<KevinSessionResultCancelled>());
     expect(log, <Matcher>[
       isMethodCall(
-        'startAccountLinking',
+        'startPayment',
         arguments: <String, dynamic>{
-          'state': 'state',
+          'paymentId': 'paymentId',
+          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
+          'skipAuthentication': false,
         },
       )
     ]);
   });
 
-  test('startAccountLinking: general', () async {
+  test('startPayment: general', () async {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
       log.add(methodCall);
 
       throw PlatformException(code: 'general');
     });
 
-    const configuration = KevinAccountSessionConfiguration(state: 'state');
-    final result = await platform.startAccountLinking(configuration);
+    const configuration =
+        KevinPaymentSessionConfiguration(paymentId: 'paymentId');
+    final result = await platform.startPayment(configuration);
     expect(result, isInstanceOf<KevinSessionResultGeneralError>());
     expect(log, <Matcher>[
       isMethodCall(
-        'startAccountLinking',
+        'startPayment',
         arguments: <String, dynamic>{
-          'state': 'state',
+          'paymentId': 'paymentId',
+          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
+          'skipAuthentication': false,
         },
       )
     ]);
   });
 
-  test('startAccountLinking: unexpected', () async {
+  test('startPayment: unexpected', () async {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
       log.add(methodCall);
 
       throw PlatformException(code: 'unexpected');
     });
 
-    const configuration = KevinAccountSessionConfiguration(state: 'state');
+    const configuration =
+        KevinPaymentSessionConfiguration(paymentId: 'paymentId');
     expect(
       () async {
-        await platform.startAccountLinking(configuration);
+        await platform.startPayment(configuration);
       },
       throwsA(isA<PlatformException>()),
     );
     expect(log, <Matcher>[
       isMethodCall(
-        'startAccountLinking',
+        'startPayment',
         arguments: <String, dynamic>{
-          'state': 'state',
+          'paymentId': 'paymentId',
+          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
+          'skipAuthentication': false,
         },
       )
     ]);
   });
 
-  test('startAccountLinking: null', () async {
-    const configuration = KevinAccountSessionConfiguration(state: 'state');
+  test('startPayment: null', () async {
+    const configuration =
+        KevinPaymentSessionConfiguration(paymentId: 'paymentId');
     expect(
       () async {
-        await platform.startAccountLinking(configuration);
+        await platform.startPayment(configuration);
       },
       throwsA(isA<TypeError>()),
     );
     expect(log, <Matcher>[
       isMethodCall(
-        'startAccountLinking',
+        'startPayment',
         arguments: <String, dynamic>{
-          'state': 'state',
+          'paymentId': 'paymentId',
+          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
+          'skipAuthentication': false,
         },
       )
     ]);
@@ -250,50 +251,20 @@ void main() {
       )
     ]);
   });
-
-  test('isShowUnsupportedBanks: has value', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-      return true;
-    });
-    final callbackUrl = await platform.isShowUnsupportedBanks();
-    expect(callbackUrl, true);
-    expect(log, <Matcher>[
-      isMethodCall(
-        'isShowUnsupportedBanks',
-        arguments: null,
-      )
-    ]);
-  });
-
-  test('isShowUnsupportedBanks: has no value', () async {
-    expect(
-      () async {
-        await platform.isShowUnsupportedBanks();
-      },
-      throwsA(isA<TypeError>()),
-    );
-    expect(log, <Matcher>[
-      isMethodCall(
-        'isShowUnsupportedBanks',
-        arguments: null,
-      )
-    ]);
-  });
 }
 
-class KevinFlutterAccountsPlatformMock
+class KevinFlutterPaymentsPlatformMock
     with MockPlatformInterfaceMixin
-    implements KevinFlutterAccountsPlatformInterface {
+    implements KevinFlutterPaymentsPlatformInterface {
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class ImplementsKevinFlutterAccountsPlatform
-    implements KevinFlutterAccountsPlatformInterface {
+class ImplementsKevinFlutterPaymentsPlatform
+    implements KevinFlutterPaymentsPlatformInterface {
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class ExtendsKevinFlutterAccountsPlatform
-    extends KevinFlutterAccountsPlatformInterface {}
+class ExtendsKevinFlutterPaymentsPlatform
+    extends KevinFlutterPaymentsPlatformInterface {}
