@@ -14,11 +14,15 @@ void main() {
 
   final initialInstance = KevinFlutterCorePlatformInterface.instance;
 
-  setUp(() {
+  void _setMethodCallReturnData({dynamic Function()? data}) {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
       log.add(methodCall);
-      return null;
+      return data?.call();
     });
+  }
+
+  setUp(() {
+    _setMethodCallReturnData();
   });
 
   tearDown(() {
@@ -90,10 +94,7 @@ void main() {
   });
 
   test('getLocale: has value', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-      return 'en';
-    });
+    _setMethodCallReturnData(data: () => 'en');
 
     final locale = await platform.getLocale();
     expect(locale, 'en');
@@ -117,10 +118,7 @@ void main() {
   });
 
   test('isSandbox: has value', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-      return true;
-    });
+    _setMethodCallReturnData(data: () => true);
 
     final sandbox = await platform.isSandbox();
     expect(sandbox, true);
@@ -148,10 +146,7 @@ void main() {
   });
 
   test('isDeepLinkingEnabled: has value', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-      return true;
-    });
+    _setMethodCallReturnData(data: () => true);
 
     final deepLinkingEnabled = await platform.isDeepLinkingEnabled();
     expect(deepLinkingEnabled, true);

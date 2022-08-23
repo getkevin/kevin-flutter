@@ -20,11 +20,15 @@ void main() {
 
   final initialInstance = KevinFlutterAccountsPlatformInterface.instance;
 
-  setUp(() {
+  void _setMethodCallReturnData({dynamic Function()? data}) {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
       log.add(methodCall);
-      return null;
+      return data?.call();
     });
+  }
+
+  setUp(() {
+    _setMethodCallReturnData();
   });
 
   tearDown(() {
@@ -73,23 +77,21 @@ void main() {
   });
 
   test('startAccountLinking: success', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
+    const successResult = KevinSessionResultLinkingSuccessEntity(
+      bank: KevinBankEntity(
+        id: 'id',
+        name: 'name',
+        officialName: 'officialName',
+        imageUri: 'imageUri',
+        bic: 'bic',
+      ),
+      authorizationCode: 'authorizationCode',
+      linkingType: 'bank',
+    );
 
-      const success = KevinSessionResultLinkingSuccessEntity(
-        bank: KevinBankEntity(
-          id: 'id',
-          name: 'name',
-          officialName: 'officialName',
-          imageUri: 'imageUri',
-          bic: 'bic',
-        ),
-        authorizationCode: 'authorizationCode',
-        linkingType: 'bank',
-      );
+    final mockedResult = jsonEncode(successResult.toJson());
 
-      return jsonEncode(success.toJson());
-    });
+    _setMethodCallReturnData(data: () => mockedResult);
 
     const configuration = KevinAccountSessionConfiguration(state: 'state');
     final result = await platform.startAccountLinking(configuration);
@@ -112,11 +114,11 @@ void main() {
   });
 
   test('startAccountLinking: cancelled', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-
-      throw PlatformException(code: 'cancelled');
-    });
+    _setMethodCallReturnData(
+      data: () {
+        throw PlatformException(code: 'cancelled');
+      },
+    );
 
     const configuration = KevinAccountSessionConfiguration(state: 'state');
     final result = await platform.startAccountLinking(configuration);
@@ -139,11 +141,11 @@ void main() {
   });
 
   test('startAccountLinking: general', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-
-      throw PlatformException(code: 'general');
-    });
+    _setMethodCallReturnData(
+      data: () {
+        throw PlatformException(code: 'general');
+      },
+    );
 
     const configuration = KevinAccountSessionConfiguration(state: 'state');
     final result = await platform.startAccountLinking(configuration);
@@ -166,11 +168,11 @@ void main() {
   });
 
   test('startAccountLinking: unexpected', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-
-      throw PlatformException(code: 'unexpected');
-    });
+    _setMethodCallReturnData(
+      data: () {
+        throw PlatformException(code: 'unexpected');
+      },
+    );
 
     const configuration = KevinAccountSessionConfiguration(state: 'state');
     expect(
@@ -222,10 +224,7 @@ void main() {
   });
 
   test('getCallbackUrl: has value', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-      return 'callbackUrl';
-    });
+    _setMethodCallReturnData(data: () => 'callbackUrl');
     final callbackUrl = await platform.getCallbackUrl();
     expect(callbackUrl, 'callbackUrl');
     expect(log, <Matcher>[
@@ -252,10 +251,7 @@ void main() {
   });
 
   test('isShowUnsupportedBanks: has value', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-      return true;
-    });
+    _setMethodCallReturnData(data: () => true);
     final callbackUrl = await platform.isShowUnsupportedBanks();
     expect(callbackUrl, true);
     expect(log, <Matcher>[

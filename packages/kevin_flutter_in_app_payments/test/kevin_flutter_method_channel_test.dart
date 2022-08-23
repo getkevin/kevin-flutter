@@ -21,11 +21,15 @@ void main() {
 
   final initialInstance = KevinFlutterPaymentsPlatformInterface.instance;
 
-  setUp(() {
+  void _setMethodCallReturnData({dynamic Function()? data}) {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
       log.add(methodCall);
-      return null;
+      return data?.call();
     });
+  }
+
+  setUp(() {
+    _setMethodCallReturnData();
   });
 
   tearDown(() {
@@ -72,15 +76,13 @@ void main() {
   });
 
   test('startPayment: success', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
+    const successResult = KevinSessionResultPaymentSuccessEntity(
+      paymentId: 'paymentId',
+    );
 
-      const success = KevinSessionResultPaymentSuccessEntity(
-        paymentId: 'paymentId',
-      );
+    final mockedResult = jsonEncode(successResult.toJson());
 
-      return jsonEncode(success.toJson());
-    });
+    _setMethodCallReturnData(data: () => mockedResult);
 
     const configuration =
         KevinPaymentSessionConfiguration(paymentId: 'paymentId');
@@ -105,11 +107,11 @@ void main() {
   });
 
   test('startPayment: cancelled', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-
-      throw PlatformException(code: 'cancelled');
-    });
+    _setMethodCallReturnData(
+      data: () {
+        throw PlatformException(code: 'cancelled');
+      },
+    );
 
     const configuration =
         KevinPaymentSessionConfiguration(paymentId: 'paymentId');
@@ -134,11 +136,11 @@ void main() {
   });
 
   test('startPayment: general', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-
-      throw PlatformException(code: 'general');
-    });
+    _setMethodCallReturnData(
+      data: () {
+        throw PlatformException(code: 'general');
+      },
+    );
 
     const configuration =
         KevinPaymentSessionConfiguration(paymentId: 'paymentId');
@@ -163,11 +165,11 @@ void main() {
   });
 
   test('startPayment: unexpected', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-
-      throw PlatformException(code: 'unexpected');
-    });
+    _setMethodCallReturnData(
+      data: () {
+        throw PlatformException(code: 'unexpected');
+      },
+    );
 
     const configuration =
         KevinPaymentSessionConfiguration(paymentId: 'paymentId');
@@ -223,10 +225,8 @@ void main() {
   });
 
   test('getCallbackUrl: has value', () async {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-      return 'callbackUrl';
-    });
+    _setMethodCallReturnData(data: () => 'callbackUrl');
+
     final callbackUrl = await platform.getCallbackUrl();
     expect(callbackUrl, 'callbackUrl');
     expect(log, <Matcher>[
