@@ -16,19 +16,14 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
         switch KevinAccountsMethod(rawValue: call.method) {
         case .setAccountsConfiguration:
             onSetAccountsConfiguration(call: call, result: result)
-            break
         case .startAccountLinking:
             onStartAccountLinking(call: call, result: result)
-            break
         case .getCallbackUrl:
             onGetCallbackUrl(result: result)
-            break
         case .isShowUnsupportedBanks:
             onIsShowUnsupportedBanks(result: result)
-            break
         default:
             result(FlutterMethodNotImplemented)
-            break
         }
     }
     

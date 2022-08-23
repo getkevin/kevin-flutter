@@ -16,16 +16,12 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
         switch KevinPaymentsMethod(rawValue: call.method) {
         case .setPaymentsConfiguration:
             onSetPaymentsConfiguration(call: call, result: result)
-            break
         case .startPayment:
             onStartPayment(call: call, result: result)
-            break
         case .getCallbackUrl:
             onGetCallbackUrl(result: result)
-            break
         default:
             result(FlutterMethodNotImplemented)
-            break
         }
     }
     

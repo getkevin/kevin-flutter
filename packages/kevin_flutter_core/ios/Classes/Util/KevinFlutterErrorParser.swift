@@ -19,15 +19,12 @@ public class KevinFlutterErrorParser {
         switch error {
         case is KevinCancelationError:
             errorCode = KevinErrorCode.cancelled.rawValue
-            break
         case is KevinError:
             errorCode = defaultCode.rawValue
             errorDescription = message ?? (error as! KevinError).description
-            break
         default:
             errorCode = defaultCode.rawValue
             errorDescription = message ?? error?.localizedDescription
-            break
         }
         
         return FlutterError(code: errorCode, message: errorDescription, details: nil)
