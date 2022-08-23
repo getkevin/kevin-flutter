@@ -5,7 +5,7 @@ import androidx.annotation.NonNull
 import eu.kevin.core.entities.SessionResult
 import eu.kevin.core.enums.KevinCountry
 import eu.kevin.flutter.core.extension.toJsonElement
-import eu.kevin.flutter.core.model.KevinErrorCodes
+import eu.kevin.flutter.core.model.KevinErrorCode
 import eu.kevin.flutter.core.util.KevinFlutterErrorHelper
 import eu.kevin.flutter.payments.entity.PaymentSessionConfigurationEntity
 import eu.kevin.flutter.payments.entity.PaymentsConfigurationEntity
@@ -155,7 +155,7 @@ class KevinFlutterPaymentsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
             is SessionResult.Canceled -> this.paymentResult?.let {
                 KevinFlutterErrorHelper.emitFlutterError(
                     result = it,
-                    code = KevinErrorCodes.ERROR_CANCELLED
+                    code = KevinErrorCode.CANCELLED
                 )
             }
         }

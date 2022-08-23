@@ -59,7 +59,7 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
     
     private func onSetAccountsConfiguration(call: FlutterMethodCall, result: @escaping FlutterResult) {
         guard let data = call.arguments as? [String: Any?] else {
-            result(FlutterError(code: KevinErrorCodes.unexpected, message: "Accounts configuration can not be null", details: nil))
+            result(KevinFlutterErrorParser.parseFlutterUnexpectedError(message: "Accounts configuration can not be null"))
             return
         }
         
@@ -76,7 +76,7 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
     
     private func onStartAccountLinking(call: FlutterMethodCall, result: @escaping FlutterResult) {
         guard let data = call.arguments as? [String: Any?] else {
-            result(FlutterError(code: KevinErrorCodes.unexpected, message: "Account linking session configuration can not be null", details: nil))
+            result(KevinFlutterErrorParser.parseFlutterUnexpectedError(message: "Account linking session configuration can not be null"))
             return
         }
         

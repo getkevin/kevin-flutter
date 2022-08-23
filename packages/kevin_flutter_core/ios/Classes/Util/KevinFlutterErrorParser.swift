@@ -1,25 +1,32 @@
 import kevin_ios
 
 public class KevinFlutterErrorParser {
-    public static func parseFlutterUnexpectedError(error: Error) -> FlutterError {
-        return parseFlutterError(error: error, defaultCode: KevinErrorCodes.unexpected)
+    public static func parseFlutterUnexpectedError(
+        error: Error? = nil,
+        message: String? = nil
+    ) -> FlutterError {
+        return parseFlutterError(error: error, defaultCode: KevinErrorCode.unexpected, message: message)
     }
     
-    public static func parseFlutterError(error: Error?, defaultCode: String = KevinErrorCodes.general) -> FlutterError {
+    public static func parseFlutterError(
+        error: Error? = nil,
+        defaultCode: KevinErrorCode = KevinErrorCode.general,
+        message: String? = nil
+    ) -> FlutterError {
         let errorCode: String
         var errorDescription: String? = nil
         
         switch error {
         case is KevinCancelationError:
-            errorCode = KevinErrorCodes.cancelled
+            errorCode = KevinErrorCode.cancelled.rawValue
             break
         case is KevinError:
-            errorCode = defaultCode
-            errorDescription = (error as! KevinError).description
+            errorCode = defaultCode.rawValue
+            errorDescription = message ?? (error as! KevinError).description
             break
         default:
-            errorCode = defaultCode
-            errorDescription = error?.localizedDescription
+            errorCode = defaultCode.rawValue
+            errorDescription = message ?? error?.localizedDescription
             break
         }
         

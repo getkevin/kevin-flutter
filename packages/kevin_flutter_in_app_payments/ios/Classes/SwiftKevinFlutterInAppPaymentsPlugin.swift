@@ -56,7 +56,7 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
     
     private func onSetPaymentsConfiguration(call: FlutterMethodCall, result: @escaping FlutterResult) {
         guard let data = call.arguments as? [String: Any?] else {
-            result(FlutterError(code: KevinErrorCodes.unexpected, message: "Payments configuration can not be null", details: nil))
+            result(KevinFlutterErrorParser.parseFlutterUnexpectedError(message: "Payments configuration can not be null"))
             return
         }
         
@@ -73,7 +73,7 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
     
     private func onStartPayment(call: FlutterMethodCall, result: @escaping FlutterResult) {
         guard let data = call.arguments as? [String: Any?] else {
-            result(FlutterError(code: KevinErrorCodes.unexpected, message: "Payment session configuration can not be null", details: nil))
+            result(KevinFlutterErrorParser.parseFlutterUnexpectedError(message: "Payment session configuration can not be null"))
             return
         }
         

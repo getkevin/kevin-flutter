@@ -1,6 +1,6 @@
 package eu.kevin.flutter.core.util
 
-import eu.kevin.flutter.core.model.KevinErrorCodes
+import eu.kevin.flutter.core.model.KevinErrorCode
 import io.flutter.plugin.common.MethodChannel
 
 object KevinFlutterErrorHelper {
@@ -11,7 +11,7 @@ object KevinFlutterErrorHelper {
     ) {
         emitFlutterError(
             result = result,
-            code = KevinErrorCodes.ERROR_UNEXPECTED,
+            code = KevinErrorCode.UNEXPECTED,
             error = error,
             message = message
         )
@@ -19,10 +19,10 @@ object KevinFlutterErrorHelper {
 
     fun emitFlutterError(
         result: MethodChannel.Result,
-        code: String = KevinErrorCodes.ERROR_GENERAL,
+        code: KevinErrorCode = KevinErrorCode.GENERAL,
         error: Throwable? = null,
         message: String? = null
     ) {
-        result.error(code, message ?: error?.localizedMessage ?: error?.message, null)
+        result.error(code.key, message ?: error?.localizedMessage ?: error?.message, null)
     }
 }

@@ -16,7 +16,7 @@ import eu.kevin.flutter.accounts.entity.AccountsConfigurationEntity
 import eu.kevin.flutter.accounts.model.KevinAccountsMethod
 import eu.kevin.flutter.accounts.model.toKevinAccountResult
 import eu.kevin.flutter.core.extension.toJsonElement
-import eu.kevin.flutter.core.model.KevinErrorCodes
+import eu.kevin.flutter.core.model.KevinErrorCode
 import eu.kevin.flutter.core.util.KevinFlutterErrorHelper
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -163,7 +163,7 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
                 KevinFlutterErrorHelper.emitFlutterError(it, error = result.error)
             }
             is SessionResult.Canceled -> this.accountResult?.let {
-                KevinFlutterErrorHelper.emitFlutterError(it, code = KevinErrorCodes.ERROR_CANCELLED)
+                KevinFlutterErrorHelper.emitFlutterError(it, code = KevinErrorCode.CANCELLED)
             }
         }
     }
