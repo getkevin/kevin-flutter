@@ -1,6 +1,5 @@
 package eu.kevin.flutter.accounts
 
-import android.app.Activity
 import android.content.Intent
 import androidx.annotation.NonNull
 import eu.kevin.accounts.KevinAccountsConfiguration
@@ -14,8 +13,10 @@ import eu.kevin.core.entities.SessionResult
 import eu.kevin.core.enums.KevinCountry
 import eu.kevin.flutter.accounts.entity.AccountSessionConfigurationEntity
 import eu.kevin.flutter.accounts.entity.AccountsConfigurationEntity
-import eu.kevin.flutter.accounts.model.KevinMethod
+import eu.kevin.flutter.accounts.model.KevinAccountsMethod
 import eu.kevin.flutter.accounts.model.toKevinAccountResult
+import eu.kevin.flutter.core.model.KevinErrorCodes
+import eu.kevin.flutter.core.util.KevinFlutterErrorHelper
 import eu.kevin.kevin_flutter.extension.toJsonElement
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -28,12 +29,12 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 
-class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
+class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     PluginRegistry.ActivityResultListener {
 
     private lateinit var channel: MethodChannel
 
-    private var activity: Activity? = null
+    private var pluginBinding: ActivityPluginBinding? = null
 
     private var accountResult: MethodChannel.Result? = null
 
@@ -47,14 +48,14 @@ class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: MethodChannel.Result) {
-        when (KevinMethod.getByKey(call.method)) {
-            KevinMethod.SET_ACCOUNTS_CONFIGURATION -> onSetAccountsConfiguration(
+        when (KevinAccountsMethod.getByKey(call.method)) {
+            KevinAccountsMethod.SET_ACCOUNTS_CONFIGURATION -> onSetAccountsConfiguration(
                 call,
                 result
             )
-            KevinMethod.START_ACCOUNT_LINKING -> onStartAccountLinking(call, result)
-            KevinMethod.GET_CALLBACK_URL -> onGetCallbackUrl(result)
-            KevinMethod.IS_SHOW_UNSUPPORTED_BANKS -> onIsShowUnsupportedBanks(result)
+            KevinAccountsMethod.START_ACCOUNT_LINKING -> onStartAccountLinking(call, result)
+            KevinAccountsMethod.GET_CALLBACK_URL -> onGetCallbackUrl(result)
+            KevinAccountsMethod.IS_SHOW_UNSUPPORTED_BANKS -> onIsShowUnsupportedBanks(result)
             else -> result.notImplemented()
         }
     }
@@ -63,11 +64,20 @@ class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val data = call.arguments<Map<String, Any?>>()
 
         if (data == null) {
-            result.error(ERROR_GENERAL, "Accounts configuration can not be null", null)
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(
+                result = result,
+                message = "Accounts configuration can not be null"
+            )
             return
         }
 
-        val configuration = getAccountConfiguration(data)
+        val configuration = try {
+            getAccountConfiguration(data)
+        } catch (error: Throwable) {
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = result, error = error)
+            return
+        }
+
         KevinAccountsPlugin.configure(configuration)
         result.success(null)
     }
@@ -76,38 +86,55 @@ class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val data = call.arguments<Map<String, Any?>>()
 
         if (data == null) {
-            result.error(
-                ERROR_GENERAL,
-                "Account linking session configuration can not be null",
-                null
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(
+                result = result,
+                message = "Account linking session configuration can not be null"
             )
             return
         }
 
-        val accountLinkingConfiguration = getAccountSessionConfiguration(data)
+        val accountLinkingConfiguration = try {
+            getAccountSessionConfiguration(data)
+        } catch (error: Throwable) {
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = result, error = error)
+            return
+        }
 
         this.accountResult = result
 
-        val intent = Intent(activity, AccountSessionActivity::class.java)
+        val intent = Intent(pluginBinding?.activity, AccountSessionActivity::class.java)
         intent.putExtra(AccountSessionContract.CONFIGURATION_KEY, accountLinkingConfiguration)
 
-        activity?.startActivityForResult(intent, REQUEST_CODE_LINKING)
+        pluginBinding?.activity?.startActivityForResult(intent, REQUEST_CODE_LINKING)
     }
 
     private fun onGetCallbackUrl(result: MethodChannel.Result) {
-        result.success(KevinAccountsPlugin.getCallbackUrl())
+        try {
+            KevinAccountsPlugin.getCallbackUrl()
+        } catch (error: Throwable) {
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = result, error = error)
+        }
     }
 
     private fun onIsShowUnsupportedBanks(result: MethodChannel.Result) {
-        result.success(KevinAccountsPlugin.isShowUnsupportedBanks())
+        try {
+            result.success(KevinAccountsPlugin.isShowUnsupportedBanks())
+        } catch (error: Throwable) {
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = result, error = error)
+            return
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         val result = getActivityResult(requestCode, data)
 
-        // Unexpected result
         if (result == null) {
-            this.accountResult?.success(null)
+            this.accountResult?.let {
+                KevinFlutterErrorHelper.emitUnexpectedFlutterError(
+                    result = it,
+                    message = "Account linking result can not be null"
+                )
+            }
             this.accountResult = null
             return false
         }
@@ -117,25 +144,38 @@ class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         return true
     }
 
-    private fun getActivityResult(requestCode: Int, data: Intent?) = when {
-        requestCode == REQUEST_CODE_LINKING && data != null -> {
-            data.getParcelableExtra<SessionResult<AccountSessionResult>>(AccountSessionContract.RESULT_KEY)
+    private fun getActivityResult(
+        requestCode: Int,
+        data: Intent?
+    ): SessionResult<AccountSessionResult>? {
+        return when {
+            requestCode == REQUEST_CODE_LINKING && data != null -> {
+                data.getParcelableExtra(AccountSessionContract.RESULT_KEY)
+            }
+            else -> null
         }
-        else -> null
     }
 
     private fun emitActivityResult(result: SessionResult<AccountSessionResult>) {
         when (result) {
-            is SessionResult.Success -> {
-                val linkingResult = Json.encodeToString(result.value.toKevinAccountResult())
-                this.accountResult?.success(linkingResult)
+            is SessionResult.Success -> onSessionResultSuccess(result.value)
+            is SessionResult.Failure -> this.accountResult?.let {
+                KevinFlutterErrorHelper.emitFlutterError(it, error = result.error)
             }
-            is SessionResult.Failure -> this.accountResult?.error(
-                ERROR_GENERAL,
-                result.error.localizedMessage ?: result.error.message,
-                null
-            )
-            is SessionResult.Canceled -> this.accountResult?.error(ERROR_CANCELLED, null, null)
+            is SessionResult.Canceled -> this.accountResult?.let {
+                KevinFlutterErrorHelper.emitFlutterError(it, code = KevinErrorCodes.ERROR_CANCELLED)
+            }
+        }
+    }
+
+    private fun onSessionResultSuccess(result: AccountSessionResult) {
+        try {
+            val linkingResult = Json.encodeToString(result.toKevinAccountResult())
+            this.accountResult?.success(linkingResult)
+        } catch (error: Throwable) {
+            this.accountResult?.let {
+                KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = it, error = error)
+            }
         }
     }
 
@@ -144,10 +184,8 @@ class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
             Json.decodeFromJsonElement<AccountsConfigurationEntity>(data.toJsonElement())
 
         return KevinAccountsConfiguration.builder()
-            .apply {
-                setCallbackUrl(configurationData.callbackUrl)
-                setShowUnsupportedBanks(configurationData.showUnsupportedBanks)
-            }
+            .setCallbackUrl(configurationData.callbackUrl)
+            .setShowUnsupportedBanks(configurationData.showUnsupportedBanks)
             .build()
     }
 
@@ -160,41 +198,40 @@ class KevinAccountsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val accountLinkingType =
             AccountLinkingType.valueOf(configurationData.accountLinkingType.uppercase())
 
-        return AccountSessionConfiguration.Builder(configurationData.state)
-            .apply {
-                setPreselectedCountry(preselectedCountry)
-                setDisableCountrySelection(configurationData.disableCountrySelection)
-                setCountryFilter(countryFilter)
-                setBankFilter(configurationData.bankFilter)
-                configurationData.preselectedBank?.let { setPreselectedBank(it) }
-                setSkipBankSelection(configurationData.skipBankSelection)
-                setLinkingType(accountLinkingType)
-            }
-            .build()
+        val configurationBuilder = AccountSessionConfiguration.Builder(configurationData.state)
+            .setPreselectedCountry(preselectedCountry)
+            .setDisableCountrySelection(configurationData.disableCountrySelection)
+            .setCountryFilter(countryFilter)
+            .setBankFilter(configurationData.bankFilter)
+            .setSkipBankSelection(configurationData.skipBankSelection)
+            .setLinkingType(accountLinkingType)
+
+        configurationData.preselectedBank?.let { configurationBuilder.setPreselectedBank(it) }
+
+        return configurationBuilder.build()
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-        activity = binding.activity
+        pluginBinding = binding
         binding.addActivityResultListener(this)
     }
 
     override fun onDetachedFromActivity() {
-        activity = null
+        pluginBinding?.removeActivityResultListener(this)
+        pluginBinding = null
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-        activity = binding.activity
+        pluginBinding = binding
         binding.addActivityResultListener(this)
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
-        activity = null
+        pluginBinding?.removeActivityResultListener(this)
+        pluginBinding = null
     }
 
     private companion object {
         const val REQUEST_CODE_LINKING = 100
-
-        const val ERROR_GENERAL = "general"
-        const val ERROR_CANCELLED = "cancelled"
     }
 }

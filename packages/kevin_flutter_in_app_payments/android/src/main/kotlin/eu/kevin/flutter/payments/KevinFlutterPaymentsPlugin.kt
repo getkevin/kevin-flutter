@@ -1,10 +1,11 @@
 package eu.kevin.flutter.payments
 
-import android.app.Activity
 import android.content.Intent
 import androidx.annotation.NonNull
 import eu.kevin.core.entities.SessionResult
 import eu.kevin.core.enums.KevinCountry
+import eu.kevin.flutter.core.model.KevinErrorCodes
+import eu.kevin.flutter.core.util.KevinFlutterErrorHelper
 import eu.kevin.flutter.payments.entity.PaymentSessionConfigurationEntity
 import eu.kevin.flutter.payments.entity.PaymentsConfigurationEntity
 import eu.kevin.flutter.payments.extension.toJsonElement
@@ -28,12 +29,12 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 
-class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
+class KevinFlutterPaymentsPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     PluginRegistry.ActivityResultListener {
 
     private lateinit var channel: MethodChannel
 
-    private var activity: Activity? = null
+    private var pluginBinding: ActivityPluginBinding? = null
 
     private var paymentResult: MethodChannel.Result? = null
 
@@ -62,11 +63,20 @@ class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val data = call.arguments<Map<String, Any?>>()
 
         if (data == null) {
-            result.error(ERROR_GENERAL, "Payments configuration can not be null", null)
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(
+                result = result,
+                message = "Payments configuration can not be null"
+            )
             return
         }
 
-        val configuration = getPaymentsConfiguration(data)
+        val configuration = try {
+            getPaymentsConfiguration(data)
+        } catch (error: Throwable) {
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = result, error = error)
+            return
+        }
+
         KevinPaymentsPlugin.configure(configuration)
         result.success(null)
     }
@@ -75,30 +85,46 @@ class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val data = call.arguments<Map<String, Any?>>()
 
         if (data == null) {
-            result.error(ERROR_GENERAL, "Payment session configuration can not be null", null)
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(
+                result = result,
+                message = "Payment session configuration can not be null"
+            )
+            return
+        }
+
+        val paymentConfiguration = try {
+            getPaymentSessionConfiguration(data)
+        } catch (error: Throwable) {
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = result, error = error)
             return
         }
 
         this.paymentResult = result
 
-        val paymentConfiguration = getPaymentSessionConfiguration(data)
-
-        val intent = Intent(activity, PaymentSessionActivity::class.java)
+        val intent = Intent(pluginBinding?.activity, PaymentSessionActivity::class.java)
         intent.putExtra(PaymentSessionContract.CONFIGURATION_KEY, paymentConfiguration)
 
-        activity?.startActivityForResult(intent, REQUEST_CODE_PAYMENT)
+        pluginBinding?.activity?.startActivityForResult(intent, REQUEST_CODE_PAYMENT)
     }
 
     private fun onGetCallbackUrl(result: MethodChannel.Result) {
-        result.success(KevinPaymentsPlugin.getCallbackUrl())
+        try {
+            result.success(KevinPaymentsPlugin.getCallbackUrl())
+        } catch (error: Throwable) {
+            KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = result, error = error)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         val result = getActivityResult(requestCode, data)
 
-        // Unexpected result
         if (result == null) {
-            this.paymentResult?.success(null)
+            this.paymentResult?.let {
+                KevinFlutterErrorHelper.emitUnexpectedFlutterError(
+                    result = it,
+                    message = "Payment result can not be null"
+                )
+            }
             this.paymentResult = null
             return false
         }
@@ -108,29 +134,41 @@ class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         return true
     }
 
-    private fun getActivityResult(requestCode: Int, data: Intent?) = when {
-        requestCode == REQUEST_CODE_PAYMENT && data != null -> {
-            data.getParcelableExtra<SessionResult<PaymentSessionResult>>(PaymentSessionContract.RESULT_KEY)
+    private fun getActivityResult(
+        requestCode: Int,
+        data: Intent?
+    ): SessionResult<PaymentSessionResult>? {
+        return when {
+            requestCode == REQUEST_CODE_PAYMENT && data != null -> {
+                data.getParcelableExtra(PaymentSessionContract.RESULT_KEY)
+            }
+            else -> null
         }
-        else -> null
     }
 
     private fun emitActivityResult(result: SessionResult<PaymentSessionResult>) {
         when (result) {
-            is SessionResult.Success -> {
-                val paymentResult = Json.encodeToString(result.value.toKevinPaymentResult())
-                this.paymentResult?.success(paymentResult)
+            is SessionResult.Success -> onSessionResultSuccess(result.value)
+            is SessionResult.Failure -> this.paymentResult?.let {
+                KevinFlutterErrorHelper.emitFlutterError(result = it, error = result.error)
             }
-            is SessionResult.Failure -> this.paymentResult?.error(
-                ERROR_GENERAL,
-                result.error.localizedMessage ?: result.error.message,
-                null
-            )
-            is SessionResult.Canceled -> this.paymentResult?.error(
-                ERROR_CANCELLED,
-                null,
-                null
-            )
+            is SessionResult.Canceled -> this.paymentResult?.let {
+                KevinFlutterErrorHelper.emitFlutterError(
+                    result = it,
+                    code = KevinErrorCodes.ERROR_CANCELLED
+                )
+            }
+        }
+    }
+
+    private fun onSessionResultSuccess(result: PaymentSessionResult) {
+        try {
+            val paymentResult = Json.encodeToString(result.toKevinPaymentResult())
+            this.paymentResult?.success(paymentResult)
+        } catch (error: Throwable) {
+            this.paymentResult?.let {
+                KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = it, error = error)
+            }
         }
     }
 
@@ -139,9 +177,7 @@ class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
             Json.decodeFromJsonElement<PaymentsConfigurationEntity>(data.toJsonElement())
 
         return KevinPaymentsConfiguration.builder()
-            .apply {
-                setCallbackUrl(configurationData.callbackUrl)
-            }
+            .setCallbackUrl(configurationData.callbackUrl)
             .build()
     }
 
@@ -153,43 +189,43 @@ class KevinPaymentsFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val preselectedCountry = KevinCountry.parse(configurationData.preselectedCountry)
         val countryFilter = configurationData.countryFilter.mapNotNull { KevinCountry.parse(it) }
 
-        return PaymentSessionConfiguration.Builder(configurationData.paymentId)
-            .apply {
-                setPaymentType(paymentType)
-                setPreselectedCountry(preselectedCountry)
-                setDisableCountrySelection(configurationData.disableCountrySelection)
-                setCountryFilter(countryFilter)
-                setBankFilter(configurationData.bankFilter)
-                configurationData.preselectedBank?.let { setPreselectedBank(it) }
-                setSkipBankSelection(configurationData.skipBankSelection)
-                setSkipAuthentication(configurationData.skipAuthentication)
-            }
-            .build()
+        val configurationBuilder = PaymentSessionConfiguration.Builder(configurationData.paymentId)
+            .setPaymentType(paymentType)
+            .setPreselectedCountry(preselectedCountry)
+            .setDisableCountrySelection(configurationData.disableCountrySelection)
+            .setCountryFilter(countryFilter)
+            .setBankFilter(configurationData.bankFilter)
+            .setSkipBankSelection(configurationData.skipBankSelection)
+            .setSkipAuthentication(configurationData.skipAuthentication)
 
+        configurationData.preselectedBank?.let {
+            configurationBuilder.setPreselectedBank(it)
+        }
+
+        return configurationBuilder.build()
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-        activity = binding.activity
+        pluginBinding = binding
         binding.addActivityResultListener(this)
     }
 
     override fun onDetachedFromActivity() {
-        activity = null
+        pluginBinding?.removeActivityResultListener(this)
+        pluginBinding = null
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-        activity = binding.activity
+        pluginBinding = binding
         binding.addActivityResultListener(this)
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
-        activity = null
+        pluginBinding?.removeActivityResultListener(this)
+        pluginBinding = null
     }
 
     private companion object {
-        const val REQUEST_CODE_PAYMENT = 101
-
-        const val ERROR_GENERAL = "general"
-        const val ERROR_CANCELLED = "cancelled"
+        const val REQUEST_CODE_PAYMENT = 100
     }
 }

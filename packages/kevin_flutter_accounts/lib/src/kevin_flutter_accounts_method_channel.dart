@@ -5,13 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:kevin_flutter_accounts/src/entity/account/kevin_account_session_configuration_entity.dart';
 import 'package:kevin_flutter_accounts/src/entity/account/kevin_accounts_configuration_entity.dart';
 import 'package:kevin_flutter_accounts/src/entity/result/kevin_session_result_linking_success_entity.dart';
+import 'package:kevin_flutter_accounts/src/kevin_flutter_accounts_platform_interface.dart';
 import 'package:kevin_flutter_accounts/src/model/account/kevin_account_session_configuration.dart';
 import 'package:kevin_flutter_accounts/src/model/account/kevin_accounts_configuration.dart';
 import 'package:kevin_flutter_core/kevin.dart';
 
-import 'kevin_flutter_platform_interface.dart';
-
-class MethodChannelKevinAccountsFlutter extends KevinAccountsFlutterPlatform {
+class KevinFlutterAccountsMethodChannel
+    extends KevinFlutterAccountsPlatformInterface {
   @visibleForTesting
   final methodChannel = const MethodChannel('kevin_flutter_accounts');
 
@@ -46,7 +46,13 @@ class MethodChannelKevinAccountsFlutter extends KevinAccountsFlutterPlatform {
 
       return KevinSessionResultLinkingSuccessEntity.fromJson(result).toModel();
     } on PlatformException catch (error) {
-      return _parseError(error);
+      final parsedError = _parseError(error);
+
+      if (parsedError != null) {
+        return parsedError;
+      }
+
+      rethrow;
     }
   }
 
@@ -64,14 +70,17 @@ class MethodChannelKevinAccountsFlutter extends KevinAccountsFlutterPlatform {
     return isShowUnsupportedBanks!;
   }
 
-  KevinSessionResult _parseError(PlatformException error) {
-    if (error.code == _Errors.cancelled) {
-      return KevinSessionResultCancelled();
+  KevinSessionResult? _parseError(PlatformException error) {
+    switch (error.code) {
+      case _Errors.cancelled:
+        return KevinSessionResultCancelled();
+      case _Errors.general:
+        return KevinSessionResultGeneralError(
+          message: error.message,
+        );
+      default:
+        return null;;
     }
-
-    return KevinSessionResultGeneralError(
-      message: error.message ?? _Errors.general,
-    );
   }
 }
 
