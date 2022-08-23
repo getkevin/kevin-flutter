@@ -1,9 +1,9 @@
 internal enum KevinMethod: String {
-    case setLocale = "setLocale"
-    case setTheme = "setTheme"
-    case setSandbox = "setSandbox"
-    case setDeepLinkingEnabled = "setDeepLinkingEnabled"
-    case getLocale = "getLocale"
-    case isSandbox = "isSandbox"
-    case isDeepLinkingEnabled = "isDeepLinkingEnabled"
+    case setLocale
+    case setTheme
+    case setSandbox
+    case setDeepLinkingEnabled
+    case getLocale
+    case isSandbox
+    case isDeepLinkingEnabled
 }

@@ -36,7 +36,7 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
     
     public func onKevinPaymentCanceled(error: Error?) {
         let parsedError = KevinFlutterErrorParser.parseFlutterError(error: error)
-        self.paymentResult?.self(parsedError)
+        self.paymentResult?(parsedError)
         self.paymentResult = nil
     }
     
@@ -44,13 +44,12 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
         let result = KevinPaymentsSuccess(paymentId: paymentId)
         
         do {
-            let data = try JSONEncoder().encode(result)
-            let jsonString = String(decoding: data, as: UTF8.self)
-            self.paymentResult?.self(jsonString)
+            let jsonString = try JsonParser.parseToJsonString(data: result)
+            self.paymentResult?(jsonString)
             self.paymentResult = nil
         } catch {
             let parsedError = KevinFlutterErrorParser.parseFlutterUnexpectedError(error: error)
-            self.paymentResult?.self(parsedError)
+            self.paymentResult?(parsedError)
             self.paymentResult = nil
         }
     }
@@ -102,8 +101,7 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
     }
     
     private func getPaymentsConfiguration(data: [String: Any?]) throws -> KevinInAppPaymentsConfiguration {
-        let json = try JSONSerialization.data(withJSONObject: data)
-        let configurationData = try JSONDecoder().decode(PaymentsConfigurationEntity.self, from: json)
+        let configurationData : PaymentsConfigurationEntity = try JsonParser.parseToObject(data: data)
         
         return KevinInAppPaymentsConfiguration.Builder
             .init(callbackUrl: URL(string: configurationData.callbackUrl)!)
@@ -111,16 +109,15 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
     }
     
     private func getPaymentSessionConfiguration(data: [String: Any?]) throws -> KevinPaymentSessionConfiguration {
-        let json = try JSONSerialization.data(withJSONObject: data)
-        let configurationData = try JSONDecoder().decode(PaymentSessionConfigurationEntity.self, from: json)
+        let configurationData : PaymentSessionConfigurationEntity = try JsonParser.parseToObject(data: data)
         
         var preselectedCountry: KevinCountry?
-        if (configurationData.preselectedCountry != nil) {
-            preselectedCountry = KevinCountry.init(rawValue: configurationData.preselectedCountry!)
+        if let configurationPreselectedCountry = configurationData.preselectedCountry {
+            preselectedCountry = KevinCountry(rawValue: configurationPreselectedCountry)
         }
         
         let countryFilter = configurationData.countryFilter.map {
-            KevinCountry.init(rawValue: $0)
+            KevinCountry(rawValue: $0)
         }
         
         let configurationBuilder = KevinPaymentSessionConfiguration.Builder
@@ -131,7 +128,7 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
             .setSkipAuthentication(configurationData.skipBankSelection)
             .setSkipAuthentication(configurationData.skipAuthentication)
         
-        if let paymentType = toKevinPaymentType(string: configurationData.paymentType) {
+        if let paymentType = KevinPaymentType(string: configurationData.paymentType) {
             _ = configurationBuilder.setPaymentType(paymentType)
         }
         
@@ -139,18 +136,6 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
             _ = configurationBuilder.setPreselectedBank(preselectedBank)
         }
         
-        
         return try configurationBuilder.build()
-    }
-    
-    private func toKevinPaymentType(string: String) -> KevinPaymentType? {
-        switch string.lowercased() {
-        case "card":
-            return KevinPaymentType.card
-        case "bank":
-            return KevinPaymentType.bank
-        default:
-            return nil
-        }
     }
 }

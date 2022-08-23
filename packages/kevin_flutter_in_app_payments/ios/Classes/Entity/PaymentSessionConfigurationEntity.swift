@@ -18,15 +18,16 @@ internal struct PaymentSessionConfigurationEntity : Codable {
         bankFilter: [String],
         preselectedBank: String?,
         skipBankSelection: Bool,
-        skipAuthentication: Bool) {
-            self.paymentId = paymentId
-            self.paymentType = paymentType
-            self.preselectedCountry = preselectedCountry
-            self.disableCountrySelection = disableCountrySelection
-            self.countryFilter = countryFilter
-            self.bankFilter = bankFilter
-            self.preselectedBank = preselectedBank
-            self.skipBankSelection = skipBankSelection
-            self.skipAuthentication = skipAuthentication
-        }
+        skipAuthentication: Bool)
+    {
+        self.paymentId = paymentId
+        self.paymentType = paymentType
+        self.preselectedCountry = preselectedCountry
+        self.disableCountrySelection = disableCountrySelection
+        self.countryFilter = countryFilter
+        self.bankFilter = bankFilter
+        self.preselectedBank = preselectedBank
+        self.skipBankSelection = skipBankSelection
+        self.skipAuthentication = skipAuthentication
+    }
 }

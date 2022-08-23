@@ -39,7 +39,7 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
     
     public func onKevinAccountLinkingCanceled(error: Error?) {
         let parsedError = KevinFlutterErrorParser.parseFlutterError(error: error)
-        self.accountResult?.self(parsedError)
+        self.accountResult?(parsedError)
         self.accountResult = nil
     }
     
@@ -47,13 +47,12 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
         let result = KevinAccountsSuccess(bank: bank?.toKevinBank(), authorizationCode: authorizationCode, linkingType: linkingType.toString())
         
         do {
-            let data = try JSONEncoder().encode(result)
-            let jsonString = String(decoding: data, as: UTF8.self)
-            self.accountResult?.self(jsonString)
+            let jsonString = try JsonParser.parseToJsonString(data: result)
+            self.accountResult?(jsonString)
             self.accountResult = nil
         } catch {
             let parsedError = KevinFlutterErrorParser.parseFlutterUnexpectedError(error: error)
-            self.accountResult?.self(parsedError)
+            self.accountResult?(parsedError)
             self.accountResult = nil
         }
     }
@@ -115,8 +114,7 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
     }
     
     private func getAccountConfiguration(data: [String: Any?]) throws -> KevinAccountsConfiguration {
-        let json = try JSONSerialization.data(withJSONObject: data)
-        let configurationData = try JSONDecoder().decode(AccountsConfigurationEntity.self, from: json)
+        let configurationData : AccountsConfigurationEntity = try JsonParser.parseToObject(data: data)
         
         return KevinAccountsConfiguration.Builder
             .init(callbackUrl: URL(string: configurationData.callbackUrl)!)
@@ -125,16 +123,15 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
     }
     
     private func getAccountSessionConfiguration(data: [String: Any?]) throws -> KevinAccountLinkingSessionConfiguration {
-        let json = try JSONSerialization.data(withJSONObject: data)
-        let configurationData = try JSONDecoder().decode(AccountSessionConfigurationEntity.self, from: json)
+        let configurationData : AccountSessionConfigurationEntity = try JsonParser.parseToObject(data: data)
         
         var preselectedCountry: KevinCountry?
-        if (configurationData.preselectedCountry != nil) {
-            preselectedCountry = KevinCountry.init(rawValue: configurationData.preselectedCountry!)
+        if let configurationPreselectedCountry = configurationData.preselectedCountry {
+            preselectedCountry = KevinCountry.init(rawValue: configurationPreselectedCountry)
         }
         
         let countryFilter = configurationData.countryFilter.map {
-            KevinCountry.init(rawValue: $0)
+            KevinCountry(rawValue: $0)
         }
         
         let configurationBuilder = KevinAccountLinkingSessionConfiguration.Builder
@@ -148,10 +145,9 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
             _ = configurationBuilder.setPreselectedBank(preselectedBank)
         }
         
-        if let accountLinkingType = toKevinAccountLinkingType(string: configurationData.accountLinkingType) {
+        if let accountLinkingType = KevinAccountLinkingType(string: configurationData.accountLinkingType) {
             _ = configurationBuilder.setLinkingType(accountLinkingType)
         }
-        
         
         return try configurationBuilder.build()
     }

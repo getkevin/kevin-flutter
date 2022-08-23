@@ -4,11 +4,11 @@ import android.content.Intent
 import androidx.annotation.NonNull
 import eu.kevin.core.entities.SessionResult
 import eu.kevin.core.enums.KevinCountry
+import eu.kevin.flutter.core.extension.toJsonElement
 import eu.kevin.flutter.core.model.KevinErrorCodes
 import eu.kevin.flutter.core.util.KevinFlutterErrorHelper
 import eu.kevin.flutter.payments.entity.PaymentSessionConfigurationEntity
 import eu.kevin.flutter.payments.entity.PaymentsConfigurationEntity
-import eu.kevin.flutter.payments.extension.toJsonElement
 import eu.kevin.flutter.payments.model.KevinPaymentsMethod
 import eu.kevin.flutter.payments.model.toKevinPaymentResult
 import eu.kevin.inapppayments.KevinPaymentsConfiguration

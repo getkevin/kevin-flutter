@@ -15,9 +15,9 @@ import eu.kevin.flutter.accounts.entity.AccountSessionConfigurationEntity
 import eu.kevin.flutter.accounts.entity.AccountsConfigurationEntity
 import eu.kevin.flutter.accounts.model.KevinAccountsMethod
 import eu.kevin.flutter.accounts.model.toKevinAccountResult
+import eu.kevin.flutter.core.extension.toJsonElement
 import eu.kevin.flutter.core.model.KevinErrorCodes
 import eu.kevin.flutter.core.util.KevinFlutterErrorHelper
-import eu.kevin.kevin_flutter.extension.toJsonElement
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
