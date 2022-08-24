@@ -12,6 +12,8 @@ Future<void> main() async {
   configureInjection(Environment.prod);
 
   // Kevin plugin initial configuration
+  await Kevin.instance
+      .setTheme(androidTheme: const KevinThemeAndroid('TestTheme'));
   await Kevin.instance.setLocale('en');
   await KevinAccounts.instance.setAccountsConfiguration(
     const KevinAccountsConfiguration(

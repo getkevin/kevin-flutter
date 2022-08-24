@@ -1,4 +1,6 @@
 import 'package:kevin_flutter_core/src/kevin_flutter_core_platform_interface.dart';
+import 'package:kevin_flutter_core/src/model/theme/kevin_theme_android.dart';
+import 'package:kevin_flutter_core/src/model/theme/kevin_theme_ios.dart';
 
 class Kevin {
   static Kevin? _instance;
@@ -13,8 +15,17 @@ class Kevin {
     return KevinFlutterCorePlatformInterface.instance.setLocale(languageCode);
   }
 
-  Future<void> setTheme() {
-    return KevinFlutterCorePlatformInterface.instance.setTheme();
+  /// Sets SDK theme.
+  ///
+  /// Returns true if theme was set and false otherwise
+  Future<void> setTheme({
+    KevinThemeAndroid? androidTheme,
+    KevinThemeIos? iosTheme,
+  }) {
+    return KevinFlutterCorePlatformInterface.instance.setTheme(
+      androidTheme: androidTheme,
+      iosTheme: iosTheme,
+    );
   }
 
   Future<void> setSandbox(bool sandbox) {

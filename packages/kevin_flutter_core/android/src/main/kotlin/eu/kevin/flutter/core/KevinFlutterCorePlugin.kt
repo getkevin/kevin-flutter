@@ -1,17 +1,22 @@
 package eu.kevin.flutter.core
 
+import android.app.Activity
 import androidx.annotation.NonNull
 import eu.kevin.core.plugin.Kevin
 import eu.kevin.flutter.core.model.KevinMethod
 import eu.kevin.flutter.core.model.KevinMethodArguments
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import java.util.Locale
 
-class KevinFlutterCorePlugin : FlutterPlugin, MethodCallHandler {
+class KevinFlutterCorePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var channel: MethodChannel
+
+    private var activity: Activity? = null
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "kevin_flutter_core")
@@ -25,7 +30,7 @@ class KevinFlutterCorePlugin : FlutterPlugin, MethodCallHandler {
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: MethodChannel.Result) {
         when (KevinMethod.getByKey(call.method)) {
             KevinMethod.SET_LOCALE -> onSetLocale(call, result)
-            KevinMethod.SET_THEME -> onSetTheme(call)
+            KevinMethod.SET_THEME -> onSetTheme(call, result)
             KevinMethod.SET_SANDBOX -> onSetSandbox(call, result)
             KevinMethod.SET_DEEP_LINKING_ENABLED -> onSetDeepLinkingEnabled(call, result)
             KevinMethod.GET_LOCALE -> onGetLocale(result)
@@ -42,7 +47,26 @@ class KevinFlutterCorePlugin : FlutterPlugin, MethodCallHandler {
         result.success(null)
     }
 
-    private fun onSetTheme(call: MethodCall) {}
+    private fun onSetTheme(call: MethodCall, result: MethodChannel.Result) {
+        val activity = this.activity
+        val themeName = call.argument<String>(KevinMethodArguments.themeAndroid)
+
+        if (activity == null || themeName == null) {
+            result.success(false)
+            return
+        }
+
+        val resourceId =
+            activity.resources?.getIdentifier(themeName, "style", activity.packageName)
+
+        if (resourceId?.equals(0) == false) {
+            Kevin.setTheme(resourceId)
+            result.success(true)
+            return
+        }
+
+        result.success(false)
+    }
 
     private fun onSetSandbox(call: MethodCall, result: MethodChannel.Result) {
         val isSandbox = call.argument<Boolean>(KevinMethodArguments.sandbox) ?: false
@@ -68,5 +92,21 @@ class KevinFlutterCorePlugin : FlutterPlugin, MethodCallHandler {
 
     private fun onIsDeepLinkingEnabled(result: MethodChannel.Result) {
         result.success(Kevin.isDeepLinkingEnabled())
+    }
+
+    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        activity = binding.activity
+    }
+
+    override fun onDetachedFromActivityForConfigChanges() {
+        activity = null
+    }
+
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+        activity = binding.activity
+    }
+
+    override fun onDetachedFromActivity() {
+        activity = null
     }
 }

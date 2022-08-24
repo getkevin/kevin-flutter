@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:kevin_flutter_core/src/kevin_flutter_core_platform_interface.dart';
+import 'package:kevin_flutter_core/src/model/theme/kevin_theme_android.dart';
+import 'package:kevin_flutter_core/src/model/theme/kevin_theme_ios.dart';
 
 class KevinFlutterCoreMethodChannel extends KevinFlutterCorePlatformInterface {
   @visibleForTesting
@@ -14,8 +16,26 @@ class KevinFlutterCoreMethodChannel extends KevinFlutterCorePlatformInterface {
   }
 
   @override
-  Future<void> setTheme() async {
-    await methodChannel.invokeMethod(_Methods.setTheme);
+  Future<bool> setTheme({
+    KevinThemeAndroid? androidTheme,
+    KevinThemeIos? iosTheme,
+  }) async {
+    final arguments = <String, String>{};
+
+    if (androidTheme != null) {
+      arguments.addAll({_Arguments.themeAndroid: androidTheme.themeName});
+    }
+
+    if (iosTheme != null) {
+      arguments.addAll({_Arguments.themeIos: 'iosTheme'});
+    }
+
+    final themeSet = await methodChannel.invokeMethod<bool>(
+      _Methods.setTheme,
+      arguments,
+    );
+
+    return themeSet!;
   }
 
   @override
@@ -64,6 +84,8 @@ class _Methods {
 
 class _Arguments {
   static const languageCode = 'languageCode';
+  static const themeAndroid = 'themeAndroid';
+  static const themeIos = 'themeIos';
   static const sandbox = 'sandbox';
   static const deepLinkingEnabled = 'deepLinkingEnabled';
 }
