@@ -11,7 +11,7 @@ Flutter plugin to communicate with kevin. SDK.
                        DESC
   s.homepage         = 'https://github.com/getkevin/kevin-flutter/tree/master/packages/kevin_flutter_core'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'kevin.' => 'antons.zubkovs@kevin.eu' }
+  s.author           = { 'kevin.' => 'mobileteam@kevin.eu' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'

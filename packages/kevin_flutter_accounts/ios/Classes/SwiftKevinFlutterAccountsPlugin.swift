@@ -16,19 +16,14 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
         switch KevinAccountsMethod(rawValue: call.method) {
         case .setAccountsConfiguration:
             onSetAccountsConfiguration(call: call, result: result)
-            break
         case .startAccountLinking:
             onStartAccountLinking(call: call, result: result)
-            break
         case .getCallbackUrl:
             onGetCallbackUrl(result: result)
-            break
         case .isShowUnsupportedBanks:
             onIsShowUnsupportedBanks(result: result)
-            break
         default:
             result(FlutterMethodNotImplemented)
-            break
         }
     }
     
@@ -39,7 +34,7 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
     
     public func onKevinAccountLinkingCanceled(error: Error?) {
         let parsedError = KevinFlutterErrorParser.parseFlutterError(error: error)
-        self.accountResult?.self(parsedError)
+        self.accountResult?(parsedError)
         self.accountResult = nil
     }
     
@@ -47,20 +42,19 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
         let result = KevinAccountsSuccess(bank: bank?.toKevinBank(), authorizationCode: authorizationCode, linkingType: linkingType.toString())
         
         do {
-            let data = try JSONEncoder().encode(result)
-            let jsonString = String(decoding: data, as: UTF8.self)
-            self.accountResult?.self(jsonString)
+            let jsonString = try JsonParser.parseToJsonString(data: result)
+            self.accountResult?(jsonString)
             self.accountResult = nil
         } catch {
             let parsedError = KevinFlutterErrorParser.parseFlutterUnexpectedError(error: error)
-            self.accountResult?.self(parsedError)
+            self.accountResult?(parsedError)
             self.accountResult = nil
         }
     }
     
     private func onSetAccountsConfiguration(call: FlutterMethodCall, result: @escaping FlutterResult) {
         guard let data = call.arguments as? [String: Any?] else {
-            result(FlutterError(code: KevinErrorCodes.unexpected, message: "Accounts configuration can not be null", details: nil))
+            result(KevinFlutterErrorParser.parseFlutterUnexpectedError(message: "Accounts configuration can not be null"))
             return
         }
         
@@ -77,7 +71,7 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
     
     private func onStartAccountLinking(call: FlutterMethodCall, result: @escaping FlutterResult) {
         guard let data = call.arguments as? [String: Any?] else {
-            result(FlutterError(code: KevinErrorCodes.unexpected, message: "Account linking session configuration can not be null", details: nil))
+            result(KevinFlutterErrorParser.parseFlutterUnexpectedError(message: "Account linking session configuration can not be null"))
             return
         }
         
@@ -115,30 +109,28 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
     }
     
     private func getAccountConfiguration(data: [String: Any?]) throws -> KevinAccountsConfiguration {
-        let json = try JSONSerialization.data(withJSONObject: data)
-        let configurationData = try JSONDecoder().decode(AccountsConfigurationEntity.self, from: json)
-        
-        return KevinAccountsConfiguration.Builder
-            .init(callbackUrl: URL(string: configurationData.callbackUrl)!)
+        let configurationData : AccountsConfigurationEntity = try JsonParser.parseToObject(data: data)
+
+        return KevinAccountsConfiguration
+            .Builder(callbackUrl: URL(string: configurationData.callbackUrl)!)
             .setShowUnsupportedBanks(configurationData.showUnsupportedBanks)
             .build()
     }
     
     private func getAccountSessionConfiguration(data: [String: Any?]) throws -> KevinAccountLinkingSessionConfiguration {
-        let json = try JSONSerialization.data(withJSONObject: data)
-        let configurationData = try JSONDecoder().decode(AccountSessionConfigurationEntity.self, from: json)
-        
+        let configurationData : AccountSessionConfigurationEntity = try JsonParser.parseToObject(data: data)
+
         var preselectedCountry: KevinCountry?
-        if (configurationData.preselectedCountry != nil) {
-            preselectedCountry = KevinCountry.init(rawValue: configurationData.preselectedCountry!)
+        if let configurationPreselectedCountry = configurationData.preselectedCountry {
+            preselectedCountry = KevinCountry(rawValue: configurationPreselectedCountry)
         }
-        
+
         let countryFilter = configurationData.countryFilter.map {
-            KevinCountry.init(rawValue: $0)
+            KevinCountry(rawValue: $0)
         }
-        
-        let configurationBuilder = KevinAccountLinkingSessionConfiguration.Builder
-            .init(state: configurationData.state)
+
+        let configurationBuilder = KevinAccountLinkingSessionConfiguration
+            .Builder(state: configurationData.state)
             .setPreselectedCountry(preselectedCountry)
             .setDisableCountrySelection(configurationData.disableCountrySelection)
             .setCountryFilter(countryFilter)
@@ -148,11 +140,10 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
             _ = configurationBuilder.setPreselectedBank(preselectedBank)
         }
         
-        if let accountLinkingType = toKevinAccountLinkingType(string: configurationData.accountLinkingType) {
+        if let accountLinkingType = KevinAccountLinkingType(string: configurationData.accountLinkingType) {
             _ = configurationBuilder.setLinkingType(accountLinkingType)
         }
-        
-        
+
         return try configurationBuilder.build()
     }
 }

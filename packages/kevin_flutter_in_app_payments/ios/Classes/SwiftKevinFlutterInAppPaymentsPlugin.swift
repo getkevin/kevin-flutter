@@ -16,16 +16,12 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
         switch KevinPaymentsMethod(rawValue: call.method) {
         case .setPaymentsConfiguration:
             onSetPaymentsConfiguration(call: call, result: result)
-            break
         case .startPayment:
             onStartPayment(call: call, result: result)
-            break
         case .getCallbackUrl:
             onGetCallbackUrl(result: result)
-            break
         default:
             result(FlutterMethodNotImplemented)
-            break
         }
     }
     
@@ -36,7 +32,7 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
     
     public func onKevinPaymentCanceled(error: Error?) {
         let parsedError = KevinFlutterErrorParser.parseFlutterError(error: error)
-        self.paymentResult?.self(parsedError)
+        self.paymentResult?(parsedError)
         self.paymentResult = nil
     }
     
@@ -44,20 +40,19 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
         let result = KevinPaymentsSuccess(paymentId: paymentId)
         
         do {
-            let data = try JSONEncoder().encode(result)
-            let jsonString = String(decoding: data, as: UTF8.self)
-            self.paymentResult?.self(jsonString)
+            let jsonString = try JsonParser.parseToJsonString(data: result)
+            self.paymentResult?(jsonString)
             self.paymentResult = nil
         } catch {
             let parsedError = KevinFlutterErrorParser.parseFlutterUnexpectedError(error: error)
-            self.paymentResult?.self(parsedError)
+            self.paymentResult?(parsedError)
             self.paymentResult = nil
         }
     }
     
     private func onSetPaymentsConfiguration(call: FlutterMethodCall, result: @escaping FlutterResult) {
         guard let data = call.arguments as? [String: Any?] else {
-            result(FlutterError(code: KevinErrorCodes.unexpected, message: "Payments configuration can not be null", details: nil))
+            result(KevinFlutterErrorParser.parseFlutterUnexpectedError(message: "Payments configuration can not be null"))
             return
         }
         
@@ -74,7 +69,7 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
     
     private func onStartPayment(call: FlutterMethodCall, result: @escaping FlutterResult) {
         guard let data = call.arguments as? [String: Any?] else {
-            result(FlutterError(code: KevinErrorCodes.unexpected, message: "Payment session configuration can not be null", details: nil))
+            result(KevinFlutterErrorParser.parseFlutterUnexpectedError(message: "Payment session configuration can not be null"))
             return
         }
         
@@ -102,55 +97,41 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
     }
     
     private func getPaymentsConfiguration(data: [String: Any?]) throws -> KevinInAppPaymentsConfiguration {
-        let json = try JSONSerialization.data(withJSONObject: data)
-        let configurationData = try JSONDecoder().decode(PaymentsConfigurationEntity.self, from: json)
-        
-        return KevinInAppPaymentsConfiguration.Builder
-            .init(callbackUrl: URL(string: configurationData.callbackUrl)!)
+        let configurationData : PaymentsConfigurationEntity = try JsonParser.parseToObject(data: data)
+
+        return KevinInAppPaymentsConfiguration
+            .Builder(callbackUrl: URL(string: configurationData.callbackUrl)!)
             .build()
     }
     
     private func getPaymentSessionConfiguration(data: [String: Any?]) throws -> KevinPaymentSessionConfiguration {
-        let json = try JSONSerialization.data(withJSONObject: data)
-        let configurationData = try JSONDecoder().decode(PaymentSessionConfigurationEntity.self, from: json)
-        
+        let configurationData : PaymentSessionConfigurationEntity = try JsonParser.parseToObject(data: data)
+
         var preselectedCountry: KevinCountry?
-        if (configurationData.preselectedCountry != nil) {
-            preselectedCountry = KevinCountry.init(rawValue: configurationData.preselectedCountry!)
+        if let configurationPreselectedCountry = configurationData.preselectedCountry {
+            preselectedCountry = KevinCountry(rawValue: configurationPreselectedCountry)
         }
-        
+
         let countryFilter = configurationData.countryFilter.map {
-            KevinCountry.init(rawValue: $0)
+            KevinCountry(rawValue: $0)
         }
-        
-        let configurationBuilder = KevinPaymentSessionConfiguration.Builder
-            .init(paymentId: configurationData.paymentId)
+
+        let configurationBuilder = KevinPaymentSessionConfiguration
+            .Builder(paymentId: configurationData.paymentId)
             .setPreselectedCountry(preselectedCountry)
             .setDisableCountrySelection(configurationData.disableCountrySelection)
             .setCountryFilter(countryFilter)
             .setSkipAuthentication(configurationData.skipBankSelection)
             .setSkipAuthentication(configurationData.skipAuthentication)
         
-        if let paymentType = toKevinPaymentType(string: configurationData.paymentType) {
+        if let paymentType = KevinPaymentType(string: configurationData.paymentType) {
             _ = configurationBuilder.setPaymentType(paymentType)
         }
         
         if let preselectedBank = configurationData.preselectedBank {
             _ = configurationBuilder.setPreselectedBank(preselectedBank)
         }
-        
-        
+
         return try configurationBuilder.build()
-    }
-    
-    private func toKevinPaymentType(string: String) -> KevinPaymentType? {
-        switch string.lowercased() {
-        case "card":
-            return KevinPaymentType.card
-        case "bank":
-            return KevinPaymentType.bank
-        default:
-            return nil
-        }
     }
 }

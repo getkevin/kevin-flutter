@@ -1,6 +1,6 @@
 import kevin_ios
 
-internal extension KevinAccountLinkingType {
+internal extension KevinPaymentType {
     init?(string: String) {
         switch string.lowercased() {
         case "card":
@@ -9,15 +9,6 @@ internal extension KevinAccountLinkingType {
             self = .bank
         default:
             return nil
-        }
-    }
-
-    func toString() -> String {
-        switch self {
-        case .bank:
-            return "bank"
-        case .card:
-            return "card"
         }
     }
 }

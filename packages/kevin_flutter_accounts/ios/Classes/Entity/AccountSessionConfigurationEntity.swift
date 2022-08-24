@@ -8,14 +8,16 @@ internal struct AccountSessionConfigurationEntity: Codable {
     let skipBankSelection: Bool
     let accountLinkingType: String
     
-    init(state: String,
-         preselectedCountry: String?,
-         disabledCountrySelection: Bool,
-         countryFilter: [String],
-         bankFilter: [String],
-         preselectedBank: String?,
-         skipBankSelection: Bool,
-         accountLinkingType: String) {
+    init(
+        state: String,
+        preselectedCountry: String?,
+        disabledCountrySelection: Bool,
+        countryFilter: [String],
+        bankFilter: [String],
+        preselectedBank: String?,
+        skipBankSelection: Bool,
+        accountLinkingType: String)
+    {
         self.state = state
         self.preselectedCountry = preselectedCountry
         self.disableCountrySelection = disabledCountrySelection
