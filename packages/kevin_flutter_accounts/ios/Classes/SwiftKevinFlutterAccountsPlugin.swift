@@ -110,7 +110,7 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
     
     private func getAccountConfiguration(data: [String: Any?]) throws -> KevinAccountsConfiguration {
         let configurationData : AccountsConfigurationEntity = try JsonParser.parseToObject(data: data)
-        
+
         return KevinAccountsConfiguration
             .Builder(callbackUrl: URL(string: configurationData.callbackUrl)!)
             .setShowUnsupportedBanks(configurationData.showUnsupportedBanks)
@@ -119,16 +119,16 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
     
     private func getAccountSessionConfiguration(data: [String: Any?]) throws -> KevinAccountLinkingSessionConfiguration {
         let configurationData : AccountSessionConfigurationEntity = try JsonParser.parseToObject(data: data)
-        
+
         var preselectedCountry: KevinCountry?
         if let configurationPreselectedCountry = configurationData.preselectedCountry {
             preselectedCountry = KevinCountry(rawValue: configurationPreselectedCountry)
         }
-        
+
         let countryFilter = configurationData.countryFilter.map {
             KevinCountry(rawValue: $0)
         }
-        
+
         let configurationBuilder = KevinAccountLinkingSessionConfiguration
             .Builder(state: configurationData.state)
             .setPreselectedCountry(preselectedCountry)
@@ -143,7 +143,7 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
         if let accountLinkingType = KevinAccountLinkingType(string: configurationData.accountLinkingType) {
             _ = configurationBuilder.setLinkingType(accountLinkingType)
         }
-        
+
         return try configurationBuilder.build()
     }
 }

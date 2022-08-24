@@ -11,7 +11,7 @@ internal extension KevinAccountLinkingType {
             return nil
         }
     }
-    
+
     func toString() -> String {
         switch self {
         case .bank:

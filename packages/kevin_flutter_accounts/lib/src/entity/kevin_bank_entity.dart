@@ -3,7 +3,7 @@ import 'package:kevin_flutter_accounts/src/model/kevin_accounts_models.dart';
 
 part 'kevin_bank_entity.g.dart';
 
-@JsonSerializable(createToJson: false, createFactory: true)
+@JsonSerializable(createToJson: true, createFactory: true)
 class KevinBankEntity {
   final String id;
   final String name;
@@ -21,6 +21,8 @@ class KevinBankEntity {
 
   factory KevinBankEntity.fromJson(Map<String, dynamic> json) =>
       _$KevinBankEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KevinBankEntityToJson(this);
 
   KevinBank toModel() => KevinBank(
         id: id,

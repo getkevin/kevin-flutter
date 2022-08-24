@@ -98,7 +98,7 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
     
     private func getPaymentsConfiguration(data: [String: Any?]) throws -> KevinInAppPaymentsConfiguration {
         let configurationData : PaymentsConfigurationEntity = try JsonParser.parseToObject(data: data)
-        
+
         return KevinInAppPaymentsConfiguration
             .Builder(callbackUrl: URL(string: configurationData.callbackUrl)!)
             .build()
@@ -106,16 +106,16 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
     
     private func getPaymentSessionConfiguration(data: [String: Any?]) throws -> KevinPaymentSessionConfiguration {
         let configurationData : PaymentSessionConfigurationEntity = try JsonParser.parseToObject(data: data)
-        
+
         var preselectedCountry: KevinCountry?
         if let configurationPreselectedCountry = configurationData.preselectedCountry {
             preselectedCountry = KevinCountry(rawValue: configurationPreselectedCountry)
         }
-        
+
         let countryFilter = configurationData.countryFilter.map {
             KevinCountry(rawValue: $0)
         }
-        
+
         let configurationBuilder = KevinPaymentSessionConfiguration
             .Builder(paymentId: configurationData.paymentId)
             .setPreselectedCountry(preselectedCountry)
@@ -131,7 +131,7 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
         if let preselectedBank = configurationData.preselectedBank {
             _ = configurationBuilder.setPreselectedBank(preselectedBank)
         }
-        
+
         return try configurationBuilder.build()
     }
 }

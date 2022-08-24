@@ -7,7 +7,7 @@ public class KevinFlutterErrorParser {
     ) -> FlutterError {
         return parseFlutterError(error: error, defaultCode: KevinErrorCode.unexpected, message: message)
     }
-    
+
     public static func parseFlutterError(
         error: Error? = nil,
         defaultCode: KevinErrorCode = KevinErrorCode.general,

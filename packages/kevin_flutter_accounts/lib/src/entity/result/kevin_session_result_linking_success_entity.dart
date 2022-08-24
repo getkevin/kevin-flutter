@@ -5,7 +5,7 @@ import 'package:kevin_flutter_accounts/src/model/kevin_session_result_account_su
 
 part 'kevin_session_result_linking_success_entity.g.dart';
 
-@JsonSerializable(createToJson: false, createFactory: true)
+@JsonSerializable(createToJson: true, createFactory: true)
 class KevinSessionResultLinkingSuccessEntity {
   final KevinBankEntity? bank;
   final String authorizationCode;
@@ -21,6 +21,9 @@ class KevinSessionResultLinkingSuccessEntity {
     Map<String, dynamic> json,
   ) =>
       _$KevinSessionResultLinkingSuccessEntityFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$KevinSessionResultLinkingSuccessEntityToJson(this);
 
   KevinSessionResultLinkingSuccess toModel() =>
       KevinSessionResultLinkingSuccess(

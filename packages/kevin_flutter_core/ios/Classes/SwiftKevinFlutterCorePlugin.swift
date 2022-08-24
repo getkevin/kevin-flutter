@@ -29,7 +29,7 @@ public class SwiftKevinFlutterCorePlugin: NSObject, FlutterPlugin {
             result(FlutterMethodNotImplemented)
         }
     }
-    
+
     private func onSetLocale(call: FlutterMethodCall, result: @escaping FlutterResult) {
         if let lang = (call.arguments as? [String: String])?[KevinMethodArguments.languageCode] {
             let locale = Locale(identifier: lang)

@@ -16,3 +16,11 @@ KevinSessionResultLinkingSuccessEntity
           authorizationCode: json['authorizationCode'] as String,
           linkingType: json['linkingType'] as String,
         );
+
+Map<String, dynamic> _$KevinSessionResultLinkingSuccessEntityToJson(
+        KevinSessionResultLinkingSuccessEntity instance) =>
+    <String, dynamic>{
+      'bank': instance.bank,
+      'authorizationCode': instance.authorizationCode,
+      'linkingType': instance.linkingType,
+    };
