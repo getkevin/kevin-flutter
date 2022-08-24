@@ -1,4 +1,4 @@
-import 'package:kevin_flutter_core/src/kevin_flutter_platform_interface.dart';
+import 'package:kevin_flutter_core/src/kevin_flutter_core_platform_interface.dart';
 
 class Kevin {
   static Kevin? _instance;
@@ -10,31 +10,31 @@ class Kevin {
   }
 
   Future<void> setLocale(String languageCode) {
-    return KevinFlutterPlatform.instance.setLocale(languageCode);
+    return KevinFlutterCorePlatformInterface.instance.setLocale(languageCode);
   }
 
   Future<void> setTheme() {
-    return KevinFlutterPlatform.instance.setTheme();
+    return KevinFlutterCorePlatformInterface.instance.setTheme();
   }
 
   Future<void> setSandbox(bool sandbox) {
-    return KevinFlutterPlatform.instance.setSandbox(sandbox);
+    return KevinFlutterCorePlatformInterface.instance.setSandbox(sandbox);
   }
 
   Future<void> setDeepLinkingEnabled(bool deepLinkingEnabled) {
-    return KevinFlutterPlatform.instance
+    return KevinFlutterCorePlatformInterface.instance
         .setDeepLinkingEnabled(deepLinkingEnabled);
   }
 
   Future<String?> getLocale() {
-    return KevinFlutterPlatform.instance.getLocale();
+    return KevinFlutterCorePlatformInterface.instance.getLocale();
   }
 
   Future<bool> isSandbox() {
-    return KevinFlutterPlatform.instance.isSandbox();
+    return KevinFlutterCorePlatformInterface.instance.isSandbox();
   }
 
   Future<bool> isDeepLinkingEnabled() {
-    return KevinFlutterPlatform.instance.isDeepLinkingEnabled();
+    return KevinFlutterCorePlatformInterface.instance.isDeepLinkingEnabled();
   }
 }

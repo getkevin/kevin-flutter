@@ -28,6 +28,6 @@ flutter:
     platforms:
       android:
         package: eu.kevin.flutter.accounts
-        pluginClass: KevinAccountsFlutterPlugin
+        pluginClass: KevinFlutterAccountsPlugin
       ios:
-        pluginClass: KevinAccountsFlutterPlugin
+        pluginClass: KevinFlutterAccountsPlugin

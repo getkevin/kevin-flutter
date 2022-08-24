@@ -1,5 +1,5 @@
 import 'package:kevin_flutter_core/kevin.dart';
-import 'package:kevin_flutter_in_app_payments/src/kevin_flutter_platform_interface.dart';
+import 'package:kevin_flutter_in_app_payments/src/kevin_flutter_payments_platform_interface.dart';
 import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payment_session_configuration.dart';
 import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payments_configuration.dart';
 
@@ -19,7 +19,7 @@ class KevinPayments {
   Future<void> setPaymentsConfiguration(
     KevinPaymentsConfiguration configuration,
   ) {
-    return KevinPaymentsFlutterPlatform.instance
+    return KevinFlutterPaymentsPlatformInterface.instance
         .setPaymentsConfiguration(configuration);
   }
 
@@ -30,10 +30,11 @@ class KevinPayments {
   Future<KevinSessionResult> startPayment(
     KevinPaymentSessionConfiguration configuration,
   ) {
-    return KevinPaymentsFlutterPlatform.instance.startPayment(configuration);
+    return KevinFlutterPaymentsPlatformInterface.instance
+        .startPayment(configuration);
   }
 
   Future<String> getCallbackUrl() {
-    return KevinPaymentsFlutterPlatform.instance.getCallbackUrl();
+    return KevinFlutterPaymentsPlatformInterface.instance.getCallbackUrl();
   }
 }
