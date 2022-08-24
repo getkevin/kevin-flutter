@@ -4,9 +4,10 @@ import android.content.Intent
 import androidx.annotation.NonNull
 import eu.kevin.core.entities.SessionResult
 import eu.kevin.core.enums.KevinCountry
+import eu.kevin.flutter.core.extension.emitError
+import eu.kevin.flutter.core.extension.emitUnexpectedError
 import eu.kevin.flutter.core.extension.toJsonElement
 import eu.kevin.flutter.core.model.KevinErrorCode
-import eu.kevin.flutter.core.util.KevinFlutterErrorHelper
 import eu.kevin.flutter.payments.entity.PaymentSessionConfigurationEntity
 import eu.kevin.flutter.payments.entity.PaymentsConfigurationEntity
 import eu.kevin.flutter.payments.model.KevinPaymentsMethod
@@ -63,17 +64,14 @@ class KevinFlutterPaymentsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val data = call.arguments<Map<String, Any?>>()
 
         if (data == null) {
-            KevinFlutterErrorHelper.emitUnexpectedFlutterError(
-                result = result,
-                message = "Payments configuration can not be null"
-            )
+            result.emitUnexpectedError(message = "Payments configuration can not be null")
             return
         }
 
         val configuration = try {
             getPaymentsConfiguration(data)
         } catch (error: Throwable) {
-            KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = result, error = error)
+            result.emitUnexpectedError(error = error)
             return
         }
 
@@ -85,17 +83,14 @@ class KevinFlutterPaymentsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val data = call.arguments<Map<String, Any?>>()
 
         if (data == null) {
-            KevinFlutterErrorHelper.emitUnexpectedFlutterError(
-                result = result,
-                message = "Payment session configuration can not be null"
-            )
+            result.emitUnexpectedError(message = "Payment session configuration can not be null")
             return
         }
 
         val paymentConfiguration = try {
             getPaymentSessionConfiguration(data)
         } catch (error: Throwable) {
-            KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = result, error = error)
+            result.emitUnexpectedError(error = error)
             return
         }
 
@@ -111,7 +106,7 @@ class KevinFlutterPaymentsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         try {
             result.success(KevinPaymentsPlugin.getCallbackUrl())
         } catch (error: Throwable) {
-            KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = result, error = error)
+            result.emitUnexpectedError(error = error)
         }
     }
 
@@ -119,12 +114,7 @@ class KevinFlutterPaymentsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val result = getActivityResult(requestCode, data)
 
         if (result == null) {
-            this.paymentResult?.let {
-                KevinFlutterErrorHelper.emitUnexpectedFlutterError(
-                    result = it,
-                    message = "Payment result can not be null"
-                )
-            }
+            this.paymentResult?.emitUnexpectedError(message = "Payment result can not be null")
             this.paymentResult = null
             return false
         }
@@ -149,15 +139,8 @@ class KevinFlutterPaymentsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
     private fun emitActivityResult(result: SessionResult<PaymentSessionResult>) {
         when (result) {
             is SessionResult.Success -> onSessionResultSuccess(result.value)
-            is SessionResult.Failure -> this.paymentResult?.let {
-                KevinFlutterErrorHelper.emitFlutterError(result = it, error = result.error)
-            }
-            is SessionResult.Canceled -> this.paymentResult?.let {
-                KevinFlutterErrorHelper.emitFlutterError(
-                    result = it,
-                    code = KevinErrorCode.CANCELLED
-                )
-            }
+            is SessionResult.Failure -> this.paymentResult?.emitError(error = result.error)
+            is SessionResult.Canceled -> this.paymentResult?.emitError(code = KevinErrorCode.CANCELLED)
         }
     }
 
@@ -166,9 +149,7 @@ class KevinFlutterPaymentsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
             val paymentResult = Json.encodeToString(result.toKevinPaymentResult())
             this.paymentResult?.success(paymentResult)
         } catch (error: Throwable) {
-            this.paymentResult?.let {
-                KevinFlutterErrorHelper.emitUnexpectedFlutterError(result = it, error = error)
-            }
+            this.paymentResult?.emitUnexpectedError(error = error)
         }
     }
 
