@@ -14,7 +14,7 @@ public class SwiftKevinFlutterCorePlugin: NSObject, FlutterPlugin {
         case .setLocale:
             onSetLocale(call: call, result: result)
         case .setTheme:
-            onSetTheme()
+            onSetTheme(call: call, result: result)
         case .setSandbox:
             onSetSandbox(call: call, result: result)
         case .setDeepLinkingEnabled:
@@ -39,8 +39,8 @@ public class SwiftKevinFlutterCorePlugin: NSObject, FlutterPlugin {
         result(nil)
     }
     
-    private func onSetTheme(){
-        
+    private func onSetTheme(call: FlutterMethodCall, result: @escaping FlutterResult) {
+        result(false)
     }
     
     private func onSetSandbox(call: FlutterMethodCall, result: @escaping FlutterResult) {

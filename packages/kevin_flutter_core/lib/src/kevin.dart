@@ -1,6 +1,6 @@
 import 'package:kevin_flutter_core/src/kevin_flutter_core_platform_interface.dart';
+import 'package:kevin_flutter_core/src/model/theme/ios/kevin_theme_ios.dart';
 import 'package:kevin_flutter_core/src/model/theme/kevin_theme_android.dart';
-import 'package:kevin_flutter_core/src/model/theme/kevin_theme_ios.dart';
 
 class Kevin {
   static Kevin? _instance;

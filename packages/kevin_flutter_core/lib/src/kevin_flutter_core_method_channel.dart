@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:kevin_flutter_core/src/entity/theme/ios/kevin_theme_ios_entity.dart';
 import 'package:kevin_flutter_core/src/kevin_flutter_core_platform_interface.dart';
+import 'package:kevin_flutter_core/src/model/theme/ios/kevin_theme_ios.dart';
 import 'package:kevin_flutter_core/src/model/theme/kevin_theme_android.dart';
-import 'package:kevin_flutter_core/src/model/theme/kevin_theme_ios.dart';
 
 class KevinFlutterCoreMethodChannel extends KevinFlutterCorePlatformInterface {
   @visibleForTesting
@@ -20,14 +22,15 @@ class KevinFlutterCoreMethodChannel extends KevinFlutterCorePlatformInterface {
     KevinThemeAndroid? androidTheme,
     KevinThemeIos? iosTheme,
   }) async {
-    final arguments = <String, String>{};
+    final arguments = <String, dynamic>{};
 
     if (androidTheme != null) {
       arguments.addAll({_Arguments.themeAndroid: androidTheme.themeName});
     }
 
     if (iosTheme != null) {
-      arguments.addAll({_Arguments.themeIos: 'iosTheme'});
+      final iosThemeJson = iosTheme.toEntity().toJson();
+      arguments.addAll({_Arguments.themeIos: iosThemeJson});
     }
 
     final themeSet = await methodChannel.invokeMethod<bool>(
