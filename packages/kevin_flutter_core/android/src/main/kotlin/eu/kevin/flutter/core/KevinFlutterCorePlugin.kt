@@ -1,30 +1,30 @@
 package eu.kevin.flutter.core
 
-import android.app.Activity
+import android.content.Context
 import androidx.annotation.NonNull
 import eu.kevin.core.plugin.Kevin
 import eu.kevin.flutter.core.model.KevinMethod
 import eu.kevin.flutter.core.model.KevinMethodArguments
 import io.flutter.embedding.engine.plugins.FlutterPlugin
-import io.flutter.embedding.engine.plugins.activity.ActivityAware
-import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import java.util.Locale
 
-class KevinFlutterCorePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
+class KevinFlutterCorePlugin : FlutterPlugin, MethodCallHandler {
     private lateinit var channel: MethodChannel
 
-    private var activity: Activity? = null
+    private var context: Context? = null
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "kevin_flutter_core")
         channel.setMethodCallHandler(this)
+        context = flutterPluginBinding.applicationContext
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
+        context = null
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: MethodChannel.Result) {
@@ -48,16 +48,16 @@ class KevinFlutterCorePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     }
 
     private fun onSetTheme(call: MethodCall, result: MethodChannel.Result) {
-        val activity = this.activity
+        val context = this.context
         val themeName = call.argument<String>(KevinMethodArguments.themeAndroid)
 
-        if (activity == null || themeName == null) {
+        if (context == null || themeName == null) {
             result.success(false)
             return
         }
 
         val resourceId =
-            activity.resources?.getIdentifier(themeName, "style", activity.packageName)
+            context.resources?.getIdentifier(themeName, "style", context.packageName)
 
         if (resourceId?.equals(0) == false) {
             Kevin.setTheme(resourceId)
@@ -92,21 +92,5 @@ class KevinFlutterCorePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     private fun onIsDeepLinkingEnabled(result: MethodChannel.Result) {
         result.success(Kevin.isDeepLinkingEnabled())
-    }
-
-    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-        activity = binding.activity
-    }
-
-    override fun onDetachedFromActivityForConfigChanges() {
-        activity = null
-    }
-
-    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-        activity = binding.activity
-    }
-
-    override fun onDetachedFromActivity() {
-        activity = null
     }
 }
