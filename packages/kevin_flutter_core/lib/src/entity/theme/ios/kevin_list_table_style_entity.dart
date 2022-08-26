@@ -17,7 +17,7 @@ class KevinListTableStyleEntity {
   final int? cellBackgroundColor;
   final int? cellSelectedBackgroundColor;
   final KevinUiFontEntity? titleLabelFont;
-  final Uint8List? chevronImage;
+  final List<int>? chevronImage;
 
   const KevinListTableStyleEntity({
     this.cornerRadius,
@@ -35,7 +35,7 @@ class KevinListTableStyleEntity {
         cellBackgroundColor: model.cellBackgroundColor?.value,
         cellSelectedBackgroundColor: model.cellSelectedBackgroundColor?.value,
         titleLabelFont: model.titleLabelFont?.toEntity(),
-        chevronImage: model.chevronImage,
+        chevronImage: model.chevronImage?.toList(),
       );
 
   Map<String, dynamic> toJson() => _$KevinListTableStyleEntityToJson(this);

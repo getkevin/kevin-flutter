@@ -30,21 +30,7 @@ Future<void> main() async {
 
 Future<void> _setTheme() async {
   const androidTheme = KevinThemeAndroid('TestTheme');
-  const iosTheme = KevinThemeIos(
-    insets: KevinInsets(
-      left: 20,
-      top: 24,
-      right: 24,
-      bottom: 24,
-    ),
-    generalStyle: KevinGeneralStyle(
-      primaryBackgroundColor: Colors.amber,
-      primaryFont: KevinUiFont(
-        size: 20,
-        weight: KevinUiFontWeight.heavy,
-      ),
-    ),
-  );
+  const iosTheme = KevinThemeIos();
 
   await Kevin.instance.setTheme(
     androidTheme: androidTheme,

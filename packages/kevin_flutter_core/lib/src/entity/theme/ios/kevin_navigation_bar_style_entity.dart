@@ -11,8 +11,8 @@ class KevinNavigationBarStyleEntity {
   final int? tintColor;
   final int? backgroundColorLightMode;
   final int? backgroundColorDarkMode;
-  final Uint8List? backButtonImage;
-  final Uint8List? closeButtonImage;
+  final List<int>? backButtonImage;
+  final List<int>? closeButtonImage;
 
   const KevinNavigationBarStyleEntity({
     this.titleColor,
@@ -31,8 +31,8 @@ class KevinNavigationBarStyleEntity {
         tintColor: model.tintColor?.value,
         backgroundColorLightMode: model.backgroundColorLightMode?.value,
         backgroundColorDarkMode: model.backgroundColorDarkMode?.value,
-        backButtonImage: model.backButtonImage,
-        closeButtonImage: model.closeButtonImage,
+        backButtonImage: model.backButtonImage?.toList(),
+        closeButtonImage: model.closeButtonImage?.toList(),
       );
 
   Map<String, dynamic> toJson() => _$KevinNavigationBarStyleEntityToJson(this);

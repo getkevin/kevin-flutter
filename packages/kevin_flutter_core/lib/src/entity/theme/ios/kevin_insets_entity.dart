@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kevin_flutter_core/src/model/theme/ios/kevin_insets.dart';
 
-part 'kevin_insets_insets.g.dart';
+part 'kevin_insets_entity.g.dart';
 
 @JsonSerializable(createFactory: false, createToJson: true)
 class KevinInsetsEntity {

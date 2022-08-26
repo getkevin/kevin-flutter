@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'kevin_insets_insets.dart';
+part of 'kevin_insets_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

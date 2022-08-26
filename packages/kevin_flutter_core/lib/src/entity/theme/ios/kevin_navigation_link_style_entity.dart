@@ -18,7 +18,7 @@ class KevinNavigationLinkStyleEntity {
   final double? cornerRadius;
   final double? borderWidth;
   final int? borderColor;
-  final Uint8List? chevronImage;
+  final List<int>? chevronImage;
 
   const KevinNavigationLinkStyleEntity({
     this.backgroundColor,
@@ -40,7 +40,7 @@ class KevinNavigationLinkStyleEntity {
         cornerRadius: model.cornerRadius,
         borderWidth: model.borderWidth,
         borderColor: model.borderColor?.value,
-        chevronImage: model.chevronImage,
+        chevronImage: model.chevronImage?.toList(),
       );
 
   Map<String, dynamic> toJson() => _$KevinNavigationLinkStyleEntityToJson(this);

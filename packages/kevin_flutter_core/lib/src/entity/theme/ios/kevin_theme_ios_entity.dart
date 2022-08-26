@@ -3,7 +3,7 @@ import 'package:kevin_flutter_core/src/entity/theme/ios/kevin_button_style_entit
 import 'package:kevin_flutter_core/src/entity/theme/ios/kevin_empty_state_style_entity.dart';
 import 'package:kevin_flutter_core/src/entity/theme/ios/kevin_general_style_entity.dart';
 import 'package:kevin_flutter_core/src/entity/theme/ios/kevin_grid_table_style_entity.dart';
-import 'package:kevin_flutter_core/src/entity/theme/ios/kevin_insets_insets.dart';
+import 'package:kevin_flutter_core/src/entity/theme/ios/kevin_insets_entity.dart';
 import 'package:kevin_flutter_core/src/entity/theme/ios/kevin_list_table_style_entity.dart';
 import 'package:kevin_flutter_core/src/entity/theme/ios/kevin_navigation_bar_style_entity.dart';
 import 'package:kevin_flutter_core/src/entity/theme/ios/kevin_navigation_link_style_entity.dart';

@@ -29,9 +29,9 @@ public class SwiftKevinFlutterCorePlugin: NSObject, FlutterPlugin {
             result(FlutterMethodNotImplemented)
         }
     }
-
+    
     private func onSetLocale(call: FlutterMethodCall, result: @escaping FlutterResult) {
-        if let lang = (call.arguments as? [String: String])?[KevinMethodArguments.languageCode] {
+        if let lang = (call.arguments as? [String: String])?[KevinMethodArguments.languageCode.rawValue] {
             let locale = Locale(identifier: lang)
             Kevin.shared.locale = locale
         }
@@ -40,11 +40,22 @@ public class SwiftKevinFlutterCorePlugin: NSObject, FlutterPlugin {
     }
     
     private func onSetTheme(call: FlutterMethodCall, result: @escaping FlutterResult) {
-        result(false)
+        guard let map = (call.arguments as? [String: Any?])?[KevinMethodArguments.themeIos.rawValue] as? [String: Any?] else {
+            result(false)
+            return
+        }
+        
+        guard let themeEntity: KevinThemeEntity = try? JsonParser.parseToObject(data: map) else {
+            result(false)
+            return
+        }
+        
+        Kevin.shared.theme = themeEntity.toKevinTheme()
+        result(true)
     }
     
     private func onSetSandbox(call: FlutterMethodCall, result: @escaping FlutterResult) {
-        if let isSandbox = (call.arguments as? [String: Bool])?[KevinMethodArguments.sandbox] {
+        if let isSandbox = (call.arguments as? [String: Bool])?[KevinMethodArguments.sandbox.rawValue] {
             Kevin.shared.isSandbox = isSandbox
         }
         
@@ -53,7 +64,7 @@ public class SwiftKevinFlutterCorePlugin: NSObject, FlutterPlugin {
     
     private func onSetDeepLinkingEnabled(call: FlutterMethodCall, result: @escaping FlutterResult) {
         if let isDeepLinkingEnabled =
-            (call.arguments as? [String: Bool])?[KevinMethodArguments.deepLinkingEnabled] {
+            (call.arguments as? [String: Bool])?[KevinMethodArguments.deepLinkingEnabled.rawValue] {
             Kevin.shared.isDeepLinkingEnabled = isDeepLinkingEnabled
         }
         
