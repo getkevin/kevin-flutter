@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kevin_flutter_core/src/model/theme/ios/kevin_navigation_bar_style.dart';
 
