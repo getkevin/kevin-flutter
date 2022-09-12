@@ -1,3 +1,5 @@
+import Foundation
+
 internal struct KevinButtonStyleEntity : Decodable {
     let width: Double?
     let height: Double?

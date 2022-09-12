@@ -1,3 +1,5 @@
+import Foundation
+
 internal struct KevinThemeEntity : Decodable {
     let insets: KevinInsetsEntity?
     let generalStyle: KevinGeneralStyleEntity?

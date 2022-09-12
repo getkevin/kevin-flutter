@@ -1,3 +1,5 @@
+import Foundation
+
 internal struct KevinListTableStyleEntity : Decodable {
     let cornerRadius: Double?
     let isOccupyingFullWidth: Bool?

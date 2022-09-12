@@ -1,3 +1,5 @@
+import Foundation
+
 internal struct KevinNavigationBarStyleEntity : Decodable {
     let titleColor: Int?
     let tintColor: Int?

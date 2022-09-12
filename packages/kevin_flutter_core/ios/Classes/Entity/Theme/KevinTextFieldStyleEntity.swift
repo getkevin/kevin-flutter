@@ -1,3 +1,5 @@
+import Foundation
+
 internal struct KevinTextFieldStyleEntity : Decodable {
     let textColor: Int?
     let font: KevinUiFontEntity?

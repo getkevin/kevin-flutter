@@ -1,3 +1,4 @@
+import Foundation
 import kevin_ios
 
 internal extension KevinAccountLinkingType {

@@ -1,3 +1,5 @@
+import Foundation
+
 internal struct KevinNavigationLinkStyleEntity : Decodable {
     let backgroundColor: Int?
     let titleLabelFont: KevinUiFontEntity?

@@ -1,3 +1,5 @@
+import Foundation
+
 internal struct KevinEmptyStateStyleEntity : Decodable {
     let titleTextColor: Int?
     let titleFont: KevinUiFontEntity?

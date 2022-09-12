@@ -1,3 +1,5 @@
+import Foundation
+
 internal struct KevinGeneralStyleEntity : Decodable {
     let primaryBackgroundColor: Int?
     let primaryTextColor: Int?

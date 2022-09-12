@@ -1,3 +1,4 @@
+import Foundation
 import kevin_ios
 
 public class KevinFlutterErrorParser {
