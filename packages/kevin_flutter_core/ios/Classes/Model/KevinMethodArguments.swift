@@ -1,5 +1,8 @@
-internal struct KevinMethodArguments {
-    static let languageCode = "languageCode"
-    static let sandbox = "sandbox"
-    static let deepLinkingEnabled = "deepLinkingEnabled"
+import Foundation
+
+internal enum KevinMethodArguments : String {
+    case languageCode
+    case themeIos
+    case sandbox
+    case deepLinkingEnabled
 }

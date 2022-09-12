@@ -1,5 +1,6 @@
 package eu.kevin.flutter.core
 
+import android.content.Context
 import androidx.annotation.NonNull
 import eu.kevin.core.plugin.Kevin
 import eu.kevin.flutter.core.model.KevinMethod
@@ -13,19 +14,23 @@ import java.util.Locale
 class KevinFlutterCorePlugin : FlutterPlugin, MethodCallHandler {
     private lateinit var channel: MethodChannel
 
+    private var context: Context? = null
+
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "kevin_flutter_core")
         channel.setMethodCallHandler(this)
+        context = flutterPluginBinding.applicationContext
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
+        context = null
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: MethodChannel.Result) {
         when (KevinMethod.getByKey(call.method)) {
             KevinMethod.SET_LOCALE -> onSetLocale(call, result)
-            KevinMethod.SET_THEME -> onSetTheme(call)
+            KevinMethod.SET_THEME -> onSetTheme(call, result)
             KevinMethod.SET_SANDBOX -> onSetSandbox(call, result)
             KevinMethod.SET_DEEP_LINKING_ENABLED -> onSetDeepLinkingEnabled(call, result)
             KevinMethod.GET_LOCALE -> onGetLocale(result)
@@ -42,7 +47,26 @@ class KevinFlutterCorePlugin : FlutterPlugin, MethodCallHandler {
         result.success(null)
     }
 
-    private fun onSetTheme(call: MethodCall) {}
+    private fun onSetTheme(call: MethodCall, result: MethodChannel.Result) {
+        val context = this.context
+        val themeName = call.argument<String>(KevinMethodArguments.themeAndroid)
+
+        if (context == null || themeName == null) {
+            result.success(false)
+            return
+        }
+
+        val resourceId =
+            context.resources?.getIdentifier(themeName, "style", context.packageName)
+
+        if (resourceId?.equals(0) == false) {
+            Kevin.setTheme(resourceId)
+            result.success(true)
+            return
+        }
+
+        result.success(false)
+    }
 
     private fun onSetSandbox(call: MethodCall, result: MethodChannel.Result) {
         val isSandbox = call.argument<Boolean>(KevinMethodArguments.sandbox) ?: false

@@ -12,6 +12,7 @@ Future<void> main() async {
   configureInjection(Environment.prod);
 
   // Kevin plugin initial configuration
+  await _setTheme();
   await Kevin.instance.setLocale('en');
   await KevinAccounts.instance.setAccountsConfiguration(
     const KevinAccountsConfiguration(
@@ -25,4 +26,14 @@ Future<void> main() async {
   );
 
   runApp(const AppWidget());
+}
+
+Future<void> _setTheme() async {
+  const androidTheme = KevinThemeAndroid('TestTheme');
+  const iosTheme = KevinThemeIos();
+
+  await Kevin.instance.setTheme(
+    androidTheme: androidTheme,
+    iosTheme: iosTheme,
+  );
 }

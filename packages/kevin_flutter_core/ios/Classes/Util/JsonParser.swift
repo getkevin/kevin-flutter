@@ -1,3 +1,5 @@
+import Foundation
+
 public class JsonParser {
     public static func parseToObject<T: Decodable>(data: [String: Any?]) throws -> T {
         let json = try JSONSerialization.data(withJSONObject: data)

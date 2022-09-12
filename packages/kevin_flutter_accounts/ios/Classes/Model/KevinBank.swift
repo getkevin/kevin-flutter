@@ -1,3 +1,4 @@
+import Foundation
 import kevin_ios
 
 internal struct KevinBank: Codable {
@@ -6,20 +7,6 @@ internal struct KevinBank: Codable {
     let officialName: String?
     let imageUri: String
     let bic: String?
-    
-    init(
-        id: String,
-        name: String,
-        officialName: String? = nil,
-        imageUri: String,
-        bic: String? = nil
-    ) {
-        self.id = id
-        self.name = name
-        self.officialName = officialName
-        self.imageUri = imageUri
-        self.bic = bic
-    }
 }
 
 internal extension ApiBank {

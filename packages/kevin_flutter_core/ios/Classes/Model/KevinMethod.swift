@@ -1,3 +1,5 @@
+import Foundation
+
 internal enum KevinMethod: String {
     case setLocale
     case setTheme
