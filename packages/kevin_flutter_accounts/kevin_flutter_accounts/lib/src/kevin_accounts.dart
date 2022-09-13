@@ -1,6 +1,4 @@
-import 'package:kevin_flutter_accounts/src/kevin_flutter_accounts_platform_interface.dart';
-import 'package:kevin_flutter_accounts/src/model/account/kevin_account_session_configuration.dart';
-import 'package:kevin_flutter_accounts/src/model/account/kevin_accounts_configuration.dart';
+import 'package:kevin_flutter_accounts_platform_interface/kevin_flutter_accounts_platform_interface.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 
 class KevinAccounts {

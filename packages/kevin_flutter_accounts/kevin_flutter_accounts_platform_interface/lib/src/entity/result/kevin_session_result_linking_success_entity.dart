@@ -1,11 +1,9 @@
-import 'package:json_annotation/json_annotation.dart';
-import 'package:kevin_flutter_accounts/src/entity/kevin_bank_entity.dart';
-import 'package:kevin_flutter_accounts/src/model/account/kevin_account_linking_type.dart';
-import 'package:kevin_flutter_accounts/src/model/kevin_session_result_account_success.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/entity/kevin_bank_entity.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_account_linking_type.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/model/kevin_session_result_account_success.dart';
 
-part 'kevin_session_result_linking_success_entity.g.dart';
+part 'kevin_session_result_linking_success_entity_json.dart';
 
-@JsonSerializable(createToJson: true, createFactory: true)
 class KevinSessionResultLinkingSuccessEntity {
   final KevinBankEntity? bank;
   final String authorizationCode;

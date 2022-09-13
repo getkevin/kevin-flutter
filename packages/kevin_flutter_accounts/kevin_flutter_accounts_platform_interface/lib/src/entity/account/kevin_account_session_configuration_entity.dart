@@ -1,10 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
-import 'package:kevin_flutter_accounts/src/model/account/kevin_account_linking_type.dart';
-import 'package:kevin_flutter_accounts/src/model/account/kevin_account_session_configuration.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_account_linking_type.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_account_session_configuration.dart';
 
-part 'kevin_account_session_configuration_entity.g.dart';
+part 'kevin_account_session_configuration_entity_json.dart';
 
-@JsonSerializable(createToJson: true, createFactory: false)
 class KevinAccountSessionConfigurationEntity {
   final String state;
   final String? preselectedCountry;
@@ -41,5 +39,5 @@ class KevinAccountSessionConfigurationEntity {
       );
 
   Map<String, dynamic> toJson() =>
-      _$KevinAccountSessionConfigurationEntityToJson(this);
+      _toJson(this);
 }

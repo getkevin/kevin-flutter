@@ -1,14 +1,9 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'kevin_session_result_linking_success_entity.dart';
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
 
 KevinSessionResultLinkingSuccessEntity
     _$KevinSessionResultLinkingSuccessEntityFromJson(
-            Map<String, dynamic> json) =>
+  Map<String, dynamic> json,
+) =>
         KevinSessionResultLinkingSuccessEntity(
           bank: json['bank'] == null
               ? null
@@ -18,7 +13,8 @@ KevinSessionResultLinkingSuccessEntity
         );
 
 Map<String, dynamic> _$KevinSessionResultLinkingSuccessEntityToJson(
-        KevinSessionResultLinkingSuccessEntity instance) =>
+  KevinSessionResultLinkingSuccessEntity instance,
+) =>
     <String, dynamic>{
       'bank': instance.bank,
       'authorizationCode': instance.authorizationCode,

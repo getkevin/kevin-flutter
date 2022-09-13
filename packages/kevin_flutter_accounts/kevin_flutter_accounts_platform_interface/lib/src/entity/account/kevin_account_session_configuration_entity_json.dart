@@ -1,13 +1,8 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'kevin_account_session_configuration_entity.dart';
 
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
-
-Map<String, dynamic> _$KevinAccountSessionConfigurationEntityToJson(
-        KevinAccountSessionConfigurationEntity instance) =>
+Map<String, dynamic> _toJson(
+  KevinAccountSessionConfigurationEntity instance,
+) =>
     <String, dynamic>{
       'state': instance.state,
       'preselectedCountry': instance.preselectedCountry,
