@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:kevin_flutter_core/kevin.dart';
+import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_in_app_payments/src/entity/payment/kevin_payment_session_configuration_entity.dart';
 import 'package:kevin_flutter_in_app_payments/src/entity/payment/kevin_payments_configuration_entity.dart';
 import 'package:kevin_flutter_in_app_payments/src/entity/result/kevin_session_result_payment_success_entity.dart';

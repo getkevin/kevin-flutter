@@ -16,7 +16,7 @@ Flutter plugin to communicate with kevin. accounts SDK
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
   s.dependency 'kevin-ios', '2.2.2'
-  s.dependency 'kevin_flutter_core'
+  s.dependency 'kevin_flutter_core_ios'
   s.platform = :ios, '9.0'
 
   # Flutter.framework does not contain a i386 slice.

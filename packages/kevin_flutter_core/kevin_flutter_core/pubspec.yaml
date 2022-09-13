@@ -1,0 +1,32 @@
+name: kevin_flutter_core
+description: Flutter plugin to communicate with kevin. SDK.
+homepage: https://github.com/getkevin/kevin-flutter/tree/master/packages/kevin_flutter_core/kevin_flutter_core
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=2.17.6 <3.0.0"
+  flutter: ">=2.5.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  kevin_flutter_core_android:
+    path: ../kevin_flutter_core_android
+  kevin_flutter_core_ios:
+    path: ../kevin_flutter_core_ios
+  kevin_flutter_core_platform_interface:
+    path: ../kevin_flutter_core_platform_interface
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  plugin_platform_interface: ^2.1.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        default_package: kevin_flutter_core_android
+      ios:
+        default_package: kevin_flutter_core_ios
