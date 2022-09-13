@@ -1,9 +1,16 @@
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
-import 'package:kevin_flutter_in_app_payments/src/kevin_flutter_payments_method_channel.dart';
-import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payment_session_configuration.dart';
-import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payments_configuration.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/kevin_flutter_payments_method_channel.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/payment/kevin_payment_session_configuration.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/payment/kevin_payments_configuration.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
+/// The interface that implementations of kevin_flutter_in_app_payments must implement.
+///
+/// Platform implementations should extend this class rather than implement it as `kevin_flutter_in_app_payments`
+/// does not consider newly added methods to be breaking changes. Extending this class
+/// (using `extends`) ensures that the subclass will get the default implementation, while
+/// platform implementations that `implements` this interface will be broken by newly added
+/// [KevinFlutterPaymentsMethodChannel] methods.
 abstract class KevinFlutterPaymentsPlatformInterface extends PlatformInterface {
   KevinFlutterPaymentsPlatformInterface() : super(token: _token);
 

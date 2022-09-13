@@ -4,7 +4,7 @@ import 'package:kevin_flutter_accounts/kevin_accounts.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_example/injectable.dart';
 import 'package:kevin_flutter_example/presentation/app_widget.dart';
-import 'package:kevin_flutter_in_app_payments/kevin_payments.dart';
+import 'package:kevin_flutter_in_app_payments/kevin_flutter_in_app_payments.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

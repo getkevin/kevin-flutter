@@ -1,10 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
-import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payment_session_configuration.dart';
-import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payment_type.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/payment/kevin_payment_session_configuration.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/payment/kevin_payment_type.dart';
 
-part 'kevin_payment_session_configuration_entity.g.dart';
+part 'kevin_payment_session_configuration_entity_json.dart';
 
-@JsonSerializable(createToJson: true, createFactory: false)
 class KevinPaymentSessionConfigurationEntity {
   final String paymentId;
   final KevinPaymentType paymentType;
@@ -43,6 +41,5 @@ class KevinPaymentSessionConfigurationEntity {
         skipAuthentication: model.skipAuthentication,
       );
 
-  Map<String, dynamic> toJson() =>
-      _$KevinPaymentSessionConfigurationEntityToJson(this);
+  Map<String, dynamic> toJson() => _toJson(this);
 }

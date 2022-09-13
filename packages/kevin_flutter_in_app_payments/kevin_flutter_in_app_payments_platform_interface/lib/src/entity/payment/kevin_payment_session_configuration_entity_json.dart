@@ -1,13 +1,8 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'kevin_payment_session_configuration_entity.dart';
 
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
-
-Map<String, dynamic> _$KevinPaymentSessionConfigurationEntityToJson(
-        KevinPaymentSessionConfigurationEntity instance) =>
+Map<String, dynamic> _toJson(
+  KevinPaymentSessionConfigurationEntity instance,
+) =>
     <String, dynamic>{
       'paymentId': instance.paymentId,
       'paymentType': _$KevinPaymentTypeEnumMap[instance.paymentType]!,

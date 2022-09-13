@@ -1,7 +1,5 @@
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
-import 'package:kevin_flutter_in_app_payments/src/kevin_flutter_payments_platform_interface.dart';
-import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payment_session_configuration.dart';
-import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payments_configuration.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/kevin_flutter_payments_platform_interface.dart';
 
 class KevinPayments {
   static KevinPayments? _instance;
@@ -17,8 +15,8 @@ class KevinPayments {
   /// Payments configuration must be set before starting payment
   /// with [startPayment]
   Future<void> setPaymentsConfiguration(
-    KevinPaymentsConfiguration configuration,
-  ) {
+      KevinPaymentsConfiguration configuration,
+      ) {
     return KevinFlutterPaymentsPlatformInterface.instance
         .setPaymentsConfiguration(configuration);
   }
@@ -28,8 +26,8 @@ class KevinPayments {
   /// Before starting payment, payments configuration must be set
   /// with [setPaymentsConfiguration]
   Future<KevinSessionResult> startPayment(
-    KevinPaymentSessionConfiguration configuration,
-  ) {
+      KevinPaymentSessionConfiguration configuration,
+      ) {
     return KevinFlutterPaymentsPlatformInterface.instance
         .startPayment(configuration);
   }
