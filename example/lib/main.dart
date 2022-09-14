@@ -13,13 +13,13 @@ Future<void> main() async {
 
   // Kevin plugin initial configuration
   await _setTheme();
-  await Kevin.instance.setLocale('en');
-  await KevinAccounts.instance.setAccountsConfiguration(
+  await Kevin.setLocale('en');
+  await KevinAccounts.setAccountsConfiguration(
     const KevinAccountsConfiguration(
       callbackUrl: 'https://redirect.kevin.eu/authorization.html',
     ),
   );
-  await KevinPayments.instance.setPaymentsConfiguration(
+  await KevinPayments.setPaymentsConfiguration(
     const KevinPaymentsConfiguration(
       callbackUrl: 'https://redirect.kevin.eu/payment.html',
     ),
@@ -32,7 +32,7 @@ Future<void> _setTheme() async {
   const androidTheme = KevinThemeAndroid('TestTheme');
   const iosTheme = KevinThemeIos();
 
-  await Kevin.instance.setTheme(
+  await Kevin.setTheme(
     androidTheme: androidTheme,
     iosTheme: iosTheme,
   );
