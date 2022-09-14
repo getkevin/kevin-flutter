@@ -24,11 +24,11 @@ dependencies:
   styled_text: ^4.0.0+1
   url_launcher: ^6.0.18
   kevin_flutter_core:
-    path: ../kevin_flutter_core/kevin_flutter_core
+    path: ../packages/kevin_flutter_core/kevin_flutter_core
   kevin_flutter_in_app_payments:
-    path: ../kevin_flutter_in_app_payments/kevin_flutter_in_app_payments
+    path: ../packages/kevin_flutter_in_app_payments/kevin_flutter_in_app_payments
   kevin_flutter_accounts:
-    path: ../kevin_flutter_accounts/kevin_flutter_accounts
+    path: ../packages/kevin_flutter_accounts/kevin_flutter_accounts
 
 dev_dependencies:
   flutter_test:
