@@ -11,7 +11,8 @@ class MockKevinFlutterAccountsPlatform extends Fake
 
   @override
   Future<void> setAccountsConfiguration(
-      KevinAccountsConfiguration configuration) async {
+    KevinAccountsConfiguration configuration,
+  ) async {
     _callbackUrl = configuration.callbackUrl;
     _isShowUnsupportedBanks = configuration.showUnsupportedBanks;
   }

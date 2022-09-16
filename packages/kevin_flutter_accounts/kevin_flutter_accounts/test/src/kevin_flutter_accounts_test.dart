@@ -14,7 +14,9 @@ void main() {
   test('setAccountsConfiguration/get config data', () async {
     await KevinAccounts.setAccountsConfiguration(
       const KevinAccountsConfiguration(
-          callbackUrl: 'callbackUrl', showUnsupportedBanks: true),
+        callbackUrl: 'callbackUrl',
+        showUnsupportedBanks: true,
+      ),
     );
     final callbackUrl = await KevinAccounts.getCallbackUrl();
     final isShowUnsupportedBanks = await KevinAccounts.isShowUnsupportedBanks();
