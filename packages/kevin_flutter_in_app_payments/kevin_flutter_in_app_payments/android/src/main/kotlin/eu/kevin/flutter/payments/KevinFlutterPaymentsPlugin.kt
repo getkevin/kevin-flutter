@@ -207,6 +207,6 @@ class KevinFlutterPaymentsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
     }
 
     private companion object {
-        const val REQUEST_CODE_PAYMENT = 100
+        const val REQUEST_CODE_PAYMENT = 101
     }
 }

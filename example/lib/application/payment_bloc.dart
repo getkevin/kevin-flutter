@@ -196,7 +196,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             email: state.email,
             iban: state.selectedCreditor?.accounts.firstOrNull?.iban ?? '',
             creditorName: state.selectedCreditor!.name,
-            redirectUrl: await KevinPayments.instance.getCallbackUrl(),
+            redirectUrl: await KevinPayments.getCallbackUrl(),
           );
         } else {
           initializationResult = await _apiRepository.initializeCardPayment(
@@ -204,7 +204,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             email: state.email,
             iban: state.selectedCreditor?.accounts.firstOrNull?.iban ?? '',
             creditorName: state.selectedCreditor!.name,
-            redirectUrl: await KevinPayments.instance.getCallbackUrl(),
+            redirectUrl: await KevinPayments.getCallbackUrl(),
           );
         }
 
@@ -216,7 +216,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             );
           },
           (paymentState) async {
-            final sdkCallResult = await KevinPayments.instance.startPayment(
+            final sdkCallResult = await KevinPayments.startPayment(
               KevinPaymentSessionConfiguration(
                 paymentId: paymentState.id,
                 paymentType: state.selectedPaymentType,
