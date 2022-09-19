@@ -1,7 +1,7 @@
 name: kevin_flutter_core_android
 description: Android implementation of the kevin_flutter_core plugin.
 homepage: https://github.com/getkevin/kevin-flutter/tree/master/packages/kevin_flutter_core/kevin_flutter_core_android
-version: 0.0.1
+version: 1.0.0
 publish_to: none
 
 environment:
@@ -17,7 +17,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  plugin_platform_interface: ^2.1.0
+  plugin_platform_interface: ^2.1.2
 
 flutter:
   plugin:

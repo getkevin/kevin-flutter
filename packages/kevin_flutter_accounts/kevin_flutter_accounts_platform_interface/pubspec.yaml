@@ -1,7 +1,7 @@
 name: kevin_flutter_accounts_platform_interface
 description: A common platform interface for the kevin_flutter_accounts plugin.
 homepage: https://github.com/getkevin/kevin-flutter/tree/master/packages/kevin_flutter_accounts/kevin_flutter_accounts_platform_interface
-version: 0.0.1
+version: 1.0.0
 publish_to: none
 
 environment:
@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  plugin_platform_interface: ^2.1.0
+  plugin_platform_interface: ^2.1.2
   kevin_flutter_core:
     path: ../../kevin_flutter_core/kevin_flutter_core
 
