@@ -1,20 +1,20 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
-import 'package:kevin_flutter_in_app_payments/src/entity/payment/kevin_payment_session_configuration_entity.dart';
-import 'package:kevin_flutter_in_app_payments/src/entity/payment/kevin_payments_configuration_entity.dart';
-import 'package:kevin_flutter_in_app_payments/src/entity/result/kevin_session_result_payment_success_entity.dart';
-import 'package:kevin_flutter_in_app_payments/src/kevin_flutter_payments_platform_interface.dart';
-import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payment_session_configuration.dart';
-import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payments_configuration.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/entity/payment/kevin_payment_session_configuration_entity.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/entity/payment/kevin_payments_configuration_entity.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/entity/result/kevin_session_result_payment_success_entity.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/kevin_flutter_payments_platform_interface.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/payment/kevin_payment_session_configuration.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/payment/kevin_payments_configuration.dart';
+
+@visibleForTesting
+const methodChannel = MethodChannel('kevin_flutter_payments');
 
 class KevinFlutterPaymentsMethodChannel
     extends KevinFlutterPaymentsPlatformInterface {
-  @visibleForTesting
-  final methodChannel = const MethodChannel('kevin_flutter_payments');
-
   @override
   Future<void> setPaymentsConfiguration(
     KevinPaymentsConfiguration configuration,

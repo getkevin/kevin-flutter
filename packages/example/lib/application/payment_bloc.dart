@@ -11,7 +11,7 @@ import 'package:kevin_flutter_example/domain/creditor/creditor.dart';
 import 'package:kevin_flutter_example/domain/i_api_repository.dart';
 import 'package:kevin_flutter_example/domain/payment_initialization_state/payment_initialization_state.dart';
 import 'package:kevin_flutter_example/domain/repository_failure/repository_failure.dart';
-import 'package:kevin_flutter_in_app_payments/kevin_payments.dart';
+import 'package:kevin_flutter_in_app_payments/kevin_flutter_in_app_payments.dart';
 
 part 'payment_bloc.freezed.dart';
 part 'payment_event.dart';

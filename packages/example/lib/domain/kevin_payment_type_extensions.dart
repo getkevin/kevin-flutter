@@ -1,4 +1,4 @@
-import 'package:kevin_flutter_in_app_payments/kevin_payments.dart';
+import 'package:kevin_flutter_in_app_payments/kevin_flutter_in_app_payments.dart';
 
 extension PaymentTypeExtension on KevinPaymentType {
   String getTabName() {

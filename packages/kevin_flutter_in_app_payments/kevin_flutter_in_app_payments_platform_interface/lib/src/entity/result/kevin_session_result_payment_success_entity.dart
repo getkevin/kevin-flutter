@@ -1,9 +1,7 @@
-import 'package:json_annotation/json_annotation.dart';
-import 'package:kevin_flutter_in_app_payments/src/model/kevin_session_result_payment_success.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/kevin_session_result_payment_success.dart';
 
-part 'kevin_session_result_payment_success_entity.g.dart';
+part 'kevin_session_result_payment_success_entity_json.dart';
 
-@JsonSerializable(createToJson: true, createFactory: true)
 class KevinSessionResultPaymentSuccessEntity {
   final String paymentId;
 
@@ -14,7 +12,7 @@ class KevinSessionResultPaymentSuccessEntity {
   factory KevinSessionResultPaymentSuccessEntity.fromJson(
     Map<String, dynamic> json,
   ) =>
-      _$KevinSessionResultPaymentSuccessEntityFromJson(json);
+      _toJson(json);
 
   Map<String, dynamic> toJson() =>
       _$KevinSessionResultPaymentSuccessEntityToJson(this);

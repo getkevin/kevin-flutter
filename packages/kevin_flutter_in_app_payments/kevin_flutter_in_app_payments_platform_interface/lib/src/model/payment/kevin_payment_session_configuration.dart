@@ -1,5 +1,5 @@
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
-import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payment_type.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/payment/kevin_payment_type.dart';
 
 class KevinPaymentSessionConfiguration {
   final String paymentId;

@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
-import 'package:kevin_flutter_in_app_payments/src/entity/result/kevin_session_result_payment_success_entity.dart';
-import 'package:kevin_flutter_in_app_payments/src/kevin_flutter_payments_method_channel.dart';
-import 'package:kevin_flutter_in_app_payments/src/kevin_flutter_payments_platform_interface.dart';
-import 'package:kevin_flutter_in_app_payments/src/model/kevin_session_result_payment_success.dart';
-import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payment_session_configuration.dart';
-import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payments_configuration.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/entity/result/kevin_session_result_payment_success_entity.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/kevin_flutter_payments_method_channel.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/kevin_flutter_payments_platform_interface.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/kevin_session_result_payment_success.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/payment/kevin_payment_session_configuration.dart';
+import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/payment/kevin_payments_configuration.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 void main() {

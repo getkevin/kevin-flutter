@@ -16,7 +16,7 @@ import 'package:kevin_flutter_example/presentation/core/widgets/kevin_demo_text_
 import 'package:kevin_flutter_example/presentation/home/widgets/country_row.dart';
 import 'package:kevin_flutter_example/presentation/home/widgets/creditor_selector.dart';
 import 'package:kevin_flutter_example/presentation/home/widgets/payment_type_selector.dart';
-import 'package:kevin_flutter_in_app_payments/kevin_payments.dart';
+import 'package:kevin_flutter_in_app_payments/kevin_flutter_in_app_payments.dart';
 import 'package:styled_text/styled_text.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
