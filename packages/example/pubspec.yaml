@@ -28,7 +28,7 @@ dependencies:
   kevin_flutter_in_app_payments:
     path: ../kevin_flutter_in_app_payments/kevin_flutter_in_app_payments
   kevin_flutter_accounts:
-    path: ../kevin_flutter_accounts
+    path: ../kevin_flutter_accounts/kevin_flutter_accounts
 
 dev_dependencies:
   flutter_test:

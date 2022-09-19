@@ -1,5 +1,5 @@
-import 'package:kevin_flutter_accounts/src/model/account/kevin_account_linking_type.dart';
-import 'package:kevin_flutter_accounts/src/model/kevin_bank.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_account_linking_type.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/model/kevin_bank.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 
 class KevinSessionResultLinkingSuccess extends KevinSessionResult {

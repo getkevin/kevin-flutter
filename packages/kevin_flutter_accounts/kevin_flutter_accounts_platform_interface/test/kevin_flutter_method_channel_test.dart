@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kevin_flutter_accounts/src/entity/kevin_bank_entity.dart';
-import 'package:kevin_flutter_accounts/src/entity/result/kevin_session_result_linking_success_entity.dart';
-import 'package:kevin_flutter_accounts/src/kevin_flutter_accounts_method_channel.dart';
-import 'package:kevin_flutter_accounts/src/kevin_flutter_accounts_platform_interface.dart';
-import 'package:kevin_flutter_accounts/src/model/kevin_accounts_models.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/entity/kevin_bank_entity.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/entity/result/kevin_session_result_linking_success_entity.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/kevin_flutter_accounts_method_channel.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/kevin_flutter_accounts_platform_interface.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_account_session_configuration.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_accounts_configuration.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/model/kevin_session_result_account_success.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
