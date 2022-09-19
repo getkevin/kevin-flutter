@@ -1,5 +1,5 @@
 import 'package:kevin_flutter_accounts/src/model/account/kevin_account_linking_type.dart';
-import 'package:kevin_flutter_core/kevin.dart';
+import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 
 class KevinAccountSessionConfiguration {
   final String state;

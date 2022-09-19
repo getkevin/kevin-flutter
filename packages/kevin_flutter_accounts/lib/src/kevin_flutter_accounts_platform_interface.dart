@@ -1,7 +1,7 @@
 import 'package:kevin_flutter_accounts/src/kevin_flutter_accounts_method_channel.dart';
 import 'package:kevin_flutter_accounts/src/model/account/kevin_account_session_configuration.dart';
 import 'package:kevin_flutter_accounts/src/model/account/kevin_accounts_configuration.dart';
-import 'package:kevin_flutter_core/kevin.dart';
+import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 abstract class KevinFlutterAccountsPlatformInterface extends PlatformInterface {

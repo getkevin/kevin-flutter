@@ -2,7 +2,7 @@ import Foundation
 import Flutter
 import UIKit
 import kevin_ios
-import kevin_flutter_core
+import kevin_flutter_core_ios
 
 public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAccountLinkingSessionDelegate {
     private var accountResult: FlutterResult? = nil

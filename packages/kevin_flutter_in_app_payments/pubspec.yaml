@@ -14,7 +14,7 @@ dependencies:
   plugin_platform_interface: ^2.0.2
   json_annotation: ^4.6.0
   kevin_flutter_core:
-    path: ../kevin_flutter_core
+    path: ../kevin_flutter_core/kevin_flutter_core
 
 dev_dependencies:
   flutter_test:

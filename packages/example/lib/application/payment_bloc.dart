@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:kevin_flutter_core/kevin.dart';
+import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_example/domain/creditor/creditor.dart';
 import 'package:kevin_flutter_example/domain/i_api_repository.dart';
 import 'package:kevin_flutter_example/domain/payment_initialization_state/payment_initialization_state.dart';

@@ -1,4 +1,4 @@
-import 'package:kevin_flutter_core/kevin.dart';
+import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_in_app_payments/src/kevin_flutter_payments_platform_interface.dart';
 import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payment_session_configuration.dart';
 import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payments_configuration.dart';

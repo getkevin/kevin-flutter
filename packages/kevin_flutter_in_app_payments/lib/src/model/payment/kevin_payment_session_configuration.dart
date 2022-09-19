@@ -1,4 +1,4 @@
-import 'package:kevin_flutter_core/kevin.dart';
+import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_in_app_payments/src/model/payment/kevin_payment_type.dart';
 
 class KevinPaymentSessionConfiguration {

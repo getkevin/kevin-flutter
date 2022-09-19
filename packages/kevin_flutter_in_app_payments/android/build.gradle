@@ -46,4 +46,5 @@ dependencies {
 
     // kevin. Android SDK
     implementation "eu.kevin.android:in-app-payments:$kevin_version"
+    implementation project(':kevin_flutter_core_android')
 }
