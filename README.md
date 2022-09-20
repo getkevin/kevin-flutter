@@ -13,9 +13,9 @@ our [Demo App](https://github.com/getkevin/kevin-flutter/tree/master/example).
 
 | Plugin | Pub |
 |--------|-----|
-| [kevin_flutter_core](./packages/kevin_flutter_core) | [![pub package](https://img.shields.io/pub/v/kevin_flutter_core.svg)](https://pub.dev/packages/kevin_flutter_core) |
-| [kevin_flutter_accounts](./packages/kevin_flutter_accounts) | [![pub package](https://img.shields.io/pub/v/kevin_flutter_accounts.svg)](https://pub.dev/packages/kevin_flutter_accounts) |
-| [kevin_flutter_in_app_payments](./packages/kevin_flutter_in_app_payments) | [![pub package](https://img.shields.io/pub/v/kevin_flutter_in_app_payments.svg)](https://pub.dev/packages/kevin_flutter_in_app_payments) |
+| [kevin_flutter_core](./packages/kevin_flutter_core/kevin_flutter_core) | [![pub package](https://img.shields.io/pub/v/kevin_flutter_core.svg)](https://pub.dev/packages/kevin_flutter_core) |
+| [kevin_flutter_accounts](./packages/kevin_flutter_accounts/kevin_flutter_accounts) | [![pub package](https://img.shields.io/pub/v/kevin_flutter_accounts.svg)](https://pub.dev/packages/kevin_flutter_accounts) |
+| [kevin_flutter_in_app_payments](./packages/kevin_flutter_in_app_payments/kevin_flutter_in_app_payments) | [![pub package](https://img.shields.io/pub/v/kevin_flutter_in_app_payments.svg)](https://pub.dev/packages/kevin_flutter_in_app_payments) |
 
 ## Documentation
 
