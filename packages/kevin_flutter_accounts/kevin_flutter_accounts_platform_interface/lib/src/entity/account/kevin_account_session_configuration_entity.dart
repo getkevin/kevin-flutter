@@ -38,6 +38,5 @@ class KevinAccountSessionConfigurationEntity {
         accountLinkingType: model.accountLinkingType,
       );
 
-  Map<String, dynamic> toJson() =>
-      _toJson(this);
+  Map<String, dynamic> toJson() => _toJson(this);
 }

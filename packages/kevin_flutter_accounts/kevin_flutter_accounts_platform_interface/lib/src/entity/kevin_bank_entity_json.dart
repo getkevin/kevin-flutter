@@ -1,7 +1,6 @@
 part of 'kevin_bank_entity.dart';
 
-KevinBankEntity _toJson(Map<String, dynamic> json) =>
-    KevinBankEntity(
+KevinBankEntity _toJson(Map<String, dynamic> json) => KevinBankEntity(
       id: json['id'] as String,
       name: json['name'] as String,
       officialName: json['officialName'] as String?,
