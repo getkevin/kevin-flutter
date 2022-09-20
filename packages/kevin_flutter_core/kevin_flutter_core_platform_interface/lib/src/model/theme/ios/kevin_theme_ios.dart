@@ -12,7 +12,7 @@ import 'package:kevin_flutter_core_platform_interface/src/model/theme/ios/kevin_
 
 /// iOS theme class.
 ///
-/// More info: https://app.gitbook.com/o/408aMueAbgo10HRzg6FC/s/7XHN8bnfHxbgltrB2j38/~/changes/4OTuNAVn9kGqufNWHObU/flutter/ui-customisation/ios-ui-customisations
+/// More info: https://developer.kevin.eu/mobile/flutter/ui-customisation/ios-ui-customisations
 class KevinThemeIos {
   //  Modify content insets
   final KevinInsets? insets;
