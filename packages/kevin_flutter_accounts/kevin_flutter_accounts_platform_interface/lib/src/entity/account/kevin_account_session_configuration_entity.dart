@@ -29,11 +29,11 @@ class KevinAccountSessionConfigurationEntity {
   ) =>
       KevinAccountSessionConfigurationEntity(
         state: model.state,
-        preselectedBank: model.preselectedCountry?.iso,
+        preselectedBank: model.preselectedBank,
         disableCountrySelection: model.disabledCountrySelection,
         countryFilter: model.countryFilter.map((c) => c.iso).toList(),
         bankFilter: model.bankFilter,
-        preselectedCountry: model.preselectedBank,
+        preselectedCountry: model.preselectedCountry?.iso,
         skipBankSelection: model.skipBankSelection,
         accountLinkingType: model.accountLinkingType,
       );
