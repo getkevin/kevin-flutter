@@ -3,16 +3,19 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin_flutter_example/analytics/bloc_error_observer.dart';
 import 'package:kevin_flutter_example/app/widget/app.dart';
 import 'package:kevin_flutter_example/country/country_helper.dart';
-import 'package:kevin_flutter_example/validation/email_validator.dart';
 import 'package:kevin_flutter_example/validation/amount_validator.dart';
+import 'package:kevin_flutter_example/validation/email_validator.dart';
 
 void main() {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     EquatableConfig.stringify = true;
 
