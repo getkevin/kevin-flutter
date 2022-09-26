@@ -1,39 +1,44 @@
-import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
-import 'package:kevin_flutter_accounts/kevin_flutter_accounts.dart';
-import 'package:kevin_flutter_core/kevin_flutter_core.dart';
-import 'package:kevin_flutter_example/injectable.dart';
-import 'package:kevin_flutter_example/presentation/app_widget.dart';
-import 'package:kevin_flutter_in_app_payments/kevin_flutter_in_app_payments.dart';
+import 'dart:async';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+import 'package:equatable/equatable.dart';
+import 'package:fimber/fimber.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kevin_flutter_example/analytics/bloc_error_observer.dart';
+import 'package:kevin_flutter_example/app/widget/app.dart';
+import 'package:kevin_flutter_example/country/country_helper.dart';
+import 'package:kevin_flutter_example/validation/email_validator.dart';
+import 'package:kevin_flutter_example/validation/amount_validator.dart';
 
-  configureInjection(Environment.prod);
+void main() {
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
 
-  // Kevin plugin initial configuration
-  await _setTheme();
-  await Kevin.setLocale('en');
-  await KevinAccounts.setAccountsConfiguration(
-    const KevinAccountsConfiguration(
-      callbackUrl: 'https://redirect.kevin.eu/authorization.html',
-    ),
-  );
-  await KevinPayments.setPaymentsConfiguration(
-    const KevinPaymentsConfiguration(
-      callbackUrl: 'https://redirect.kevin.eu/payment.html',
-    ),
-  );
+    EquatableConfig.stringify = true;
 
-  runApp(const AppWidget());
-}
+    Bloc.observer = BlocErrorObserver();
 
-Future<void> _setTheme() async {
-  const androidTheme = KevinThemeAndroid('TestTheme');
-  const iosTheme = KevinThemeIos();
+    Fimber.plantTree(DebugTree());
 
-  await Kevin.setTheme(
-    androidTheme: androidTheme,
-    iosTheme: iosTheme,
-  );
+    FlutterError.onError = (FlutterErrorDetails errorDetails) async {
+      Fimber.e(
+        'FlutterError',
+        ex: errorDetails.exception,
+        stacktrace: errorDetails.stack,
+      );
+    };
+
+    runApp(
+      MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider(create: (context) => CountryHelper()),
+          RepositoryProvider(create: (context) => AmountValidator()),
+          RepositoryProvider(create: (context) => EmailValidator()),
+        ],
+        child: const App(),
+      ),
+    );
+  }, (error, stack) {
+    Fimber.e('main() error', ex: error, stacktrace: stack);
+  });
 }
