@@ -55,6 +55,7 @@ class _CountrySelectionBottomDialogState
                   padding:
                       const EdgeInsets.only(left: 16, right: 16, bottom: 36),
                   controller: widget._scrollController,
+                  physics: const ClampingScrollPhysics(),
                   // shrinkWrap is expensive and not needed when content
                   // is large enough to cover whole screen.
                   shrinkWrap: state.countries.length <= 12,
