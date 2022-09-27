@@ -62,7 +62,7 @@ class _CreditorList extends StatelessWidget {
           AnimatedOpacity(
             opacity: _state.creditorsLoading ? 1 : 0,
             duration: decoration.duration.defaultDuration,
-            child: const KevinProgressIndicator(),
+            child: const KevinProgressIndicator.center(),
           ),
           AnimatedOpacity(
             opacity: _state.creditorsLoading ? 0 : 1,

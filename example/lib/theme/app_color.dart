@@ -85,7 +85,7 @@ class AppColor extends Equatable {
         error = _KevinColors.warningRed,
         onError = _KevinColors.white,
         inputUnfocusedBorder = _KevinColors.black30,
-        bottomSheet = const BottomSheet.light();
+        bottomSheet = const BottomSheet.dark();
 
   const AppColor({
     required this.primary,

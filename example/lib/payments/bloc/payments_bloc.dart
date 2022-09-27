@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:collection/collection.dart';
 import 'package:domain/country/model/country.dart';
 import 'package:domain/payments/usecase/get_creditors_use_case.dart';
@@ -204,29 +205,32 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
             generalError: Optional.absent(),
           ),
         ) {
-    on<PaymentsEvent>((event, emitter) async {
-      if (event is InitialLoadEvent) {
-        await _onInitialLoadEvent(event, emitter);
-      } else if (event is SetCountryEvent) {
-        await _onSetCountryEvent(event, emitter);
-      } else if (event is SetCreditorEvent) {
-        await _onSetCreditorEvent(event, emitter);
-      } else if (event is SetEmailEvent) {
-        await _onSetEmailEvent(event, emitter);
-      } else if (event is SetAmountEvent) {
-        await _onSetAmountEvent(event, emitter);
-      } else if (event is SetTermsAcceptedEvent) {
-        await _onSetTermsAcceptedEvent(event, emitter);
-      } else if (event is ValidatePaymentEvent) {
-        await _onValidatePaymentEvent(event, emitter);
-      } else if (event is SubmitPaymentEvent) {
-        await _onSubmitPaymentEvent(event, emitter);
-      } else if (event is ClearOpenPaymentTypeDialogEvent) {
-        await _onClearOpenPaymentTypeDialogEvent(event, emitter);
-      } else if (event is ClearGeneralErrorEvent) {
-        await _onClearGeneralErrorEvent(event, emitter);
-      }
-    });
+    on<PaymentsEvent>(
+      (event, emitter) async {
+        if (event is InitialLoadEvent) {
+          await _onInitialLoadEvent(event, emitter);
+        } else if (event is SetCountryEvent) {
+          await _onSetCountryEvent(event, emitter);
+        } else if (event is SetCreditorEvent) {
+          await _onSetCreditorEvent(event, emitter);
+        } else if (event is SetEmailEvent) {
+          await _onSetEmailEvent(event, emitter);
+        } else if (event is SetAmountEvent) {
+          await _onSetAmountEvent(event, emitter);
+        } else if (event is SetTermsAcceptedEvent) {
+          await _onSetTermsAcceptedEvent(event, emitter);
+        } else if (event is ValidatePaymentEvent) {
+          await _onValidatePaymentEvent(event, emitter);
+        } else if (event is SubmitPaymentEvent) {
+          await _onSubmitPaymentEvent(event, emitter);
+        } else if (event is ClearOpenPaymentTypeDialogEvent) {
+          await _onClearOpenPaymentTypeDialogEvent(event, emitter);
+        } else if (event is ClearGeneralErrorEvent) {
+          await _onClearGeneralErrorEvent(event, emitter);
+        }
+      },
+      transformer: sequential(),
+    );
   }
 
   Future<void> _onInitialLoadEvent(
