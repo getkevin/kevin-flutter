@@ -6,7 +6,7 @@ class _Body extends StatelessWidget {
   final TextEditingController _emailController;
   final TextEditingController _amountController;
   final FocusNode _amountFocusNode;
-  final Function(CountryItem) _onCountryPressed;
+  final Function(Country) _onCountryPressed;
   final Function(CreditorListItem) _onCreditorPressed;
   final Function(bool) _onTermsAcceptedChanged;
   final VoidCallback _onAmountSubmitted;
@@ -16,7 +16,7 @@ class _Body extends StatelessWidget {
     required TextEditingController emailController,
     required TextEditingController amountController,
     required FocusNode amountFocusNode,
-    required Function(CountryItem) onCountryPressed,
+    required Function(Country) onCountryPressed,
     required Function(CreditorListItem) onCreditorPressed,
     required Function(bool) onTermsAcceptedChanged,
     required VoidCallback onAmountSubmitted,

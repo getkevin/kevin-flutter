@@ -1,3 +1,4 @@
+import 'package:domain/country/model/country.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,8 +9,8 @@ import 'package:kevin_flutter_example/common_widgets/kevin_check_box.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_form_field.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_progress_indicator.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_snack_bar.dart';
+import 'package:kevin_flutter_example/error/api_error_mapper.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_bloc.dart';
-import 'package:kevin_flutter_example/payments/model/country_item.dart';
 import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
@@ -38,6 +39,7 @@ class PaymentsPage extends StatefulWidget {
 
 class _PaymentsPageState extends State<PaymentsPage> {
   late final PaymentsBloc _bloc;
+  late final ApiErrorMapper _apiErrorMapper;
 
   final _scrollController = ScrollController();
 
@@ -50,6 +52,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
     super.initState();
 
     _bloc = context.read();
+    _apiErrorMapper = context.read();
 
     _emailController.addListener(_onEmailChanged);
     _amountController.addListener(_onAmountChanged);
@@ -81,8 +84,9 @@ class _PaymentsPageState extends State<PaymentsPage> {
                 _onOpenPaymentTypeDialog(context: context);
               }
 
-              if (state.generalError.isPresent) {
-                _onGeneralError(context: context);
+              final generalError = state.generalError.orNull;
+              if (generalError != null) {
+                _onGeneralError(context: context, error: generalError);
               }
             },
             builder: (context, state) {
@@ -130,7 +134,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
     _bloc.add(SetAmountEvent(amount: _amountController.text));
   }
 
-  void _onCountryPressed(CountryItem country) {
+  void _onCountryPressed(Country country) {
     // TODO: Open country dialog
     ScaffoldMessenger.of(context).showSnackBar(
       KevinSnackBar.text(
@@ -167,12 +171,14 @@ class _PaymentsPageState extends State<PaymentsPage> {
     );
   }
 
-  void _onGeneralError({required BuildContext context}) {
+  void _onGeneralError({
+    required BuildContext context,
+    required Exception error,
+  }) {
     _bloc.add(const ClearGeneralErrorEvent());
 
-    // TODO: Add proper error handling
     ScaffoldMessenger.of(context).showSnackBar(
-      KevinSnackBar.text(context: context, text: 'Error'),
+      KevinSnackBar.text(context: context, text: _apiErrorMapper.map(error)),
     );
   }
 }

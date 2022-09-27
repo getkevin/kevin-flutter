@@ -13,6 +13,8 @@ class AppDecoration extends Equatable {
 
 class _Duration extends Equatable {
   final Duration defaultDuration = const Duration(milliseconds: 150);
+  final Duration longDuration = const Duration(milliseconds: 300);
+  final Duration shortDuration = const Duration(milliseconds: 50);
 
   const _Duration();
 
