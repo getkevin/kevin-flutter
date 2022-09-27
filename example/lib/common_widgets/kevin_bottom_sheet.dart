@@ -183,7 +183,7 @@ class _AnimatedModalSheetBodyState extends State<_AnimatedModalSheetBody> {
   }
 
   void _maybeSetShowEdgeToEdgeContainer() {
-    if (!widget._edgeToEdge) return;
+    if (!widget._edgeToEdge || _showEdgeToEdgeContainer) return;
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
       final height = MediaQuery.of(context).size.height.floor();
