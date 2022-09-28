@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
+import 'package:kevin_flutter_example/payments/payment_type/model/payment_type.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/validation/amount_validator.dart';
 import 'package:kevin_flutter_example/validation/email_validator.dart';
@@ -80,8 +81,13 @@ class ValidatePaymentEvent extends PaymentsEvent {
   const ValidatePaymentEvent();
 }
 
-class SubmitPaymentEvent extends PaymentsEvent {
-  const SubmitPaymentEvent();
+class InitializeSinglePaymentEvent extends PaymentsEvent {
+  final PaymentType paymentType;
+
+  const InitializeSinglePaymentEvent({required this.paymentType});
+
+  @override
+  List<Object?> get props => [paymentType];
 }
 
 class ClearOpenPaymentTypeDialogEvent extends PaymentsEvent {
@@ -110,6 +116,8 @@ class PaymentsState extends Equatable {
 
   final bool openPaymentTypeDialog;
 
+  final bool initializePaymentLoading;
+
   final Optional<Exception> generalError;
 
   const PaymentsState({
@@ -123,6 +131,7 @@ class PaymentsState extends Equatable {
     required this.termsAccepted,
     required this.termsError,
     required this.openPaymentTypeDialog,
+    required this.initializePaymentLoading,
     required this.generalError,
   });
 
@@ -137,6 +146,7 @@ class PaymentsState extends Equatable {
     bool? termsAccepted,
     bool? termsError,
     bool? openPaymentTypeDialog,
+    bool? initializePaymentLoading,
     Optional<Exception>? generalError,
   }) {
     return PaymentsState(
@@ -151,6 +161,8 @@ class PaymentsState extends Equatable {
       termsError: termsError ?? this.termsError,
       openPaymentTypeDialog:
           openPaymentTypeDialog ?? this.openPaymentTypeDialog,
+      initializePaymentLoading:
+          initializePaymentLoading ?? this.initializePaymentLoading,
       generalError: generalError ?? this.generalError,
     );
   }
@@ -167,6 +179,7 @@ class PaymentsState extends Equatable {
         termsAccepted,
         termsError,
         openPaymentTypeDialog,
+        initializePaymentLoading,
         generalError
       ];
 }
@@ -202,6 +215,7 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
             termsAccepted: false,
             termsError: false,
             openPaymentTypeDialog: false,
+            initializePaymentLoading: false,
             generalError: Optional.absent(),
           ),
         ) {
@@ -221,8 +235,8 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
           await _onSetTermsAcceptedEvent(event, emitter);
         } else if (event is ValidatePaymentEvent) {
           await _onValidatePaymentEvent(event, emitter);
-        } else if (event is SubmitPaymentEvent) {
-          await _onSubmitPaymentEvent(event, emitter);
+        } else if (event is InitializeSinglePaymentEvent) {
+          await _onInitializeSinglePaymentEvent(event, emitter);
         } else if (event is ClearOpenPaymentTypeDialogEvent) {
           await _onClearOpenPaymentTypeDialogEvent(event, emitter);
         } else if (event is ClearGeneralErrorEvent) {
@@ -329,10 +343,17 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
     }
   }
 
-  Future<void> _onSubmitPaymentEvent(
-    SubmitPaymentEvent event,
+  // TODO: Change to real impl
+  Future<void> _onInitializeSinglePaymentEvent(
+    InitializeSinglePaymentEvent event,
     Emitter<PaymentsState> emitter,
-  ) async {}
+  ) async {
+    emitter(state.copyWith(initializePaymentLoading: true));
+
+    await Future.delayed(const Duration(milliseconds: 2000));
+
+    emitter(state.copyWith(initializePaymentLoading: false));
+  }
 
   Future<void> _onClearOpenPaymentTypeDialogEvent(
     ClearOpenPaymentTypeDialogEvent event,

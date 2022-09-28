@@ -12,6 +12,10 @@ class AppImages {
 
   static const errorSmall = '$_baseIconsPath/error_small.svg';
 
+  static const bank = '$_baseIconsPath/bank.svg';
+  static const link = '$_baseIconsPath/link.svg';
+  static const card = '$_baseIconsPath/card.svg';
+
   // Flags
 
   static const flagLt = '$_baseFlagsPath/flag_lt.svg';

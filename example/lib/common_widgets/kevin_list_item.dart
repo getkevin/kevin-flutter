@@ -17,7 +17,7 @@ enum KevinListItemType {
 }
 
 class KevinListItem extends StatelessWidget {
-  final Widget _trailingWidget;
+  final Widget _leadingWidget;
   final String _text;
   final VoidCallback _onPressed;
   final KevinListItemType _type;
@@ -30,7 +30,26 @@ class KevinListItem extends StatelessWidget {
     required VoidCallback onPressed,
     KevinListItemType type = KevinListItemType.middle,
     bool selected = false,
-  })  : _trailingWidget = trailingWidget,
+  })  : _leadingWidget = trailingWidget,
+        _text = text,
+        _onPressed = onPressed,
+        _type = type,
+        _selected = selected;
+
+  KevinListItem.defaultLeadingIcon({
+    super.key,
+    required String icon,
+    required String text,
+    required VoidCallback onPressed,
+    Color? iconColor,
+    Color? iconBackgroundColor,
+    KevinListItemType type = KevinListItemType.middle,
+    bool selected = false,
+  })  : _leadingWidget = KevinListItemLeadingIcon(
+          icon: icon,
+          iconColor: iconColor,
+          backgroundColor: iconBackgroundColor,
+        ),
         _text = text,
         _onPressed = onPressed,
         _type = type,
@@ -60,7 +79,7 @@ class KevinListItem extends StatelessWidget {
               SizedBox(
                 height: 40,
                 width: 40,
-                child: _trailingWidget,
+                child: _leadingWidget,
               ),
               const SizedBox(
                 width: 16,
@@ -98,5 +117,39 @@ class KevinListItem extends StatelessWidget {
     final bottom = Radius.circular(_type.isBottom ? 11 : 0);
 
     return BorderRadius.vertical(top: top, bottom: bottom);
+  }
+}
+
+class KevinListItemLeadingIcon extends StatelessWidget {
+  final String _icon;
+  final Color? _iconColor;
+  final Color? _backgroundColor;
+
+  const KevinListItemLeadingIcon({
+    super.key,
+    required String icon,
+    Color? iconColor,
+    Color? backgroundColor,
+  })  : _icon = icon,
+        _iconColor = iconColor,
+        _backgroundColor = backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = AppTheme.of(context);
+    final color = theme.color;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: _backgroundColor ?? color.primary,
+        borderRadius: BorderRadius.circular(11),
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          _icon,
+          color: _iconColor ?? color.onPrimary,
+        ),
+      ),
+    );
   }
 }

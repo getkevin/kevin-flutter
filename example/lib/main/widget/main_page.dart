@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kevin_flutter_example/accounts/widget/accounts_page.dart';
+import 'package:kevin_flutter_example/common_widgets/kevin_progress_indicator.dart';
 import 'package:kevin_flutter_example/main/bloc/main_bloc.dart';
 import 'package:kevin_flutter_example/main/model/main_page_tab.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_bloc.dart';
 import 'package:kevin_flutter_example/payments/widget/payments_page.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
+
+part 'main_page_navigation_bar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -45,73 +48,57 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AppTheme.of(context);
-    final color = theme.color;
-    final typography = theme.typography;
-
     return BlocBuilder<MainBloc, MainState>(
       builder: (context, state) {
-        return Scaffold(
-          body: IndexedStack(
-            index: state.tab.index,
-            children: const [
-              AccountsPage(),
-              PaymentsPage(),
-            ],
-          ),
-          bottomNavigationBar: Theme(
-            data: Theme.of(context).copyWith(
-              splashColor: color.rippleOnPrimary.withOpacity(0.2),
-            ),
-            child: BottomNavigationBar(
-              currentIndex: state.tab.index,
-              onTap: (index) {
-                final tab = MainPageTab.values[index];
-                _bloc.add(SetMainPageTabEvent(tab: tab));
-              },
-              selectedItemColor: color.primary,
-              selectedLabelStyle: typography.caption2,
-              unselectedItemColor: color.secondaryText,
-              unselectedLabelStyle: typography.caption2,
-              items: [
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    AppImages.navAccounts,
-                    color: _getIconColor(
-                      context: context,
-                      tab: MainPageTab.accounts,
-                      currentTab: state.tab,
-                    ),
+        return Stack(
+          children: [
+            Scaffold(
+              body: IndexedStack(
+                index: state.tab.index,
+                children: [
+                  const AccountsPage(),
+                  PaymentsPage(
+                    onSetGlobalLoading: _onSetLoading,
                   ),
-                  // TODO: Localisation
-                  label: 'Accounts',
-                ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    AppImages.navPayments,
-                    color: _getIconColor(
-                      context: context,
-                      tab: MainPageTab.payments,
-                      currentTab: state.tab,
-                    ),
-                  ),
-                  // TODO: Localisation
-                  label: 'Payments',
-                ),
-              ],
+                ],
+              ),
+              bottomNavigationBar: _BottomNavigationBar(
+                tab: state.tab,
+                onTabSelected: _onTabSelected,
+              ),
             ),
-          ),
+            _LoadingOverlay(loading: state.loading),
+          ],
         );
       },
     );
   }
 
-  Color _getIconColor({
-    required BuildContext context,
-    required MainPageTab tab,
-    required MainPageTab currentTab,
-  }) {
-    final color = AppTheme.of(context).color;
-    return tab == currentTab ? color.primary : color.secondaryText;
+  void _onTabSelected(MainPageTab tab) {
+    _bloc.add(SetMainPageTabEvent(tab: tab));
+  }
+
+  void _onSetLoading(bool loading) {
+    _bloc.add(SetLoadingEvent(loading: loading));
+  }
+}
+
+class _LoadingOverlay extends StatelessWidget {
+  final bool _loading;
+
+  const _LoadingOverlay({
+    required bool loading,
+  }) : _loading = loading;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_loading) return const SizedBox.shrink();
+
+    return AbsorbPointer(
+      child: Container(
+        color: Colors.black.withOpacity(0.5),
+        child: const KevinProgressIndicator.center(),
+      ),
+    );
   }
 }

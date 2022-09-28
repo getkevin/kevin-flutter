@@ -14,6 +14,8 @@ import 'package:kevin_flutter_example/country/country_selection/widget/country_s
 import 'package:kevin_flutter_example/error/api_error_mapper.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_bloc.dart';
 import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
+import 'package:kevin_flutter_example/payments/payment_type/model/payment_type.dart';
+import 'package:kevin_flutter_example/payments/payment_type/widget/payment_type_bottom_dialog.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
 import 'package:kevin_flutter_example/web/app_urls.dart';
@@ -33,7 +35,10 @@ part 'payments_user_input_widgets.dart';
 const _creditorItemAspectRatio = 1.92;
 
 class PaymentsPage extends StatefulWidget {
-  const PaymentsPage({super.key});
+  final Function(bool) _onSetGlobalLoading;
+
+  const PaymentsPage({super.key, required Function(bool) onSetGlobalLoading})
+      : _onSetGlobalLoading = onSetGlobalLoading;
 
   @override
   State<StatefulWidget> createState() => _PaymentsPageState();
@@ -90,6 +95,10 @@ class _PaymentsPageState extends State<PaymentsPage> {
               if (generalError != null) {
                 _onGeneralError(context: context, error: generalError);
               }
+
+              _onInitializePaymentLoading(
+                loading: state.initializePaymentLoading,
+              );
             },
             builder: (context, state) {
               return CustomScrollView(
@@ -169,17 +178,23 @@ class _PaymentsPageState extends State<PaymentsPage> {
     _bloc.add(const ValidatePaymentEvent());
   }
 
-  void _onOpenPaymentTypeDialog({required BuildContext context}) {
+  void _onOpenPaymentTypeDialog({required BuildContext context}) async {
     _bloc.add(const ClearOpenPaymentTypeDialogEvent());
 
-    // TODO: Should open payment dialog instead
-    ScaffoldMessenger.of(context).showSnackBar(
-      KevinSnackBar.text(
-        context: context,
-        text: 'Success',
-        type: KevinSnackBarType.success,
-      ),
+    final paymentType = await showKevinBottomSheet<PaymentType>(
+      context: context,
+      builder: (context, sc) {
+        return const PaymentTypeBottomDialog();
+      },
     );
+
+    if (paymentType != null) {
+      _bloc.add(InitializeSinglePaymentEvent(paymentType: paymentType));
+    }
+  }
+
+  void _onInitializePaymentLoading({required bool loading}) {
+    widget._onSetGlobalLoading.call(loading);
   }
 
   void _onGeneralError({

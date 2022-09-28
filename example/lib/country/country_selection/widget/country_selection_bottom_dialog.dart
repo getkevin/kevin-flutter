@@ -1,12 +1,13 @@
 import 'package:domain/country/model/country.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_bottom_sheet_header.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_list_item.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_progress_indicator.dart';
+import 'package:kevin_flutter_example/common_widgets/kevin_snack_bar.dart';
 import 'package:kevin_flutter_example/country/country_selection/bloc/country_selection_bloc.dart';
+import 'package:kevin_flutter_example/error/api_error_mapper.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
 
 class CountrySelectionBottomDialog extends StatefulWidget {
@@ -36,6 +37,17 @@ class CountrySelectionBottomDialog extends StatefulWidget {
 
 class _CountrySelectionBottomDialogState
     extends State<CountrySelectionBottomDialog> {
+  late final CountrySelectionBloc _bloc;
+  late final ApiErrorMapper _apiErrorMapper;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _bloc = context.read();
+    _apiErrorMapper = context.read();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
@@ -43,7 +55,12 @@ class _CountrySelectionBottomDialogState
     final decoration = theme.decoration;
 
     return BlocConsumer<CountrySelectionBloc, CountrySelectionState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        final error = state.error.orNull;
+        if (error != null) {
+          _onError(context: context, error: error);
+        }
+      },
       builder: (context, state) {
         return Stack(
           children: [
@@ -109,6 +126,7 @@ class _CountrySelectionBottomDialogState
             const KevinBottomSheetHeader(
               // TODO: Localisation
               text: 'Choose bank account',
+              positioned: true,
             ),
           ],
         );
@@ -121,5 +139,13 @@ class _CountrySelectionBottomDialogState
     required Country country,
   }) {
     Navigator.of(context).pop(country);
+  }
+
+  void _onError({required BuildContext context, required Exception error}) {
+    _bloc.add(const ClearErrorEvent());
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      KevinSnackBar.text(context: context, text: _apiErrorMapper.map(error)),
+    );
   }
 }
