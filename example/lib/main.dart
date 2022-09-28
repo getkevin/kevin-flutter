@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:data/kevin/api/kevin_api_client.dart';
 import 'package:data/kevin/repository/network_kevin_repository.dart';
@@ -28,7 +29,9 @@ const _defaultTimeOutDuration = 120000;
 const _kevinApiUrl = 'https://api.getkevin.eu/demo/';
 const _kevinMobileDemoApiUrl = 'https://mobile-demo.kevin.eu/api/v1/';
 
-const _kevinPaymentsCallbackUrl = 'kevin://redirect.payment';
+// TODO: Rework after plugin supports specific ios/android callbacks
+const _kevinPaymentsCallbackUrlAndroid = 'kevin://redirect.payment';
+const _kevinPaymentsCallbackUrlIos = 'https://redirect.kevin.eu/payment.html';
 
 void main() {
   runZonedGuarded(() async {
@@ -105,9 +108,14 @@ void main() {
 }
 
 Future<void> _initKevinSdk() async {
+  // TODO: Rework after plugin supports specific ios/android callbacks
+  final callbackUrl = Platform.isIOS
+      ? _kevinPaymentsCallbackUrlIos
+      : _kevinPaymentsCallbackUrlAndroid;
+
   await Kevin.setDeepLinkingEnabled(true);
   await KevinPayments.setPaymentsConfiguration(
-    const KevinPaymentsConfiguration(callbackUrl: _kevinPaymentsCallbackUrl),
+    KevinPaymentsConfiguration(callbackUrl: callbackUrl),
   );
 }
 
