@@ -1,11 +1,17 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:collection/collection.dart';
 import 'package:domain/country/model/country.dart';
+import 'package:domain/kevin/model/payment.dart';
+import 'package:domain/kevin/model/payment_request.dart';
+import 'package:domain/kevin/repository/kevin_repository.dart';
 import 'package:domain/payments/usecase/get_creditors_use_case.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kevin_flutter_core/kevin_flutter_core.dart';
+import 'package:kevin_flutter_example/country/country_extensions.dart';
 import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
+import 'package:kevin_flutter_example/payments/model/payment_session.dart';
 import 'package:kevin_flutter_example/payments/payment_type/model/payment_type.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/validation/amount_validator.dart';
@@ -83,11 +89,18 @@ class ValidatePaymentEvent extends PaymentsEvent {
 
 class InitializeSinglePaymentEvent extends PaymentsEvent {
   final PaymentType paymentType;
+  final String callbackUrl;
 
-  const InitializeSinglePaymentEvent({required this.paymentType});
+  const InitializeSinglePaymentEvent({
+    required this.paymentType,
+    required this.callbackUrl,
+  });
 
   @override
-  List<Object?> get props => [paymentType];
+  List<Object?> get props => [
+        paymentType,
+        callbackUrl,
+      ];
 }
 
 class ClearOpenPaymentTypeDialogEvent extends PaymentsEvent {
@@ -96,6 +109,18 @@ class ClearOpenPaymentTypeDialogEvent extends PaymentsEvent {
 
 class ClearGeneralErrorEvent extends PaymentsEvent {
   const ClearGeneralErrorEvent();
+}
+
+class ClearInitializePaymentResult extends PaymentsEvent {
+  const ClearInitializePaymentResult();
+}
+
+class ClearUserInputFields extends PaymentsEvent {
+  const ClearUserInputFields();
+}
+
+class ClearUserInputFieldsUpdated extends PaymentsEvent {
+  const ClearUserInputFieldsUpdated();
 }
 
 /// State
@@ -111,11 +136,14 @@ class PaymentsState extends Equatable {
   final String amount;
   final Optional<String> amountError;
 
+  final bool userInputFieldsUpdated;
+
   final bool termsAccepted;
   final bool termsError;
 
   final bool openPaymentTypeDialog;
 
+  final Optional<PaymentSession> initializePaymentResult;
   final bool initializePaymentLoading;
 
   final Optional<Exception> generalError;
@@ -128,9 +156,11 @@ class PaymentsState extends Equatable {
     required this.emailError,
     required this.amount,
     required this.amountError,
+    required this.userInputFieldsUpdated,
     required this.termsAccepted,
     required this.termsError,
     required this.openPaymentTypeDialog,
+    required this.initializePaymentResult,
     required this.initializePaymentLoading,
     required this.generalError,
   });
@@ -143,9 +173,11 @@ class PaymentsState extends Equatable {
     Optional<String>? emailError,
     String? amount,
     Optional<String>? amountError,
+    bool? userInputFieldsUpdated,
     bool? termsAccepted,
     bool? termsError,
     bool? openPaymentTypeDialog,
+    Optional<PaymentSession>? initializePaymentResult,
     bool? initializePaymentLoading,
     Optional<Exception>? generalError,
   }) {
@@ -157,10 +189,14 @@ class PaymentsState extends Equatable {
       emailError: emailError ?? this.emailError,
       amount: amount ?? this.amount,
       amountError: amountError ?? this.amountError,
+      userInputFieldsUpdated:
+          userInputFieldsUpdated ?? this.userInputFieldsUpdated,
       termsAccepted: termsAccepted ?? this.termsAccepted,
       termsError: termsError ?? this.termsError,
       openPaymentTypeDialog:
           openPaymentTypeDialog ?? this.openPaymentTypeDialog,
+      initializePaymentResult:
+          initializePaymentResult ?? this.initializePaymentResult,
       initializePaymentLoading:
           initializePaymentLoading ?? this.initializePaymentLoading,
       generalError: generalError ?? this.generalError,
@@ -176,9 +212,11 @@ class PaymentsState extends Equatable {
         emailError,
         amount,
         amountError,
+        userInputFieldsUpdated,
         termsAccepted,
         termsError,
         openPaymentTypeDialog,
+        initializePaymentResult,
         initializePaymentLoading,
         generalError
       ];
@@ -192,15 +230,18 @@ const _defaultCountry = Country(
 
 /// BLoC
 class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
+  final KevinRepository _kevinRepository;
   final GetCreditorsUseCase _getCreditorsUseCase;
   final EmailValidator _emailValidator;
   final AmountValidator _amountValidator;
 
   PaymentsBloc({
+    required KevinRepository kevinRepository,
     required GetCreditorsUseCase getCreditorsUseCase,
     required EmailValidator emailValidator,
     required AmountValidator amountValidator,
-  })  : _getCreditorsUseCase = getCreditorsUseCase,
+  })  : _kevinRepository = kevinRepository,
+        _getCreditorsUseCase = getCreditorsUseCase,
         _emailValidator = emailValidator,
         _amountValidator = amountValidator,
         super(
@@ -212,9 +253,11 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
             emailError: Optional.absent(),
             amount: '',
             amountError: Optional.absent(),
+            userInputFieldsUpdated: false,
             termsAccepted: false,
             termsError: false,
             openPaymentTypeDialog: false,
+            initializePaymentResult: Optional.absent(),
             initializePaymentLoading: false,
             generalError: Optional.absent(),
           ),
@@ -241,6 +284,12 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
           await _onClearOpenPaymentTypeDialogEvent(event, emitter);
         } else if (event is ClearGeneralErrorEvent) {
           await _onClearGeneralErrorEvent(event, emitter);
+        } else if (event is ClearInitializePaymentResult) {
+          await _onClearInitializePaymentResult(event, emitter);
+        } else if (event is ClearUserInputFields) {
+          await _onClearUserInputFields(event, emitter);
+        } else if (event is ClearUserInputFieldsUpdated) {
+          await _onClearUserInputFieldsUpdated(event, emitter);
         }
       },
       transformer: sequential(),
@@ -343,16 +392,48 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
     }
   }
 
-  // TODO: Change to real impl
   Future<void> _onInitializeSinglePaymentEvent(
     InitializeSinglePaymentEvent event,
     Emitter<PaymentsState> emitter,
   ) async {
     emitter(state.copyWith(initializePaymentLoading: true));
 
-    await Future.delayed(const Duration(milliseconds: 2000));
+    try {
+      final Payment payment;
 
-    emitter(state.copyWith(initializePaymentLoading: false));
+      final paymentRequest =
+          _getPaymentRequest(state: state, redirectUrl: event.callbackUrl);
+
+      if (event.paymentType == PaymentType.card) {
+        payment = await _kevinRepository.initializeCardPayment(paymentRequest);
+      } else {
+        payment = await _kevinRepository.initializeBankPayment(paymentRequest);
+      }
+
+      final paymentSession = PaymentSession(
+        paymentId: payment.id,
+        paymentType: event.paymentType.toKevinPaymentType,
+        skipAuthentication: false,
+        preselectedCountry: state.country.toKevinCountry(
+          defaultCountry: KevinCountry.lithuania,
+        ),
+      );
+
+      emitter(
+        state.copyWith(
+          initializePaymentResult: Optional.of(paymentSession),
+          initializePaymentLoading: false,
+        ),
+      );
+    } on Exception catch (error, st) {
+      Fimber.e('Error initializing payment', ex: error, stacktrace: st);
+      emitter(
+        state.copyWith(
+          generalError: Optional.of(error),
+          initializePaymentLoading: false,
+        ),
+      );
+    }
   }
 
   Future<void> _onClearOpenPaymentTypeDialogEvent(
@@ -369,6 +450,34 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
     Emitter<PaymentsState> emitter,
   ) async {
     emitter(state.copyWith(generalError: const Optional.absent()));
+  }
+
+  Future<void> _onClearInitializePaymentResult(
+    ClearInitializePaymentResult event,
+    Emitter<PaymentsState> emitter,
+  ) async {
+    emitter(state.copyWith(initializePaymentResult: const Optional.absent()));
+  }
+
+  Future<void> _onClearUserInputFields(
+    ClearUserInputFields event,
+    Emitter<PaymentsState> emitter,
+  ) async {
+    emitter(
+      state.copyWith(
+        email: '',
+        amount: '',
+        termsAccepted: false,
+        userInputFieldsUpdated: true,
+      ),
+    );
+  }
+
+  Future<void> _onClearUserInputFieldsUpdated(
+    ClearUserInputFieldsUpdated event,
+    Emitter<PaymentsState> emitter,
+  ) async {
+    emitter(state.copyWith(userInputFieldsUpdated: false));
   }
 
   Future<PaymentsState> _loadCreditors({
@@ -399,5 +508,20 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
         creditorsLoading: false,
       );
     }
+  }
+
+  static PaymentRequest _getPaymentRequest({
+    required PaymentsState state,
+    required String redirectUrl,
+  }) {
+    final creditor = state.creditors.firstWhere((c) => c.selected);
+    return PaymentRequest(
+      amount: state.amount.trim(),
+      email: state.email.trim(),
+      creditorName: creditor.name,
+      redirectUrl: redirectUrl,
+      // TODO: Use correct creditor iban when BE issue is resolved
+      iban: null,
+    );
   }
 }

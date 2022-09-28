@@ -26,6 +26,7 @@ class MainPage extends StatefulWidget {
           ),
           BlocProvider(
             create: (context) => PaymentsBloc(
+              kevinRepository: context.read(),
               getCreditorsUseCase: context.read(),
               emailValidator: context.read(),
               amountValidator: context.read(),

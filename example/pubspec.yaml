@@ -17,7 +17,7 @@ publish_to: none
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.1 <3.0.0'
+  sdk: '>=2.17.6 <3.0.0'
 
 dependencies:
   flutter:
@@ -43,8 +43,22 @@ dependencies:
   cupertino_icons: ^1.0.5
 
   # kevin. SDK plugins
-  kevin_flutter_core: ^1.0.2
-  kevin_flutter_in_app_payments: 1.0.0
+  kevin_flutter_core:
+    path: ../packages/kevin_flutter_core/kevin_flutter_core
+  kevin_flutter_in_app_payments:
+    path: ../packages/kevin_flutter_in_app_payments/kevin_flutter_in_app_payments
+
+dependency_overrides:
+  kevin_flutter_core:
+    path: ../packages/kevin_flutter_core/kevin_flutter_core
+  kevin_flutter_core_platform_interface:
+    path: ../packages/kevin_flutter_core/kevin_flutter_core_platform_interface
+  kevin_flutter_core_android:
+    path: ../packages/kevin_flutter_core/kevin_flutter_core_android
+  kevin_flutter_core_ios:
+    path: ../packages/kevin_flutter_core/kevin_flutter_core_ios
+  kevin_flutter_in_app_payments_platform_interface:
+    path: ../packages/kevin_flutter_in_app_payments/kevin_flutter_in_app_payments_platform_interface
 
 dev_dependencies:
   flutter_test:
