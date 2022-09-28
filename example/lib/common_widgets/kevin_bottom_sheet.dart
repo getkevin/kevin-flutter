@@ -186,12 +186,14 @@ class _AnimatedModalSheetBodyState extends State<_AnimatedModalSheetBody> {
     if (!widget._edgeToEdge || _showEdgeToEdgeContainer) return;
 
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      final height = MediaQuery.of(context).size.height.floor();
-      final size = _key.currentContext?.size?.height.floor() ?? 0;
+      final screenHeight = MediaQuery.of(context).size.height.floor();
+      final childHeight = _key.currentContext?.size?.height.floor() ?? 0;
 
-      if (size >= height) {
+      final showEdgeToEdgeContainer = childHeight >= screenHeight;
+
+      if (_showEdgeToEdgeContainer != showEdgeToEdgeContainer) {
         setState(() {
-          _showEdgeToEdgeContainer = true;
+          _showEdgeToEdgeContainer = showEdgeToEdgeContainer;
         });
       }
     });
