@@ -14,9 +14,6 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    const lightThemeData = AppThemeData.light();
-    const darkThemeData = AppThemeData.dark();
-
     return AppThemeManager(
       child: MaterialApp(
         builder: (context, widget) => widget!,
@@ -24,11 +21,9 @@ class _AppState extends State<App> {
           AppRoutes.root: (context) => MainPage.withBloc(),
         },
         theme: _getThemeData(
-          themeData: lightThemeData,
           brightness: Brightness.light,
         ),
         darkTheme: _getThemeData(
-          themeData: darkThemeData,
           brightness: Brightness.dark,
         ),
       ),
@@ -36,9 +31,19 @@ class _AppState extends State<App> {
   }
 
   ThemeData _getThemeData({
-    required AppThemeData themeData,
     required Brightness brightness,
   }) {
+    final AppThemeData themeData;
+
+    switch (brightness) {
+      case Brightness.dark:
+        themeData = const AppThemeData.dark();
+        break;
+      case Brightness.light:
+        themeData = const AppThemeData.light();
+        break;
+    }
+
     return ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: themeData.color.primaryBackground,
