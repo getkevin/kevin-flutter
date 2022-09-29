@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin_flutter_example/main/model/main_page_tab.dart';
@@ -68,13 +69,16 @@ class MainBloc extends Bloc<MainEvent, MainState> {
             loading: false,
           ),
         ) {
-    on<MainEvent>((event, emitter) async {
-      if (event is SetMainPageTabEvent) {
-        await _onSetMainPageTabEvent(event, emitter);
-      } else if (event is SetLoadingEvent) {
-        await _onSetLoadingEvent(event, emitter);
-      }
-    });
+    on<MainEvent>(
+      (event, emitter) async {
+        if (event is SetMainPageTabEvent) {
+          await _onSetMainPageTabEvent(event, emitter);
+        } else if (event is SetLoadingEvent) {
+          await _onSetLoadingEvent(event, emitter);
+        }
+      },
+      transformer: sequential(),
+    );
   }
 
   Future<void> _onSetMainPageTabEvent(

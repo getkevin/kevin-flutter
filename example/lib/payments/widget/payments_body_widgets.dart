@@ -1,6 +1,5 @@
 part of 'payments_page.dart';
 
-
 class _Body extends StatelessWidget {
   final PaymentsState _state;
   final TextEditingController _emailController;

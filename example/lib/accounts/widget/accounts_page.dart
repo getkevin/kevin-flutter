@@ -1,12 +1,16 @@
+import 'package:domain/accounts/model/linked_account.dart';
 import 'package:domain/kevin/model/auth_scope.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kevin_flutter_accounts/kevin_flutter_accounts.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
+import 'package:kevin_flutter_example/accounts/account_action/widget/account_action_bottom_dialog.dart';
 import 'package:kevin_flutter_example/accounts/bloc/accounts_bloc.dart';
 import 'package:kevin_flutter_example/accounts/model/linking_session.dart';
+import 'package:kevin_flutter_example/common_widgets/kevin_bottom_sheet.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_button.dart';
+import 'package:kevin_flutter_example/common_widgets/kevin_icon_button.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_list_item.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_snack_bar.dart';
 import 'package:kevin_flutter_example/error/api_error_mapper.dart';
@@ -138,12 +142,13 @@ class _AccountsPageState extends State<AccountsPage>
                               color: Colors.transparent,
                               shape: const CircleBorder(),
                               clipBehavior: Clip.antiAlias,
-                              child: IconButton(
-                                onPressed: () {},
-                                icon: SvgPicture.asset(
-                                  AppImages.dots,
-                                  color: color.primary,
+                              child: KevinIconButton(
+                                onPressed: () => _onOpenAccountAction(
+                                  context: context,
+                                  account: account,
                                 ),
+                                icon: AppImages.dots,
+                                iconColor: color.primary,
                               ),
                             ),
                           ),
@@ -200,6 +205,20 @@ class _AccountsPageState extends State<AccountsPage>
     } else if (result is KevinSessionResultGeneralError) {
       // TODO: Localise
       _showError(context: context, error: result.message ?? 'General error');
+    }
+  }
+
+  void _onOpenAccountAction({
+    required BuildContext context,
+    required LinkedAccount account,
+  }) async {
+    final result = await showKevinBottomSheet<AccountAction>(
+      context: context,
+      builder: (context, sc) => AccountActionBottomDialog(account: account),
+    );
+
+    if (result == AccountAction.delete) {
+      _bloc.add(RemoveLinkedAccountEvent(account: account));
     }
   }
 

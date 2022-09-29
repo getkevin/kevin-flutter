@@ -53,6 +53,17 @@ class SetLinkingSuccessResultEvent extends AccountsEvent {
   List<Object?> get props => [result];
 }
 
+class RemoveLinkedAccountEvent extends AccountsEvent {
+  final LinkedAccount account;
+
+  const RemoveLinkedAccountEvent({
+    required this.account,
+  });
+
+  @override
+  List<Object?> get props => [account];
+}
+
 class ClearInitializeLinkingResultEvent extends AccountsEvent {
   const ClearInitializeLinkingResultEvent();
 }
@@ -130,6 +141,8 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
           await _onInitializeLinkingEvent(event, emitter);
         } else if (event is SetLinkingSuccessResultEvent) {
           await _onSetLinkingResultSuccessEvent(event, emitter);
+        } else if (event is RemoveLinkedAccountEvent) {
+          await _onRemoveLinkedAccountEvent(event, emitter);
         } else if (event is ClearInitializeLinkingResultEvent) {
           await _onClearInitializeLinkingResultEvent(event, emitter);
         } else if (event is ClearGeneralErrorEvent) {
@@ -206,8 +219,15 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
       bankId: bank.id,
     );
 
-    await _accountsRepository.delete(bank.id);
+    await _accountsRepository.deleteByBankId(bank.id);
     await _accountsRepository.insert(account: account);
+  }
+
+  Future<void> _onRemoveLinkedAccountEvent(
+    RemoveLinkedAccountEvent event,
+    Emitter<AccountsState> emitter,
+  ) async {
+    await _accountsRepository.deleteById(event.account.id);
   }
 
   Future<void> _onClearInitializeLinkingResultEvent(

@@ -20,6 +20,8 @@ class AppImages {
   static const plus = '$_baseIconsPath/plus.svg';
   static const dots = '$_baseIconsPath/dots.svg';
 
+  static const bin = '$_baseIconsPath/bin.svg';
+
   // Images
 
   static const accountsBanner = '$_baseImagesPath/accounts_banner.png';

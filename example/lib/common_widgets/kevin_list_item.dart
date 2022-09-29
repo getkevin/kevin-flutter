@@ -182,21 +182,29 @@ class KevinListItemTrailingArrow extends StatelessWidget {
 }
 
 class KevinListItemCenterText extends StatelessWidget {
-  final String text;
+  final String _text;
+  final Color? _textColor;
 
   const KevinListItemCenterText({
     super.key,
-    required this.text,
-  });
+    required String text,
+    Color? textColor,
+  })  : _text = text,
+        _textColor = textColor;
 
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
+    final color = theme.color;
     final typography = theme.typography;
 
+    final textColor = _textColor ?? color.primaryText;
+
     return Text(
-      text,
-      style: typography.title1,
+      _text,
+      style: typography.title1.copyWith(
+        color: textColor,
+      ),
     );
   }
 }
