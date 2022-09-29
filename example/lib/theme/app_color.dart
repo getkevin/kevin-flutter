@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+part 'app_color_bottom_sheet.dart';
+
 class AppColor extends Equatable {
   final Color primary;
   final Color primaryVariant;
@@ -35,7 +37,7 @@ class AppColor extends Equatable {
 
   final Color icon;
 
-  final BottomSheet bottomSheet;
+  final AppColorBottomSheet bottomSheet;
 
   const AppColor.light()
       : primary = _KevinColors.blue,
@@ -62,7 +64,7 @@ class AppColor extends Equatable {
         onError = _KevinColors.white,
         inputUnfocusedBorder = _KevinColors.gray5,
         icon = _KevinColors.gray2,
-        bottomSheet = const BottomSheet.light();
+        bottomSheet = const AppColorBottomSheet.light();
 
   const AppColor.dark()
       : primary = _KevinColors.blue,
@@ -89,7 +91,7 @@ class AppColor extends Equatable {
         onError = _KevinColors.white,
         inputUnfocusedBorder = _KevinColors.black30,
         icon = _KevinColors.gray2,
-        bottomSheet = const BottomSheet.dark();
+        bottomSheet = const AppColorBottomSheet.dark();
 
   const AppColor({
     required this.primary,
@@ -149,90 +151,6 @@ class AppColor extends Equatable {
       ];
 }
 
-class BottomSheet extends Equatable {
-  final Color primary;
-  final Color primaryVariant;
-  final Color onPrimary;
-
-  final Color secondary;
-  final Color secondaryVariant;
-  final Color onSecondary;
-
-  final Color error;
-  final Color onError;
-
-  final Color surface;
-  final Color onSurface;
-
-  final Color controlHighlight;
-  final Color controlActivated;
-
-  final Color navigationBar;
-
-  const BottomSheet({
-    required this.primary,
-    required this.primaryVariant,
-    required this.onPrimary,
-    required this.secondary,
-    required this.secondaryVariant,
-    required this.onSecondary,
-    required this.error,
-    required this.onError,
-    required this.surface,
-    required this.onSurface,
-    required this.controlHighlight,
-    required this.controlActivated,
-    required this.navigationBar,
-  });
-
-  const BottomSheet.light()
-      : primary = _KevinColors.blue,
-        primaryVariant = _KevinColors.darkBlue,
-        onPrimary = _KevinColors.white,
-        secondary = _KevinColors.blue,
-        secondaryVariant = _KevinColors.darkBlue,
-        onSecondary = _KevinColors.white,
-        error = _KevinColors.warningRed,
-        onError = _KevinColors.white,
-        surface = _KevinColors.white,
-        onSurface = _KevinColors.black,
-        controlHighlight = _KevinColors.blue,
-        controlActivated = _KevinColors.gray5,
-        navigationBar = _KevinColors.black30;
-
-  const BottomSheet.dark()
-      : primary = _KevinColors.blue,
-        primaryVariant = _KevinColors.darkBlue,
-        onPrimary = _KevinColors.white,
-        secondary = _KevinColors.blue,
-        secondaryVariant = _KevinColors.darkBlue,
-        onSecondary = _KevinColors.white,
-        error = _KevinColors.warningRed,
-        onError = _KevinColors.white,
-        surface = _KevinColors.gray0,
-        onSurface = _KevinColors.white,
-        controlHighlight = _KevinColors.blue,
-        controlActivated = _KevinColors.blue,
-        navigationBar = _KevinColors.black30;
-
-  @override
-  List<Object?> get props => [
-        primary,
-        primaryVariant,
-        onPrimary,
-        secondary,
-        secondaryVariant,
-        onSecondary,
-        error,
-        onError,
-        surface,
-        onSurface,
-        controlHighlight,
-        controlActivated,
-        navigationBar,
-      ];
-}
-
 class _KevinColors {
   static const black = Color(0xFF121212);
   static const black30 = Color(0x4DFFFFFF);
@@ -250,5 +168,5 @@ class _KevinColors {
   static const gray2 = Color(0xFFBCC4CC);
   static const gray5 = Color(0xFFE6E7EE);
 // TODO: Not used now, maybe can be deleted
-  // static const metallicGray = Color(0xFF90A4AE);
+// static const metallicGray = Color(0xFF90A4AE);
 }

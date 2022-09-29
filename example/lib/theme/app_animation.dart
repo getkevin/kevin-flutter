@@ -1,31 +1,31 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
-class AppDecoration extends Equatable {
-  final duration = const _Duration();
-  final animationCurve = const _AnimationCurve();
+class AppAnimation extends Equatable {
+  final duration = const AppAnimationDuration();
+  final animationCurve = const AppAnimationCurve();
 
-  const AppDecoration();
+  const AppAnimation();
 
   @override
   List<Object?> get props => [duration, animationCurve];
 }
 
-class _Duration extends Equatable {
+class AppAnimationDuration extends Equatable {
   final Duration defaultDuration = const Duration(milliseconds: 150);
   final Duration longDuration = const Duration(milliseconds: 300);
   final Duration shortDuration = const Duration(milliseconds: 50);
 
-  const _Duration();
+  const AppAnimationDuration();
 
   @override
   List<Object?> get props => [defaultDuration];
 }
 
-class _AnimationCurve extends Equatable {
+class AppAnimationCurve extends Equatable {
   final Curve defaultCurve = Curves.easeOutCubic;
 
-  const _AnimationCurve();
+  const AppAnimationCurve();
 
   @override
   List<Object?> get props => [defaultCurve];

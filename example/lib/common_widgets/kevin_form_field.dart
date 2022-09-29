@@ -114,7 +114,7 @@ class KevinFormFieldClearIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final color = theme.color;
-    final decoration = theme.decoration;
+    final decoration = theme.animation;
 
     return SizedBox(
       height: 44,

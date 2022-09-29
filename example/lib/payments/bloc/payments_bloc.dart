@@ -5,11 +5,12 @@ import 'package:domain/kevin/model/payment.dart';
 import 'package:domain/kevin/model/payment_request.dart';
 import 'package:domain/kevin/repository/kevin_repository.dart';
 import 'package:domain/payments/usecase/get_creditors_use_case.dart';
-import 'package:equatable/equatable.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_example/country/country_extensions.dart';
+import 'package:kevin_flutter_example/payments/bloc/payments_event.dart';
+import 'package:kevin_flutter_example/payments/bloc/payments_state.dart';
 import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
 import 'package:kevin_flutter_example/payments/model/payment_session.dart';
 import 'package:kevin_flutter_example/payments/payment_type/model/payment_type.dart';
@@ -18,217 +19,12 @@ import 'package:kevin_flutter_example/validation/amount_validator.dart';
 import 'package:kevin_flutter_example/validation/email_validator.dart';
 import 'package:quiver/core.dart';
 
-/// Events
-abstract class PaymentsEvent extends Equatable {
-  const PaymentsEvent();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class InitialLoadEvent extends PaymentsEvent {
-  const InitialLoadEvent();
-}
-
-class SetCountryEvent extends PaymentsEvent {
-  final Country country;
-
-  const SetCountryEvent({required this.country});
-
-  @override
-  List<Object?> get props => [country];
-}
-
-class SetCreditorEvent extends PaymentsEvent {
-  final CreditorListItem creditor;
-
-  const SetCreditorEvent({
-    required this.creditor,
-  });
-
-  @override
-  List<Object?> get props => [creditor];
-}
-
-class SetEmailEvent extends PaymentsEvent {
-  final String email;
-
-  const SetEmailEvent({
-    required this.email,
-  });
-
-  @override
-  List<Object?> get props => [email];
-}
-
-class SetAmountEvent extends PaymentsEvent {
-  final String amount;
-
-  const SetAmountEvent({
-    required this.amount,
-  });
-
-  @override
-  List<Object?> get props => [amount];
-}
-
-class SetTermsAcceptedEvent extends PaymentsEvent {
-  final bool accepted;
-
-  const SetTermsAcceptedEvent({
-    required this.accepted,
-  });
-
-  @override
-  List<Object?> get props => [accepted];
-}
-
-class ValidatePaymentEvent extends PaymentsEvent {
-  const ValidatePaymentEvent();
-}
-
-class InitializeSinglePaymentEvent extends PaymentsEvent {
-  final PaymentType paymentType;
-  final String callbackUrl;
-
-  const InitializeSinglePaymentEvent({
-    required this.paymentType,
-    required this.callbackUrl,
-  });
-
-  @override
-  List<Object?> get props => [
-        paymentType,
-        callbackUrl,
-      ];
-}
-
-class ClearOpenPaymentTypeDialogEvent extends PaymentsEvent {
-  const ClearOpenPaymentTypeDialogEvent();
-}
-
-class ClearGeneralErrorEvent extends PaymentsEvent {
-  const ClearGeneralErrorEvent();
-}
-
-class ClearInitializePaymentResultEvent extends PaymentsEvent {
-  const ClearInitializePaymentResultEvent();
-}
-
-class ClearUserInputFieldsEvent extends PaymentsEvent {
-  const ClearUserInputFieldsEvent();
-}
-
-class ClearUserInputFieldsUpdatedEvent extends PaymentsEvent {
-  const ClearUserInputFieldsUpdatedEvent();
-}
-
-/// State
-class PaymentsState extends Equatable {
-  final Country country;
-
-  final List<CreditorListItem> creditors;
-  final bool creditorsLoading;
-
-  final String email;
-  final Optional<String> emailError;
-
-  final String amount;
-  final Optional<String> amountError;
-
-  final bool userInputFieldsUpdated;
-
-  final bool termsAccepted;
-  final bool termsError;
-
-  final bool openPaymentTypeDialog;
-
-  final Optional<PaymentSession> initializePaymentResult;
-  final bool initializePaymentLoading;
-
-  final Optional<Exception> generalError;
-
-  const PaymentsState({
-    required this.country,
-    required this.creditors,
-    required this.creditorsLoading,
-    required this.email,
-    required this.emailError,
-    required this.amount,
-    required this.amountError,
-    required this.userInputFieldsUpdated,
-    required this.termsAccepted,
-    required this.termsError,
-    required this.openPaymentTypeDialog,
-    required this.initializePaymentResult,
-    required this.initializePaymentLoading,
-    required this.generalError,
-  });
-
-  PaymentsState copyWith({
-    Country? country,
-    List<CreditorListItem>? creditors,
-    bool? creditorsLoading,
-    String? email,
-    Optional<String>? emailError,
-    String? amount,
-    Optional<String>? amountError,
-    bool? userInputFieldsUpdated,
-    bool? termsAccepted,
-    bool? termsError,
-    bool? openPaymentTypeDialog,
-    Optional<PaymentSession>? initializePaymentResult,
-    bool? initializePaymentLoading,
-    Optional<Exception>? generalError,
-  }) {
-    return PaymentsState(
-      country: country ?? this.country,
-      creditors: creditors ?? this.creditors,
-      creditorsLoading: creditorsLoading ?? this.creditorsLoading,
-      email: email ?? this.email,
-      emailError: emailError ?? this.emailError,
-      amount: amount ?? this.amount,
-      amountError: amountError ?? this.amountError,
-      userInputFieldsUpdated:
-          userInputFieldsUpdated ?? this.userInputFieldsUpdated,
-      termsAccepted: termsAccepted ?? this.termsAccepted,
-      termsError: termsError ?? this.termsError,
-      openPaymentTypeDialog:
-          openPaymentTypeDialog ?? this.openPaymentTypeDialog,
-      initializePaymentResult:
-          initializePaymentResult ?? this.initializePaymentResult,
-      initializePaymentLoading:
-          initializePaymentLoading ?? this.initializePaymentLoading,
-      generalError: generalError ?? this.generalError,
-    );
-  }
-
-  @override
-  List<Object?> get props => [
-        country,
-        creditors,
-        creditorsLoading,
-        email,
-        emailError,
-        amount,
-        amountError,
-        userInputFieldsUpdated,
-        termsAccepted,
-        termsError,
-        openPaymentTypeDialog,
-        initializePaymentResult,
-        initializePaymentLoading,
-        generalError
-      ];
-}
-
 const _defaultCountry = Country(
   code: 'LT',
   flag: AppImages.flagLt,
   name: 'Lithuania',
 );
 
-/// BLoC
 class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
   final KevinRepository _kevinRepository;
   final GetCreditorsUseCase _getCreditorsUseCase;

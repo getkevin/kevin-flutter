@@ -51,7 +51,7 @@ class _CreditorList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
-    final decoration = theme.decoration;
+    final decoration = theme.animation;
 
     final itemWidth = _getCharityWidth(context: context);
 
@@ -121,7 +121,7 @@ class _Creditor extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final color = theme.color;
-    final decoration = theme.decoration;
+    final decoration = theme.animation;
 
     return Stack(
       children: [
