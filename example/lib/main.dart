@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:data/accounts/entity/linked_account_entity.dart';
+import 'package:data/accounts/repository/persistent_accounts_repository.dart';
 import 'package:data/kevin/api/kevin_api_client.dart';
 import 'package:data/kevin/repository/network_kevin_repository.dart';
 import 'package:data/payments/api/payments_data_api_client.dart';
 import 'package:data/payments/repository/network_payments_data_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:domain/accounts/repository/accounts_repository.dart';
 import 'package:domain/country/country_helper.dart';
 import 'package:domain/kevin/repository/kevin_repository.dart';
 import 'package:domain/payments/repository/payments_data_repository.dart';
@@ -16,6 +19,8 @@ import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:kevin_flutter_accounts/kevin_flutter_accounts.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_example/analytics/bloc_error_observer.dart';
 import 'package:kevin_flutter_example/app/widget/app.dart';
@@ -32,6 +37,12 @@ const _kevinMobileDemoApiUrl = 'https://mobile-demo.kevin.eu/api/v1/';
 // TODO: Rework after plugin supports specific ios/android callbacks
 const _kevinPaymentsCallbackUrlAndroid = 'kevin://redirect.payment';
 const _kevinPaymentsCallbackUrlIos = 'https://redirect.kevin.eu/payment.html';
+
+const _kevinAccountsCallbackUrlAndroid = 'kevin://redirect.authorization';
+const _kevinAccountsCallbackUrlIos =
+    'https://redirect.kevin.eu/authorization.html';
+
+const _accountsBox = 'accountsBox';
 
 void main() {
   runZonedGuarded(() async {
@@ -53,6 +64,8 @@ void main() {
       );
     };
 
+    await _initHive();
+
     await _initKevinSdk();
 
     final kevinApiClient = await _httpClient(
@@ -63,6 +76,8 @@ void main() {
       baseUrl: _kevinMobileDemoApiUrl,
       enableLogging: true,
     );
+
+    final accountsBox = await Hive.openBox<LinkedAccountEntity>(_accountsBox);
 
     runApp(
       MultiRepositoryProvider(
@@ -98,6 +113,11 @@ void main() {
               repository: context.read(),
             ),
           ),
+          RepositoryProvider<AccountsRepository>(
+            create: (context) => PersistentAccountsRepository(
+              accountsBox: accountsBox,
+            ),
+          ),
         ],
         child: const App(),
       ),
@@ -109,14 +129,26 @@ void main() {
 
 Future<void> _initKevinSdk() async {
   // TODO: Rework after plugin supports specific ios/android callbacks
-  final callbackUrl = Platform.isIOS
+  final paymentsCallbackUrl = Platform.isIOS
       ? _kevinPaymentsCallbackUrlIos
       : _kevinPaymentsCallbackUrlAndroid;
 
+  final accountsCallbackUrl = Platform.isIOS
+      ? _kevinAccountsCallbackUrlIos
+      : _kevinAccountsCallbackUrlAndroid;
+
   await Kevin.setDeepLinkingEnabled(true);
   await KevinPayments.setPaymentsConfiguration(
-    KevinPaymentsConfiguration(callbackUrl: callbackUrl),
+    KevinPaymentsConfiguration(callbackUrl: paymentsCallbackUrl),
   );
+  await KevinAccounts.setAccountsConfiguration(
+    KevinAccountsConfiguration(callbackUrl: accountsCallbackUrl),
+  );
+}
+
+Future<void> _initHive() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(LinkedAccountEntityAdapter());
 }
 
 Future<Dio> _httpClient({

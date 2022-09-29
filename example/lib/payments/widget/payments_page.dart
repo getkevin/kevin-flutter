@@ -223,7 +223,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
     required BuildContext context,
     required PaymentSession paymentSession,
   }) async {
-    _bloc.add(const ClearInitializePaymentResult());
+    _bloc.add(const ClearInitializePaymentResultEvent());
 
     final result = await KevinPayments.startPayment(
       KevinPaymentSessionConfiguration(
@@ -235,7 +235,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
     );
 
     if (result is KevinSessionResultPaymentSuccess) {
-      _bloc.add(const ClearUserInputFields());
+      _bloc.add(const ClearUserInputFieldsEvent());
 
       await showKevinDialog(
         context: context,
@@ -260,7 +260,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
   }
 
   void _onUserInputFieldsUpdated({required PaymentsState state}) {
-    _bloc.add(const ClearUserInputFieldsUpdated());
+    _bloc.add(const ClearUserInputFieldsUpdatedEvent());
 
     _emailController.text = state.email;
     _amountController.text = state.amount;

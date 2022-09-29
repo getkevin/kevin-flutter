@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kevin_flutter_example/accounts/bloc/accounts_bloc.dart';
 import 'package:kevin_flutter_example/accounts/widget/accounts_page.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_progress_indicator.dart';
 import 'package:kevin_flutter_example/main/bloc/main_bloc.dart';
@@ -32,6 +33,16 @@ class MainPage extends StatefulWidget {
               amountValidator: context.read(),
             )..add(const InitialLoadEvent()),
           ),
+          BlocProvider(
+            create: (context) => AccountsBloc(
+              accountsRepository: context.read(),
+              kevinRepository: context.read(),
+            )..add(
+                const ObserveLinkedAccountsEvent(
+                  observe: true,
+                ),
+              ),
+          )
         ],
         child: const MainPage(),
       );
@@ -57,7 +68,9 @@ class _MainPageState extends State<MainPage> {
               body: IndexedStack(
                 index: state.tab.index,
                 children: [
-                  const AccountsPage(),
+                  AccountsPage(
+                    onSetGlobalLoading: _onSetLoading,
+                  ),
                   PaymentsPage(
                     onSetGlobalLoading: _onSetLoading,
                   ),
