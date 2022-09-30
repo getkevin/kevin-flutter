@@ -3,22 +3,28 @@ import 'dart:io';
 
 import 'package:data/accounts/entity/linked_account_entity.dart';
 import 'package:data/accounts/repository/persistent_accounts_repository.dart';
+import 'package:data/auth/repository/persisted_auth_repository.dart';
 import 'package:data/kevin/api/kevin_api_client.dart';
 import 'package:data/kevin/repository/network_kevin_repository.dart';
 import 'package:data/payments/api/payments_data_api_client.dart';
 import 'package:data/payments/repository/network_payments_data_repository.dart';
+import 'package:data/storage/secure_key_value_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:domain/accounts/repository/accounts_repository.dart';
-import 'package:domain/country/country_helper.dart';
+import 'package:domain/auth/repository/auth_repository.dart';
+import 'package:domain/auth/usecase/get_auth_token_use_case.dart';
 import 'package:domain/kevin/repository/kevin_repository.dart';
 import 'package:domain/payments/repository/payments_data_repository.dart';
 import 'package:domain/payments/usecase/get_creditors_use_case.dart';
 import 'package:domain/payments/usecase/get_supported_countries_use_case.dart';
+import 'package:domain/storage/key_value_storage.dart';
+import 'package:domain/time/time_provider.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kevin_flutter_accounts/kevin_flutter_accounts.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
@@ -68,54 +74,84 @@ void main() {
 
     await _initKevinSdk();
 
-    final kevinApiClient = await _httpClient(
+    final kevinApiHttpClient = await _httpClient(
       baseUrl: _kevinApiUrl,
       enableLogging: true,
     );
-    final kevinDemoApiClient = await _httpClient(
+    final kevinDemoApiHttpClient = await _httpClient(
       baseUrl: _kevinMobileDemoApiUrl,
       enableLogging: true,
     );
 
     final accountsBox = await Hive.openBox<LinkedAccountEntity>(_accountsBox);
 
+    const timeProvider = TimeProvider();
+
+    final keyValueStorage =
+        SecureKeyValueStorage(storage: const FlutterSecureStorage());
+
+    final countryHelper = LocalResourcesCountryHelper();
+
+    final paymentsDataApiClient =
+        PaymentsDataApiClient(dio: kevinApiHttpClient);
+    final paymentsDataRepository =
+        NetworkPaymentsDataRepository(apiClient: paymentsDataApiClient);
+
+    final kevinApiClient = KevinApiClient(dio: kevinDemoApiHttpClient);
+    final kevinRepository = NetworkKevinRepository(
+      apiClient: kevinApiClient,
+      timeProvider: timeProvider,
+    );
+
+    final accountsRepository = PersistentAccountsRepository(
+      accountsBox: accountsBox,
+    );
+
+    final authRepository = PersistedAuthRepository(storage: keyValueStorage);
+
     runApp(
       MultiRepositoryProvider(
         providers: [
+          RepositoryProvider(create: (context) => timeProvider),
           RepositoryProvider(create: (context) => ApiErrorMapper()),
-          RepositoryProvider<CountryHelper>(
-            create: (context) => LocalResourcesCountryHelper(),
-          ),
           RepositoryProvider(create: (context) => AmountValidator()),
           RepositoryProvider(create: (context) => EmailValidator()),
-          RepositoryProvider(
-            create: (context) => PaymentsDataApiClient(dio: kevinApiClient),
+          RepositoryProvider<KeyValueStorage>(
+            create: (context) => keyValueStorage,
           ),
+
+          /// Repositories
           RepositoryProvider<PaymentsDataRepository>(
-            create: (context) =>
-                NetworkPaymentsDataRepository(apiClient: context.read()),
-          ),
-          RepositoryProvider(
-            create: (context) => KevinApiClient(dio: kevinDemoApiClient),
+            create: (context) => paymentsDataRepository,
           ),
           RepositoryProvider<KevinRepository>(
-            create: (context) =>
-                NetworkKevinRepository(apiClient: context.read()),
+            create: (context) => kevinRepository,
           ),
+          RepositoryProvider<AccountsRepository>(
+            create: (context) => accountsRepository,
+          ),
+          RepositoryProvider<AuthRepository>(
+            create: (context) => authRepository,
+          ),
+
+          /// UseCases
           RepositoryProvider(
             create: (context) => GetSupportedCountriesUseCase(
-              repository: context.read(),
-              countryHelper: context.read(),
+              repository: paymentsDataRepository,
+              countryHelper: countryHelper,
             ),
           ),
           RepositoryProvider(
             create: (context) => GetCreditorsUseCase(
-              repository: context.read(),
+              repository: paymentsDataRepository,
             ),
           ),
-          RepositoryProvider<AccountsRepository>(
-            create: (context) => PersistentAccountsRepository(
-              accountsBox: accountsBox,
+          RepositoryProvider(
+            create: (context) => GetAuthTokenUseCase(
+              authRepository: authRepository,
+              kevinRepository: kevinRepository,
+              timeProvider: timeProvider,
+              tokenExpirationGap: const Duration(minutes: 5),
             ),
           ),
         ],

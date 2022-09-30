@@ -1,3 +1,4 @@
+import 'package:domain/accounts/model/linked_account.dart';
 import 'package:domain/country/model/country.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
+import 'package:kevin_flutter_example/account_selection/widget/account_selection_bottom_dialog.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_bottom_sheet.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_button.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_check_box.dart';
@@ -14,13 +16,13 @@ import 'package:kevin_flutter_example/common_widgets/kevin_progress_indicator.da
 import 'package:kevin_flutter_example/common_widgets/kevin_snack_bar.dart';
 import 'package:kevin_flutter_example/country/country_selection/widget/country_selection_bottom_dialog.dart';
 import 'package:kevin_flutter_example/error/api_error_mapper.dart';
+import 'package:kevin_flutter_example/payment_type/model/payment_type.dart';
+import 'package:kevin_flutter_example/payment_type/widget/payment_type_bottom_dialog.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_bloc.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_event.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_state.dart';
 import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
 import 'package:kevin_flutter_example/payments/model/payment_session.dart';
-import 'package:kevin_flutter_example/payments/payment_type/model/payment_type.dart';
-import 'package:kevin_flutter_example/payments/payment_type/widget/payment_type_bottom_dialog.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
 import 'package:kevin_flutter_example/web/app_urls.dart';
@@ -203,18 +205,48 @@ class _PaymentsPageState extends State<PaymentsPage> {
     final paymentType = await showKevinBottomSheet<PaymentType>(
       context: context,
       builder: (context, sc) {
-        return const PaymentTypeBottomDialog();
+        return PaymentTypeBottomDialog.withBloc();
       },
     );
 
-    if (paymentType != null) {
-      _bloc.add(
-        InitializeSinglePaymentEvent(
-          paymentType: paymentType,
-          callbackUrl: await KevinPayments.getCallbackUrl(),
-        ),
+    if (paymentType == null) return;
+
+    final callbackUrl = await KevinPayments.getCallbackUrl();
+
+    if (paymentType == PaymentType.linked) {
+      _onOpenLinkedAccountsDialog(
+        context: context,
+        callbackUrl: callbackUrl,
       );
+      return;
     }
+
+    _bloc.add(
+      InitializeSinglePaymentEvent(
+        paymentType: paymentType,
+        callbackUrl: callbackUrl,
+      ),
+    );
+  }
+
+  void _onOpenLinkedAccountsDialog({
+    required BuildContext context,
+    required String callbackUrl,
+  }) async {
+    final account = await showKevinBottomSheet<LinkedAccount>(
+      context: context,
+      builder: (context, sc) =>
+          AccountSelectionBottomDialog.withBloc(scrollController: sc),
+    );
+
+    if (account == null) return;
+
+    _bloc.add(
+      InitializeLinkedBankPaymentEvent(
+        account: account,
+        callbackUrl: callbackUrl,
+      ),
+    );
   }
 
   void _onInitializePaymentLoading({required bool loading}) {

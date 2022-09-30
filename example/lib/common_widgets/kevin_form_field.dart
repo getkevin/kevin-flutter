@@ -114,15 +114,15 @@ class KevinFormFieldClearIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final color = theme.color;
-    final decoration = theme.animation;
+    final animation = theme.animation;
 
     return SizedBox(
       height: 44,
       width: 44,
       child: AnimatedOpacity(
         opacity: _text.isNotEmpty ? 1 : 0,
-        duration: decoration.duration.defaultDuration,
-        curve: decoration.animationCurve.defaultCurve,
+        duration: animation.duration.defaultDuration,
+        curve: animation.animationCurve.defaultCurve,
         child: KevinIconButton(
           onPressed: _onPressed,
           icon: AppImages.cross,
