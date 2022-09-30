@@ -23,8 +23,9 @@ class _AlignedButton extends StatelessWidget {
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: KevinButton.text(
                 context: context,
-                // TODO: Localisation
-                text: 'PAY • $amount EUR',
+                text: LocaleKeys.payments_page_button
+                    .tr()
+                    .tr(namedArgs: {'amount': amount}),
                 onPressed: _onPressed,
               ),
             ),

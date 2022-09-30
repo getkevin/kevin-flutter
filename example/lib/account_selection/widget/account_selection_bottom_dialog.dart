@@ -1,11 +1,13 @@
 import 'package:domain/accounts/model/linked_account.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin_flutter_example/common_blocs/simple_linked_accounts_bloc/simple_linked_accounts_bloc.dart';
 import 'package:kevin_flutter_example/common_blocs/simple_linked_accounts_bloc/simple_linked_accounts_event.dart';
 import 'package:kevin_flutter_example/common_blocs/simple_linked_accounts_bloc/simple_linked_accounts_state.dart';
-import 'package:kevin_flutter_example/common_widgets/kevin_bottom_dialog.dart';
+import 'package:kevin_flutter_example/common_widgets/kevin_list_bottom_dialog.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_list_item.dart';
+import 'package:kevin_flutter_example/generated/locale_keys.g.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
 
 class AccountSelectionBottomDialog extends StatefulWidget {
@@ -38,8 +40,7 @@ class _AccountSelectionBottomDialogState
     return BlocBuilder<SimpleLinkedAccountsBloc, SimpleLinkedAccountsState>(
       builder: (context, state) {
         return KevinListBottomDialog(
-          // TODO: Localisation
-          title: 'Choose bank account',
+          title: LocaleKeys.account_selection_dialog_title.tr(),
           itemCount: state.accounts.length,
           scrollController: widget._scrollController,
           physics: const ClampingScrollPhysics(),

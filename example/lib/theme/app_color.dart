@@ -167,6 +167,4 @@ class _KevinColors {
   static const gray1 = Color(0xFF7C8894);
   static const gray2 = Color(0xFFBCC4CC);
   static const gray5 = Color(0xFFE6E7EE);
-// TODO: Not used now, maybe can be deleted
-// static const metallicGray = Color(0xFF90A4AE);
 }

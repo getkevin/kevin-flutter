@@ -21,8 +21,7 @@ class _CountrySection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            // TODO: Localisation
-            'Country',
+            LocaleKeys.general_country.tr(),
             style: typography.title1,
           ),
           const SizedBox(
@@ -76,7 +75,7 @@ class _Country extends StatelessWidget {
                   border: Border.all(color: color.inputUnfocusedBorder),
                 ),
                 child: SvgPicture.asset(
-                  _country.flag,
+                  _country.flagKey,
                   width: 30,
                   height: 30,
                 ),
@@ -86,12 +85,14 @@ class _Country extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  // TODO: Localisation
-                  'Country',
+                  LocaleKeys.general_country.tr(),
                   style: typography.title1,
                 ),
               ),
-              Text(_country.name, style: typography.title1),
+              Text(
+                _country.nameKey.tr(),
+                style: typography.title1,
+              ),
               SvgPicture.asset(AppImages.chevronRight),
             ],
           ),

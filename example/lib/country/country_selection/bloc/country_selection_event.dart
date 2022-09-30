@@ -1,5 +1,6 @@
 import 'package:domain/country/model/country.dart';
 import 'package:equatable/equatable.dart';
+import 'package:kevin_flutter_example/country/country_selection/model/country_item.dart';
 
 abstract class CountrySelectionEvent extends Equatable {
   const CountrySelectionEvent();
@@ -17,6 +18,21 @@ class InitialLoadEvent extends CountrySelectionEvent {
 
   @override
   List<Object?> get props => [selectedCountry];
+}
+
+class SetSortedCountriesEvent extends CountrySelectionEvent {
+  final List<CountryItem> countries;
+
+  const SetSortedCountriesEvent({
+    required this.countries,
+  });
+
+  @override
+  List<Object?> get props => [countries];
+}
+
+class ClearCountriesLoadedEvent extends CountrySelectionEvent {
+  const ClearCountriesLoadedEvent();
 }
 
 class ClearErrorEvent extends CountrySelectionEvent {

@@ -34,11 +34,12 @@ final _availableCountries = {
   'se',
   'si',
   'sk',
+  'hu'
 };
 
 class LocalResourcesCountryHelper extends CountryHelper {
   @override
-  String getFlag(String countryCode) {
+  String getFlagKey(String countryCode) {
     final countryCodeLowerCased = countryCode.toLowerCase();
 
     final flagExists = _availableCountries.contains(countryCodeLowerCased);
@@ -47,11 +48,19 @@ class LocalResourcesCountryHelper extends CountryHelper {
   }
 
   @override
-  String getName(String countryCode) {
-    // TODO: Localisation
-    return countryCode;
+  String getNameKey(String countryCode) {
+    final countryCodeLowerCased = countryCode.toLowerCase();
+
+    final translationExists =
+        _availableCountries.contains(countryCodeLowerCased);
+
+    return translationExists
+        ? _getLocaleKey(countryCodeLowerCased)
+        : countryCode;
   }
 
   String _getFlagPath(String countryCode) =>
       '$_baseFlagsPath/flag_$countryCode.svg';
+
+  String _getLocaleKey(String countryCode) => 'country_$countryCode';
 }

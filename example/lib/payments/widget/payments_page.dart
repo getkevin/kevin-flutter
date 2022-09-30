@@ -1,5 +1,6 @@
 import 'package:domain/accounts/model/linked_account.dart';
 import 'package:domain/country/model/country.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,6 +30,7 @@ import 'package:kevin_flutter_example/web/app_urls.dart';
 import 'package:kevin_flutter_example/web/external_url.dart';
 import 'package:kevin_flutter_in_app_payments/kevin_flutter_in_app_payments.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
+import 'package:kevin_flutter_example/generated/locale_keys.g.dart';
 
 part 'payments_body_widgets.dart';
 
@@ -274,12 +276,10 @@ class _PaymentsPageState extends State<PaymentsPage> {
       await showKevinDialog(
         context: context,
         builder: (context) => KevinDialog(
-          // TODO: Localise
-          title: 'Payment successful',
+          title: LocaleKeys.payment_successful_dialog_title.tr(),
           actions: [
             KevinDialogAction(
-              // TODO: Localise
-              text: 'Ok',
+              text: LocaleKeys.general_ok.tr(),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -288,8 +288,10 @@ class _PaymentsPageState extends State<PaymentsPage> {
         ),
       );
     } else if (result is KevinSessionResultGeneralError) {
-      // TODO: Localise
-      _showError(context: context, error: result.message ?? 'General error');
+      _showError(
+        context: context,
+        error: result.message ?? LocaleKeys.general_error_unknown.tr(),
+      );
     }
   }
 

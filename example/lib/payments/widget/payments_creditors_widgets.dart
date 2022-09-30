@@ -21,8 +21,7 @@ class _CreditorsSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            // TODO: Localisation
-            'Select charity',
+            LocaleKeys.payments_page_charity_select.tr(),
             style: typography.title1,
           ),
         ),

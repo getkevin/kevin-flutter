@@ -87,16 +87,14 @@ class _FormFields extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          // TODO: Localisation
-          'Your info',
+          LocaleKeys.payments_page_details_subtitle.tr(),
           style: typography.title1,
         ),
         const SizedBox(
           height: 26,
         ),
         Text(
-          // TODO: Localisation
-          'Email',
+          LocaleKeys.payments_page_details_email.tr(),
           style: typography.subtitle1.copyWith(color: color.secondaryText),
         ),
         const SizedBox(
@@ -117,8 +115,7 @@ class _FormFields extends StatelessWidget {
           height: 24,
         ),
         Text(
-          // TODO: Localisation
-          'Payment amount',
+          LocaleKeys.payments_page_details_amount.tr(),
           style: typography.subtitle1.copyWith(color: color.secondaryText),
         ),
         const SizedBox(
@@ -164,8 +161,10 @@ class _CheckBox extends StatelessWidget {
         value: _state.termsAccepted,
         trailingWidget: Row(
           children: [
-            const Expanded(
-              child: _TermsSpannableText(),
+            Expanded(
+              child: _TermsSpannableText(
+                key: ValueKey(context.locale.languageCode),
+              ),
             ),
             if (_state.termsError)
               Padding(
@@ -181,7 +180,7 @@ class _CheckBox extends StatelessWidget {
 }
 
 class _TermsSpannableText extends StatelessWidget {
-  const _TermsSpannableText();
+  const _TermsSpannableText({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -192,26 +191,22 @@ class _TermsSpannableText extends StatelessWidget {
     return Text.rich(
       TextSpan(
         style: typography.caption2,
-        // TODO: Localisation
-        text: 'Blabla',
+        text: LocaleKeys.payments_page_terms_one.tr(),
         children: [
           const TextSpan(text: ' '),
           TextSpan(
-            // TODO: Localisation
-            text: 'Terms',
+            text: LocaleKeys.payments_page_terms_two.tr(),
             style: typography.caption2.copyWith(color: color.primary),
             recognizer: TapGestureRecognizer()
               ..onTap = () => ExternalUrl.openLink(AppUrls.termsAndConditions),
           ),
           const TextSpan(text: ' '),
-          const TextSpan(
-            // TODO: Localisation
-            text: 'Blabla',
+          TextSpan(
+            text: LocaleKeys.payments_page_terms_three.tr(),
           ),
           const TextSpan(text: ' '),
           TextSpan(
-            // TODO: Localisation
-            text: 'Privacy',
+            text: LocaleKeys.payments_page_terms_four.tr(),
             style: typography.caption2.copyWith(color: color.primary),
             recognizer: TapGestureRecognizer()
               ..onTap = () => ExternalUrl.openLink(AppUrls.privacyPolicy),
