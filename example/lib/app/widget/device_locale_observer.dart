@@ -26,6 +26,13 @@ class _DeviceLocaleObserverState extends State<_DeviceLocaleObserver>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    Kevin.setLocale(context.locale.languageCode);
+  }
+
+  @override
   void didChangeLocales(List<Locale>? locales) {
     final newLocale = locales?.firstOrNull?.languageCode;
     final supportedLocales =

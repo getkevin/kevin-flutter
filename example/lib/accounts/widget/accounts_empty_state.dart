@@ -30,6 +30,7 @@ class _AccountsEmptyState extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
+            key: ValueKey(context.locale.languageCode),
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

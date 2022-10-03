@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_example/app/model/app_routes.dart';
 import 'package:kevin_flutter_example/app/widget/app_theme_manager.dart';
 import 'package:kevin_flutter_example/generated/codegen_loader.g.dart';
