@@ -24,7 +24,6 @@ class _AlignedButton extends StatelessWidget {
               child: KevinButton.text(
                 context: context,
                 text: LocaleKeys.payments_page_button
-                    .tr()
                     .tr(namedArgs: {'amount': amount}),
                 onPressed: _onPressed,
               ),

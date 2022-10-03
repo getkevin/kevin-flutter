@@ -5,6 +5,7 @@ import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_example/app/model/app_routes.dart';
 import 'package:kevin_flutter_example/app/widget/app_theme_manager.dart';
 import 'package:kevin_flutter_example/generated/codegen_loader.g.dart';
+import 'package:kevin_flutter_example/generated/locale_keys.g.dart';
 import 'package:kevin_flutter_example/main/widget/main_page.dart';
 import 'package:kevin_flutter_example/theme/app_theme_data.dart';
 
@@ -29,6 +30,7 @@ class _AppState extends State<App> {
       child: _DeviceLocaleObserver(
         builder: (context) => AppThemeManager(
           child: MaterialApp(
+            onGenerateTitle: (context) => LocaleKeys.app_title.tr(),
             builder: (context, widget) => widget!,
             routes: <String, WidgetBuilder>{
               AppRoutes.root: (context) => MainPage.withBloc(),

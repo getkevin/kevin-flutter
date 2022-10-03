@@ -1,6 +1,7 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
 abstract class  LocaleKeys {
+  static const app_title = 'app_title';
   static const main_page_nav_bar_accounts = 'main_page_nav_bar_accounts';
   static const main_page_nav_bar_payments = 'main_page_nav_bar_payments';
   static const accounts_page_title = 'accounts_page_title';

@@ -15,6 +15,7 @@ class CodegenLoader extends AssetLoader{
   }
 
   static const Map<String,dynamic> ru = {
+  "app_title": "kevin. Flutter",
   "main_page_nav_bar_accounts": "Привязка счетов",
   "main_page_nav_bar_payments": "Пробный платёж",
   "accounts_page_title": "Привязка счетов",
@@ -81,6 +82,7 @@ class CodegenLoader extends AssetLoader{
   "country_li": "Лихтенштейн"
 };
 static const Map<String,dynamic> en = {
+  "app_title": "kevin. Flutter",
   "main_page_nav_bar_accounts": "Account Linking",
   "main_page_nav_bar_payments": "Demo Payment",
   "accounts_page_title": "Account linking",
