@@ -49,6 +49,8 @@ const _kevinAccountsCallbackUrlAndroid = 'kevin://redirect.authorization';
 const _kevinAccountsCallbackUrlIos =
     'https://redirect.kevin.eu/authorization.html';
 
+const _kevinThemeAndroid = 'KevinTheme';
+
 const _accountsBox = 'accountsBox';
 
 void main() {
@@ -176,6 +178,9 @@ Future<void> _initKevinSdk() async {
       ? _kevinAccountsCallbackUrlIos
       : _kevinAccountsCallbackUrlAndroid;
 
+  await Kevin.setTheme(
+    androidTheme: const KevinThemeAndroid(_kevinThemeAndroid),
+  );
   await Kevin.setDeepLinkingEnabled(true);
   await KevinPayments.setPaymentsConfiguration(
     KevinPaymentsConfiguration(callbackUrl: paymentsCallbackUrl),
