@@ -1,4 +1,6 @@
-part of 'app_color.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:kevin_flutter_example/theme/kevin_colors.dart';
 
 class AppColorBottomSheet extends Equatable {
   final Color primary;
@@ -37,34 +39,34 @@ class AppColorBottomSheet extends Equatable {
   });
 
   const AppColorBottomSheet.light()
-      : primary = _KevinColors.blue,
-        primaryVariant = _KevinColors.darkBlue,
-        onPrimary = _KevinColors.white,
-        secondary = _KevinColors.blue,
-        secondaryVariant = _KevinColors.darkBlue,
-        onSecondary = _KevinColors.white,
-        error = _KevinColors.warningRed,
-        onError = _KevinColors.white,
-        surface = _KevinColors.white,
-        onSurface = _KevinColors.black,
-        controlHighlight = _KevinColors.blue,
-        controlActivated = _KevinColors.gray5,
-        navigationBar = _KevinColors.black30;
+      : primary = KevinColors.blue,
+        primaryVariant = KevinColors.darkBlue,
+        onPrimary = KevinColors.white,
+        secondary = KevinColors.blue,
+        secondaryVariant = KevinColors.darkBlue,
+        onSecondary = KevinColors.white,
+        error = KevinColors.warningRed,
+        onError = KevinColors.white,
+        surface = KevinColors.white,
+        onSurface = KevinColors.black,
+        controlHighlight = KevinColors.blue,
+        controlActivated = KevinColors.gray5,
+        navigationBar = KevinColors.black30;
 
   const AppColorBottomSheet.dark()
-      : primary = _KevinColors.blue,
-        primaryVariant = _KevinColors.darkBlue,
-        onPrimary = _KevinColors.white,
-        secondary = _KevinColors.blue,
-        secondaryVariant = _KevinColors.darkBlue,
-        onSecondary = _KevinColors.white,
-        error = _KevinColors.warningRed,
-        onError = _KevinColors.white,
-        surface = _KevinColors.gray0,
-        onSurface = _KevinColors.white,
-        controlHighlight = _KevinColors.blue,
-        controlActivated = _KevinColors.blue,
-        navigationBar = _KevinColors.black30;
+      : primary = KevinColors.blue,
+        primaryVariant = KevinColors.darkBlue,
+        onPrimary = KevinColors.white,
+        secondary = KevinColors.blue,
+        secondaryVariant = KevinColors.darkBlue,
+        onSecondary = KevinColors.white,
+        error = KevinColors.warningRed,
+        onError = KevinColors.white,
+        surface = KevinColors.gray0,
+        onSurface = KevinColors.white,
+        controlHighlight = KevinColors.blue,
+        controlActivated = KevinColors.blue,
+        navigationBar = KevinColors.black30;
 
   @override
   List<Object?> get props => [

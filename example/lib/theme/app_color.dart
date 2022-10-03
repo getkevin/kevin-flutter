@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-
-part 'app_color_bottom_sheet.dart';
+import 'package:kevin_flutter_example/theme/app_color_bottom_sheet.dart';
+import 'package:kevin_flutter_example/theme/kevin_colors.dart';
 
 class AppColor extends Equatable {
   final Color primary;
@@ -40,57 +40,57 @@ class AppColor extends Equatable {
   final AppColorBottomSheet bottomSheet;
 
   const AppColor.light()
-      : primary = _KevinColors.blue,
-        primaryVariant = _KevinColors.darkBlue,
-        onPrimary = _KevinColors.white,
-        secondary = _KevinColors.blue,
-        secondaryVariant = _KevinColors.darkBlue,
-        onSecondary = _KevinColors.white,
-        text = _KevinColors.darkBlue,
-        controlHighlight = _KevinColors.blue,
-        statusBar = _KevinColors.black30,
-        navigationBar = _KevinColors.extraLightBlue,
-        primaryBackground = _KevinColors.extraLightBlue,
-        onBackground = _KevinColors.black,
-        secondaryBackground = _KevinColors.white,
-        selectedOnSecondary = _KevinColors.gray5,
-        rippleOnPrimary = _KevinColors.blue,
-        toolbar = _KevinColors.extraLightBlue,
-        primaryText = _KevinColors.black,
-        secondaryText = _KevinColors.gray1,
-        surface = _KevinColors.white,
-        onSurface = _KevinColors.black,
-        error = _KevinColors.warningRed,
-        onError = _KevinColors.white,
-        inputUnfocusedBorder = _KevinColors.gray5,
-        icon = _KevinColors.gray2,
+      : primary = KevinColors.blue,
+        primaryVariant = KevinColors.darkBlue,
+        onPrimary = KevinColors.white,
+        secondary = KevinColors.blue,
+        secondaryVariant = KevinColors.darkBlue,
+        onSecondary = KevinColors.white,
+        text = KevinColors.darkBlue,
+        controlHighlight = KevinColors.blue,
+        statusBar = KevinColors.black30,
+        navigationBar = KevinColors.extraLightBlue,
+        primaryBackground = KevinColors.extraLightBlue,
+        onBackground = KevinColors.black,
+        secondaryBackground = KevinColors.white,
+        selectedOnSecondary = KevinColors.gray5,
+        rippleOnPrimary = KevinColors.blue,
+        toolbar = KevinColors.extraLightBlue,
+        primaryText = KevinColors.black,
+        secondaryText = KevinColors.gray1,
+        surface = KevinColors.white,
+        onSurface = KevinColors.black,
+        error = KevinColors.warningRed,
+        onError = KevinColors.white,
+        inputUnfocusedBorder = KevinColors.gray5,
+        icon = KevinColors.gray2,
         bottomSheet = const AppColorBottomSheet.light();
 
   const AppColor.dark()
-      : primary = _KevinColors.blue,
-        primaryVariant = _KevinColors.darkBlue,
-        onPrimary = _KevinColors.white,
-        secondary = _KevinColors.blue,
-        secondaryVariant = _KevinColors.darkBlue,
-        onSecondary = _KevinColors.white,
-        text = _KevinColors.white,
-        controlHighlight = _KevinColors.blue,
+      : primary = KevinColors.blue,
+        primaryVariant = KevinColors.darkBlue,
+        onPrimary = KevinColors.white,
+        secondary = KevinColors.blue,
+        secondaryVariant = KevinColors.darkBlue,
+        onSecondary = KevinColors.white,
+        text = KevinColors.white,
+        controlHighlight = KevinColors.blue,
         statusBar = Colors.transparent,
-        navigationBar = _KevinColors.extraLightBlue,
-        primaryBackground = _KevinColors.black,
-        onBackground = _KevinColors.white,
-        secondaryBackground = _KevinColors.gray0,
-        selectedOnSecondary = _KevinColors.blue,
-        rippleOnPrimary = _KevinColors.blue,
-        toolbar = _KevinColors.black,
-        primaryText = _KevinColors.white,
-        secondaryText = _KevinColors.gray1,
-        surface = _KevinColors.gray0,
-        onSurface = _KevinColors.white,
-        error = _KevinColors.warningRed,
-        onError = _KevinColors.white,
-        inputUnfocusedBorder = _KevinColors.black30,
-        icon = _KevinColors.gray2,
+        navigationBar = KevinColors.extraLightBlue,
+        primaryBackground = KevinColors.black,
+        onBackground = KevinColors.white,
+        secondaryBackground = KevinColors.gray0,
+        selectedOnSecondary = KevinColors.blue,
+        rippleOnPrimary = KevinColors.blue,
+        toolbar = KevinColors.black,
+        primaryText = KevinColors.white,
+        secondaryText = KevinColors.gray1,
+        surface = KevinColors.gray0,
+        onSurface = KevinColors.white,
+        error = KevinColors.warningRed,
+        onError = KevinColors.white,
+        inputUnfocusedBorder = KevinColors.black30,
+        icon = KevinColors.gray2,
         bottomSheet = const AppColorBottomSheet.dark();
 
   const AppColor({
@@ -149,22 +149,4 @@ class AppColor extends Equatable {
         icon,
         bottomSheet,
       ];
-}
-
-class _KevinColors {
-  static const black = Color(0xFF121212);
-  static const black30 = Color(0x4DFFFFFF);
-
-  static const white = Colors.white;
-
-  static const warningRed = Color(0xFFFF3B30);
-
-  static const blue = Color(0xFF5D80FE);
-  static const darkBlue = Color(0xFF0B1E42);
-  static const extraLightBlue = Color(0xFFF2F2F7);
-
-  static const gray0 = Color(0xFF373C42);
-  static const gray1 = Color(0xFF7C8894);
-  static const gray2 = Color(0xFFBCC4CC);
-  static const gray5 = Color(0xFFE6E7EE);
 }
