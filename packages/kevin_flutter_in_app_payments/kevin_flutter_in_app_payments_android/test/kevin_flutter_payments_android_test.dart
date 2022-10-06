@@ -3,22 +3,19 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
-import 'package:kevin_flutter_in_app_payments_platform_interface/src/kevin_flutter_payments_method_channel.dart';
+import 'package:kevin_flutter_in_app_payments_android/kevin_flutter_in_app_payments_android.dart';
 import 'package:kevin_flutter_in_app_payments_platform_interface/src/kevin_flutter_payments_platform_interface.dart';
 import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/kevin_session_result_payment_success.dart';
 import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/payment/kevin_payment_session_configuration.dart';
 import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/payment/kevin_payments_configuration.dart';
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  const channel = MethodChannel('kevin_flutter_payments');
+  const channel = MethodChannel('kevin_flutter_payments_android');
   final log = <MethodCall>[];
 
-  final platform = KevinFlutterPaymentsMethodChannel();
-
-  final initialInstance = KevinFlutterPaymentsPlatformInterface.instance;
+  final platform = KevinFlutterPaymentsAndroid();
 
   void _setMethodCallReturnData({dynamic Function()? data}) {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
@@ -35,28 +32,12 @@ void main() {
     log.clear();
   });
 
-  test('$KevinFlutterPaymentsMethodChannel() is the default instance', () {
-    expect(initialInstance, isInstanceOf<KevinFlutterPaymentsMethodChannel>());
-  });
-
-  test('Cannot be implemented with `implements`', () {
+  test('registers instance', () {
+    KevinFlutterPaymentsAndroid.registerWith();
     expect(
-      () {
-        KevinFlutterPaymentsPlatformInterface.instance =
-            ImplementsKevinFlutterPaymentsPlatform();
-      },
-      throwsA(anything),
+      KevinFlutterPaymentsPlatformInterface.instance,
+      isA<KevinFlutterPaymentsAndroid>(),
     );
-  });
-
-  test('Can be mocked with `implements`', () {
-    final mock = KevinFlutterPaymentsPlatformMock();
-    KevinFlutterPaymentsPlatformInterface.instance = mock;
-  });
-
-  test('Can be extended', () {
-    KevinFlutterPaymentsPlatformInterface.instance =
-        ExtendsKevinFlutterPaymentsPlatform();
   });
 
   test('setPaymentsConfiguration', () async {
@@ -68,7 +49,7 @@ void main() {
       isMethodCall(
         'setPaymentsConfiguration',
         arguments: <String, dynamic>{
-          'callbackUrl': '',
+          'callbackUrl': 'android',
         },
       )
     ]);
@@ -250,19 +231,3 @@ void main() {
     ]);
   });
 }
-
-class KevinFlutterPaymentsPlatformMock
-    with MockPlatformInterfaceMixin
-    implements KevinFlutterPaymentsPlatformInterface {
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-class ImplementsKevinFlutterPaymentsPlatform
-    implements KevinFlutterPaymentsPlatformInterface {
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-class ExtendsKevinFlutterPaymentsPlatform
-    extends KevinFlutterPaymentsPlatformInterface {}

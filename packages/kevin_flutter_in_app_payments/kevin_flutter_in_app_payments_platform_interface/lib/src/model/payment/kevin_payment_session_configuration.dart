@@ -23,4 +23,18 @@ class KevinPaymentSessionConfiguration {
     this.skipBankSelection = false,
     this.skipAuthentication = false,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'paymentId': paymentId,
+      'paymentType': paymentType.name,
+      'preselectedCountry': preselectedCountry?.iso,
+      'disableCountrySelection': disableCountrySelection,
+      'countryFilter': countryFilter.map((c) => c.iso).toList(),
+      'bankFilter': bankFilter,
+      'preselectedBank': preselectedBank,
+      'skipBankSelection': skipBankSelection,
+      'skipAuthentication': skipAuthentication,
+    };
+  }
 }

@@ -13,12 +13,14 @@ void main() {
 
   test('setPaymentsConfiguration/getCallbackUrl', () async {
     await KevinPayments.setPaymentsConfiguration(
-      const KevinPaymentsConfiguration(callbackUrl: 'callbackUrl'),
+      const KevinPaymentsConfiguration(
+        callbackUrl: KevinCallbackUrl(android: 'android', ios: 'ios'),
+      ),
     );
 
     final callbackUrl = await KevinPayments.getCallbackUrl();
 
-    expect(callbackUrl, 'callbackUrl');
+    expect(callbackUrl, 'android');
   });
 
   test('startPayment', () async {

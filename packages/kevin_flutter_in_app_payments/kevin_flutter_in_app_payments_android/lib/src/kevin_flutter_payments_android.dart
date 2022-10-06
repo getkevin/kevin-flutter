@@ -6,10 +6,15 @@ import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_in_app_payments_platform_interface/kevin_flutter_in_app_payments_platform_interface.dart';
 
 @visibleForTesting
-const methodChannel = MethodChannel('kevin_flutter_payments');
+const methodChannel = MethodChannel('kevin_flutter_payments_android');
 
-class KevinFlutterPaymentsMethodChannel
+class KevinFlutterPaymentsAndroid
     extends KevinFlutterPaymentsPlatformInterface {
+  static void registerWith() {
+    KevinFlutterPaymentsPlatformInterface.instance =
+        KevinFlutterPaymentsAndroid();
+  }
+
   @override
   Future<void> setPaymentsConfiguration(
     KevinPaymentsConfiguration configuration,
@@ -17,7 +22,7 @@ class KevinFlutterPaymentsMethodChannel
     await methodChannel.invokeMethod(
       KevinFlutterPaymentsMethods.setPaymentsConfiguration,
       {
-        'callbackUrl': '',
+        'callbackUrl': configuration.callbackUrl.android,
       },
     );
   }

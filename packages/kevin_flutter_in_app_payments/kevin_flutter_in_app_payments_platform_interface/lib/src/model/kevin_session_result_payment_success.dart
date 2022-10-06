@@ -6,4 +6,16 @@ class KevinSessionResultPaymentSuccess extends KevinSessionResult {
   const KevinSessionResultPaymentSuccess({
     required this.paymentId,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'paymentId': paymentId,
+    };
+  }
+
+  factory KevinSessionResultPaymentSuccess.fromMap(Map<String, dynamic> map) {
+    return KevinSessionResultPaymentSuccess(
+      paymentId: map['paymentId'] as String,
+    );
+  }
 }
