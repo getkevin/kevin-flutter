@@ -109,7 +109,7 @@ class _FormFields extends StatelessWidget {
           ),
           textInputAction: TextInputAction.next,
           onFieldSubmitted: (_) => _amountFocusNode.requestFocus(),
-          errorText: _state.emailError.orNull,
+          errorText: _state.emailError.orNull?.tr(),
         ),
         const SizedBox(
           height: 24,
@@ -135,7 +135,7 @@ class _FormFields extends StatelessWidget {
             onPressed: () => _amountController.clear(),
           ),
           prefixText: '€ ',
-          errorText: _state.amountError.orNull,
+          errorText: _state.amountError.orNull?.tr(),
           onFieldSubmitted: (_) => _onAmountSubmitted(),
         ),
       ],

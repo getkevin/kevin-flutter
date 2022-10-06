@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:data/accounts/entity/linked_account_entity.dart';
 import 'package:data/accounts/repository/persistent_accounts_repository.dart';
@@ -43,7 +42,6 @@ const _defaultTimeOutDuration = 120000;
 const _kevinApiUrl = 'https://api.getkevin.eu/demo/';
 const _kevinMobileDemoApiUrl = 'https://mobile-demo.kevin.eu/api/v1/';
 
-// TODO: Rework after plugin supports specific ios/android callbacks
 const _kevinPaymentsCallbackUrlAndroid = 'kevin://redirect.payment';
 const _kevinPaymentsCallbackUrlIos = 'https://redirect.kevin.eu/payment.html';
 
@@ -171,15 +169,6 @@ void main() {
 }
 
 Future<void> _initKevinSdk() async {
-  // TODO: Rework after plugin supports specific ios/android callbacks
-  final paymentsCallbackUrl = Platform.isIOS
-      ? _kevinPaymentsCallbackUrlIos
-      : _kevinPaymentsCallbackUrlAndroid;
-
-  final accountsCallbackUrl = Platform.isIOS
-      ? _kevinAccountsCallbackUrlIos
-      : _kevinAccountsCallbackUrlAndroid;
-
   await Kevin.setTheme(
     androidTheme: const KevinThemeAndroid(_kevinThemeAndroid),
     iosTheme:
@@ -188,10 +177,20 @@ Future<void> _initKevinSdk() async {
   );
   await Kevin.setDeepLinkingEnabled(true);
   await KevinPayments.setPaymentsConfiguration(
-    KevinPaymentsConfiguration(callbackUrl: paymentsCallbackUrl),
+    const KevinPaymentsConfiguration(
+      callbackUrl: KevinCallbackUrl(
+        android: _kevinPaymentsCallbackUrlAndroid,
+        ios: _kevinPaymentsCallbackUrlIos,
+      ),
+    ),
   );
   await KevinAccounts.setAccountsConfiguration(
-    KevinAccountsConfiguration(callbackUrl: accountsCallbackUrl),
+    const KevinAccountsConfiguration(
+      callbackUrl: KevinCallbackUrl(
+        android: _kevinAccountsCallbackUrlAndroid,
+        ios: _kevinAccountsCallbackUrlIos,
+      ),
+    ),
   );
 }
 

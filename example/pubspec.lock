@@ -328,46 +328,74 @@ packages:
       path: "../packages/kevin_flutter_accounts/kevin_flutter_accounts"
       relative: true
     source: path
-    version: "1.0.1"
+    version: "1.0.2"
+  kevin_flutter_accounts_android:
+    dependency: "direct overridden"
+    description:
+      path: "../packages/kevin_flutter_accounts/kevin_flutter_accounts_android"
+      relative: true
+    source: path
+    version: "1.0.0"
+  kevin_flutter_accounts_ios:
+    dependency: "direct overridden"
+    description:
+      path: "../packages/kevin_flutter_accounts/kevin_flutter_accounts_ios"
+      relative: true
+    source: path
+    version: "1.0.0"
   kevin_flutter_accounts_platform_interface:
     dependency: "direct overridden"
     description:
       path: "../packages/kevin_flutter_accounts/kevin_flutter_accounts_platform_interface"
       relative: true
     source: path
-    version: "1.0.1"
+    version: "1.0.2"
   kevin_flutter_core:
     dependency: "direct main"
     description:
       path: "../packages/kevin_flutter_core/kevin_flutter_core"
       relative: true
     source: path
-    version: "1.0.2"
+    version: "1.0.3"
   kevin_flutter_core_android:
     dependency: "direct overridden"
     description:
       path: "../packages/kevin_flutter_core/kevin_flutter_core_android"
       relative: true
     source: path
-    version: "1.0.2"
+    version: "1.0.3"
   kevin_flutter_core_ios:
     dependency: "direct overridden"
     description:
       path: "../packages/kevin_flutter_core/kevin_flutter_core_ios"
       relative: true
     source: path
-    version: "1.0.2"
+    version: "1.0.3"
   kevin_flutter_core_platform_interface:
     dependency: "direct overridden"
     description:
       path: "../packages/kevin_flutter_core/kevin_flutter_core_platform_interface"
       relative: true
     source: path
-    version: "1.0.2"
+    version: "1.0.3"
   kevin_flutter_in_app_payments:
     dependency: "direct main"
     description:
       path: "../packages/kevin_flutter_in_app_payments/kevin_flutter_in_app_payments"
+      relative: true
+    source: path
+    version: "1.0.1"
+  kevin_flutter_in_app_payments_android:
+    dependency: "direct overridden"
+    description:
+      path: "../packages/kevin_flutter_in_app_payments/kevin_flutter_in_app_payments_android"
+      relative: true
+    source: path
+    version: "1.0.0"
+  kevin_flutter_in_app_payments_ios:
+    dependency: "direct overridden"
+    description:
+      path: "../packages/kevin_flutter_in_app_payments/kevin_flutter_in_app_payments_ios"
       relative: true
     source: path
     version: "1.0.0"
@@ -377,7 +405,7 @@ packages:
       path: "../packages/kevin_flutter_in_app_payments/kevin_flutter_in_app_payments_platform_interface"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "1.0.1"
   lints:
     dependency: transitive
     description:
@@ -482,7 +510,7 @@ packages:
       name: path_provider_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.5"
   path_provider_windows:
     dependency: transitive
     description:
@@ -669,7 +697,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.5"
+    version: "6.1.6"
   url_launcher_android:
     dependency: transitive
     description:
@@ -704,7 +732,7 @@ packages:
       name: url_launcher_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   url_launcher_web:
     dependency: transitive
     description:

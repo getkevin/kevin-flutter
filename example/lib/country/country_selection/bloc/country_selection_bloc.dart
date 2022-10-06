@@ -18,7 +18,7 @@ class CountrySelectionBloc
           const CountrySelectionState(
             unsortedCountries: [],
             sortedCountries: [],
-            countriesLoaded: false,
+            shouldSortCountries: false,
             loading: false,
             error: Optional.absent(),
           ),
@@ -29,8 +29,8 @@ class CountrySelectionBloc
           await _onInitialLoadEvent(event, emitter);
         } else if (event is SetSortedCountriesEvent) {
           await _onSetSortedCountriesEvent(event, emitter);
-        } else if (event is ClearCountriesLoadedEvent) {
-          await _onClearCountriesLoadedEvent(event, emitter);
+        } else if (event is SetShouldSortCountriesEvent) {
+          await _onSetShouldSortCountriesEvent(event, emitter);
         } else if (event is ClearErrorEvent) {
           await _onClearErrorEvent(event, emitter);
         }
@@ -58,7 +58,7 @@ class CountrySelectionBloc
       emitter(
         state.copyWith(
           unsortedCountries: countryItems,
-          countriesLoaded: true,
+          shouldSortCountries: true,
           loading: false,
         ),
       );
@@ -77,14 +77,23 @@ class CountrySelectionBloc
     SetSortedCountriesEvent event,
     Emitter<CountrySelectionState> emitter,
   ) async {
-    emitter(state.copyWith(sortedCountries: event.countries));
+    emitter(
+      state.copyWith(
+        sortedCountries: event.countries,
+        shouldSortCountries: false,
+      ),
+    );
   }
 
-  Future<void> _onClearCountriesLoadedEvent(
-    ClearCountriesLoadedEvent event,
+  Future<void> _onSetShouldSortCountriesEvent(
+    SetShouldSortCountriesEvent event,
     Emitter<CountrySelectionState> emitter,
   ) async {
-    emitter(state.copyWith(countriesLoaded: false));
+    emitter(
+      state.copyWith(
+        shouldSortCountries: event.shouldSortCountries,
+      ),
+    );
   }
 
   Future<void> _onClearErrorEvent(

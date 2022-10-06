@@ -84,7 +84,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
       final linkingSession = LinkingSession(
         state: authState,
         preselectedCountry: KevinCountry.lithuania,
-        disabledCountrySelection: false,
+        disableCountrySelection: false,
       );
 
       emitter(

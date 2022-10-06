@@ -2,9 +2,9 @@ import 'package:domain/accounts/model/linked_account.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kevin_flutter_example/common_blocs/simple_linked_accounts_bloc/simple_linked_accounts_bloc.dart';
-import 'package:kevin_flutter_example/common_blocs/simple_linked_accounts_bloc/simple_linked_accounts_event.dart';
-import 'package:kevin_flutter_example/common_blocs/simple_linked_accounts_bloc/simple_linked_accounts_state.dart';
+import 'package:kevin_flutter_example/common_blocs/linked_accounts_bloc/linked_accounts_bloc.dart';
+import 'package:kevin_flutter_example/common_blocs/linked_accounts_bloc/linked_accounts_event.dart';
+import 'package:kevin_flutter_example/common_blocs/linked_accounts_bloc/linked_accounts_state.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_list_bottom_dialog.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_list_item.dart';
 import 'package:kevin_flutter_example/generated/locale_keys.g.dart';
@@ -24,7 +24,7 @@ class AccountSelectionBottomDialog extends StatefulWidget {
   static Widget withBloc({required ScrollController scrollController}) =>
       BlocProvider(
         create: (context) =>
-            SimpleLinkedAccountsBloc(accountsRepository: context.read())
+            LinkedAccountsBloc(accountsRepository: context.read())
               ..add(const LoadLinkedAccountsEvent()),
         child: AccountSelectionBottomDialog(scrollController: scrollController),
       );
@@ -37,7 +37,7 @@ class _AccountSelectionBottomDialogState
     final theme = AppTheme.of(context);
     final color = theme.color;
 
-    return BlocBuilder<SimpleLinkedAccountsBloc, SimpleLinkedAccountsState>(
+    return BlocBuilder<LinkedAccountsBloc, LinkedAccountsState>(
       builder: (context, state) {
         return KevinListBottomDialog(
           title: LocaleKeys.account_selection_dialog_title.tr(),

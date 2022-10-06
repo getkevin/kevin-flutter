@@ -51,7 +51,7 @@ class _AppThemeManagerState extends State<AppThemeManager>
       darkAppThemeData: darkAppThemeData,
       mode: _mode,
       child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: _mode == AppThemeMode.light
+        value: _mode == AppThemeMode.dark
             ? SystemUiOverlayStyle.light
                 .copyWith(statusBarColor: Colors.transparent)
             : SystemUiOverlayStyle.dark

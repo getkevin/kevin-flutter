@@ -62,7 +62,6 @@ class _CountrySelectionBottomDialogState
 
     _maybeSortCountriesOnLocaleChange(
       context: context,
-      countries: _bloc.state.unsortedCountries,
     );
   }
 
@@ -74,8 +73,8 @@ class _CountrySelectionBottomDialogState
 
     return BlocConsumer<CountrySelectionBloc, CountrySelectionState>(
       listener: (context, state) {
-        if (state.countriesLoaded) {
-          _onCountriesLoaded(countries: state.unsortedCountries);
+        if (state.shouldSortCountries) {
+          _onShouldSortCountries(countries: state.unsortedCountries);
         }
 
         final error = state.error.orNull;
@@ -148,10 +147,17 @@ class _CountrySelectionBottomDialogState
     );
   }
 
-  void _onCountriesLoaded({required List<CountryItem> countries}) {
-    _bloc.add(const ClearCountriesLoadedEvent());
+  void _onShouldSortCountries({required List<CountryItem> countries}) {
+    final countriesSorted = countries.sorted(
+      (first, second) {
+        final firstLocalizedName = first.country.nameKey.tr();
+        final secondLocalizedName = second.country.nameKey.tr();
 
-    _sortCountries(countries: countries);
+        return firstLocalizedName.compareTo(secondLocalizedName);
+      },
+    ).toList();
+
+    _bloc.add(SetSortedCountriesEvent(countries: countriesSorted));
   }
 
   void _onCountrySelected({
@@ -172,31 +178,19 @@ class _CountrySelectionBottomDialogState
 
   void _maybeSortCountriesOnLocaleChange({
     required BuildContext context,
-    required List<CountryItem> countries,
   }) async {
     final currentLocale = context.locale;
 
-    if (_cachedLocale == null || countries.isEmpty) {
+    if (_cachedLocale == null) {
       _cachedLocale = currentLocale;
       return;
     }
 
     if (currentLocale != _cachedLocale) {
       _cachedLocale = currentLocale;
-      _sortCountries(countries: countries);
+      _bloc.add(
+        const SetShouldSortCountriesEvent(shouldSortCountries: true),
+      );
     }
-  }
-
-  void _sortCountries({required List<CountryItem> countries}) async {
-    final countriesSorted = countries.sorted(
-      (first, second) {
-        final firstLocalizedName = first.country.nameKey.tr();
-        final secondLocalizedName = second.country.nameKey.tr();
-
-        return firstLocalizedName.compareTo(secondLocalizedName);
-      },
-    ).toList();
-
-    _bloc.add(SetSortedCountriesEvent(countries: countriesSorted));
   }
 }

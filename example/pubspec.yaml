@@ -47,7 +47,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
 
-  # kevin. SDK plugins
+  # kevin. SDK plugins.
+  # When depending from real application, should use ^x.y.x versioning.
   kevin_flutter_core:
     path: ../packages/kevin_flutter_core/kevin_flutter_core
   kevin_flutter_in_app_payments:
@@ -64,8 +65,16 @@ dependency_overrides:
     path: ../packages/kevin_flutter_core/kevin_flutter_core_android
   kevin_flutter_core_ios:
     path: ../packages/kevin_flutter_core/kevin_flutter_core_ios
+  kevin_flutter_in_app_payments_android:
+    path: ../packages/kevin_flutter_in_app_payments/kevin_flutter_in_app_payments_android
+  kevin_flutter_in_app_payments_ios:
+    path: ../packages/kevin_flutter_in_app_payments/kevin_flutter_in_app_payments_ios
   kevin_flutter_in_app_payments_platform_interface:
     path: ../packages/kevin_flutter_in_app_payments/kevin_flutter_in_app_payments_platform_interface
+  kevin_flutter_accounts_android:
+    path: ../packages/kevin_flutter_accounts/kevin_flutter_accounts_android
+  kevin_flutter_accounts_ios:
+    path: ../packages/kevin_flutter_accounts/kevin_flutter_accounts_ios
   kevin_flutter_accounts_platform_interface:
     path: ../packages/kevin_flutter_accounts/kevin_flutter_accounts_platform_interface
 

@@ -1,17 +1,17 @@
 import 'package:domain/accounts/model/linked_account.dart';
 import 'package:equatable/equatable.dart';
 
-class SimpleLinkedAccountsState extends Equatable {
+class LinkedAccountsState extends Equatable {
   final List<LinkedAccount> accounts;
 
-  const SimpleLinkedAccountsState({
+  const LinkedAccountsState({
     required this.accounts,
   });
 
-  SimpleLinkedAccountsState copyWith({
+  LinkedAccountsState copyWith({
     List<LinkedAccount>? accounts,
   }) {
-    return SimpleLinkedAccountsState(
+    return LinkedAccountsState(
       accounts: accounts ?? this.accounts,
     );
   }
