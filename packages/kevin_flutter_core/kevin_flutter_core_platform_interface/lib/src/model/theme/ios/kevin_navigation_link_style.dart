@@ -21,4 +21,16 @@ class KevinNavigationLinkStyle {
     this.borderColor,
     this.chevronImage,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'backgroundColor': backgroundColor?.value,
+      'titleLabelFont': titleLabelFont?.toMap(),
+      'selectedBackgroundColor': selectedBackgroundColor?.value,
+      'cornerRadius': cornerRadius,
+      'borderWidth': borderWidth,
+      'borderColor': borderColor?.value,
+      'chevronImage': chevronImage?.toList(),
+    };
+  }
 }

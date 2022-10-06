@@ -17,4 +17,15 @@ class KevinEmptyStateStyle {
     this.cornerRadius,
     this.iconTintColor,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'titleTextColor': titleTextColor?.value,
+      'titleFont': titleFont?.toMap(),
+      'subtitleTextColor': subtitleTextColor?.value,
+      'subtitleFont': subtitleFont?.toMap(),
+      'cornerRadius': cornerRadius,
+      'iconTintColor': iconTintColor?.value,
+    };
+  }
 }

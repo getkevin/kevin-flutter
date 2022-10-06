@@ -17,4 +17,15 @@ class KevinGeneralStyle {
     this.primaryFont,
     this.secondaryFont,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'primaryBackgroundColor': primaryBackgroundColor?.value,
+      'primaryTextColor': primaryTextColor?.value,
+      'secondaryTextColor': secondaryTextColor?.value,
+      'actionTextColor': actionTextColor?.value,
+      'primaryFont': primaryFont?.toMap(),
+      'secondaryFont': secondaryFont?.toMap(),
+    };
+  }
 }

@@ -1,3 +1,10 @@
+## 1.0.3
+
+* **BREAKING**: introduce KevinSize to be used in KevinButtonStyle instead of Size
+* Introduce KevinCallbackUrl class to be used to pass specific android/ios callback urls
+* Add toMap/fromMap() methods to models where needed
+* Introduce KevinErrorHelper for internal usage
+
 ## 1.0.2
 
 * Adjust repository/homepage URLs in pubspec.yaml

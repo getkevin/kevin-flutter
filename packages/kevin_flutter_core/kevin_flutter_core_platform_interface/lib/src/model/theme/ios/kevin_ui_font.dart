@@ -8,4 +8,11 @@ class KevinUiFont {
     required this.size,
     required this.weight,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'size': size,
+      'weight': weight.name,
+    };
+  }
 }

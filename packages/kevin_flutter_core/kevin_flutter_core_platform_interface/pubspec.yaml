@@ -2,7 +2,7 @@ name: kevin_flutter_core_platform_interface
 description: A common platform interface for the kevin_flutter_core plugin.
 repository: https://github.com/getkevin/kevin-flutter/tree/master/packages/kevin_flutter_core/kevin_flutter_core_platform_interface
 homepage: https://developer.kevin.eu/mobile/
-version: 1.0.2
+version: 1.0.3
 
 environment:
   sdk: ">=2.17.6 <3.0.0"

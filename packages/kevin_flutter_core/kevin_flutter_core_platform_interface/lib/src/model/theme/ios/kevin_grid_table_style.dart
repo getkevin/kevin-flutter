@@ -10,4 +10,12 @@ class KevinGridTableStyle {
     this.cellSelectedBackgroundColor,
     this.cellCornerRadius,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'cellBackgroundColor': cellBackgroundColor?.value,
+      'cellSelectedBackgroundColor': cellSelectedBackgroundColor?.value,
+      'cellCornerRadius': cellCornerRadius,
+    };
+  }
 }

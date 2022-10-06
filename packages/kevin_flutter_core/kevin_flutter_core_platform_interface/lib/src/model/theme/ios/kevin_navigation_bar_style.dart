@@ -18,4 +18,15 @@ class KevinNavigationBarStyle {
     this.backButtonImage,
     this.closeButtonImage,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'titleColor': titleColor?.value,
+      'tintColor': tintColor?.value,
+      'backgroundColorLightMode': backgroundColorLightMode?.value,
+      'backgroundColorDarkMode': backgroundColorDarkMode?.value,
+      'backButtonImage': backButtonImage?.toList(),
+      'closeButtonImage': closeButtonImage?.toList(),
+    };
+  }
 }

@@ -13,3 +13,4 @@ export 'ios/kevin_text_field_style.dart';
 export 'ios/kevin_theme_ios.dart';
 export 'ios/kevin_ui_font.dart';
 export 'ios/kevin_ui_font_weight.dart';
+export 'ios/kevin_size.dart';

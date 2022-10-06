@@ -19,4 +19,15 @@ class KevinListTableStyle {
     this.titleLabelFont,
     this.chevronImage,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'cornerRadius': cornerRadius,
+      'isOccupyingFullWidth': isOccupyingFullWidth,
+      'cellBackgroundColor': cellBackgroundColor?.value,
+      'cellSelectedBackgroundColor': cellSelectedBackgroundColor?.value,
+      'titleLabelFont': titleLabelFont?.toMap(),
+      'chevronImage': chevronImage?.toList(),
+    };
+  }
 }
