@@ -6,7 +6,7 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 class MockKevinFlutterAccountsPlatform extends Fake
     with MockPlatformInterfaceMixin
     implements KevinFlutterAccountsPlatformInterface {
-  String? _callbackUrl;
+  KevinCallbackUrl? _callbackUrl;
   bool? _isShowUnsupportedBanks;
 
   @override
@@ -26,7 +26,7 @@ class MockKevinFlutterAccountsPlatform extends Fake
 
   @override
   Future<String> getCallbackUrl() async {
-    return _callbackUrl!;
+    return _callbackUrl!.android;
   }
 
   @override

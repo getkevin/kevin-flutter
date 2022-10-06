@@ -12,4 +12,25 @@ class KevinSessionResultLinkingSuccess extends KevinSessionResult {
     required this.authorizationCode,
     required this.linkingType,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'bank': bank?.toMap(),
+      'authorizationCode': authorizationCode,
+      'linkingType': linkingType.name,
+    };
+  }
+
+  factory KevinSessionResultLinkingSuccess.fromMap(Map<String, dynamic> map) {
+    return KevinSessionResultLinkingSuccess(
+      bank: map['bank'] == null
+          ? null
+          : KevinBank.fromMap(map['bank'] as Map<String, dynamic>),
+      authorizationCode: map['authorizationCode'] as String,
+      linkingType: KevinAccountLinkingType.getByName(
+            (map['linkingType'] as String).toLowerCase(),
+          ) ??
+          KevinAccountLinkingType.bank,
+    );
+  }
 }

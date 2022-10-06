@@ -2,25 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/kevin_flutter_accounts_method_channel.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/kevin_flutter_accounts_platform_interface.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_account_linking_type.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_account_session_configuration.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_accounts_configuration.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/model/kevin_bank.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/model/kevin_session_result_account_success.dart';
+import 'package:kevin_flutter_accounts_ios/kevin_flutter_accounts_ios.dart';
+import 'package:kevin_flutter_accounts_platform_interface/kevin_flutter_accounts_platform_interface.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  const channel = MethodChannel('kevin_flutter_accounts');
+  const channel = MethodChannel('kevin_flutter_accounts_ios');
   final log = <MethodCall>[];
 
-  final platform = KevinFlutterAccountsMethodChannel();
-
-  final initialInstance = KevinFlutterAccountsPlatformInterface.instance;
+  final platform = KevinFlutterAccountsIos();
 
   void _setMethodCallReturnData({dynamic Function()? data}) {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
@@ -37,28 +29,12 @@ void main() {
     log.clear();
   });
 
-  test('$KevinFlutterAccountsMethodChannel() is the default instance', () {
-    expect(initialInstance, isInstanceOf<KevinFlutterAccountsMethodChannel>());
-  });
-
-  test('Cannot be implemented with `implements`', () {
+  test('registers instance', () {
+    KevinFlutterAccountsIos.registerWith();
     expect(
-      () {
-        KevinFlutterAccountsPlatformInterface.instance =
-            ImplementsKevinFlutterAccountsPlatform();
-      },
-      throwsA(anything),
+      KevinFlutterAccountsPlatformInterface.instance,
+      isA<KevinFlutterAccountsIos>(),
     );
-  });
-
-  test('Can be mocked with `implements`', () {
-    final mock = KevinFlutterAccountsPlatformMock();
-    KevinFlutterAccountsPlatformInterface.instance = mock;
-  });
-
-  test('Can be extended', () {
-    KevinFlutterAccountsPlatformInterface.instance =
-        ExtendsKevinFlutterAccountsPlatform();
   });
 
   test('setAccountsConfiguration', () async {
@@ -71,7 +47,7 @@ void main() {
       isMethodCall(
         'setAccountsConfiguration',
         arguments: <String, dynamic>{
-          'callbackUrl': '',
+          'callbackUrl': 'ios',
           'showUnsupportedBanks': true
         },
       )
@@ -279,19 +255,3 @@ void main() {
     ]);
   });
 }
-
-class KevinFlutterAccountsPlatformMock
-    with MockPlatformInterfaceMixin
-    implements KevinFlutterAccountsPlatformInterface {
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-class ImplementsKevinFlutterAccountsPlatform
-    implements KevinFlutterAccountsPlatformInterface {
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-class ExtendsKevinFlutterAccountsPlatform
-    extends KevinFlutterAccountsPlatformInterface {}

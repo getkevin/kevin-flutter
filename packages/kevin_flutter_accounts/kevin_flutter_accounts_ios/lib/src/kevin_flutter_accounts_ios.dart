@@ -1,19 +1,18 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/kevin_flutter_accounts_platform_interface.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_account_session_configuration.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_accounts_configuration.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/model/kevin_flutter_accounts_methods.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/model/kevin_session_result_account_success.dart';
+import 'package:kevin_flutter_accounts_platform_interface/kevin_flutter_accounts_platform_interface.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 
 @visibleForTesting
-const methodChannel = MethodChannel('kevin_flutter_accounts');
+const methodChannel = MethodChannel('kevin_flutter_accounts_ios');
 
-class KevinFlutterAccountsMethodChannel
-    extends KevinFlutterAccountsPlatformInterface {
+class KevinFlutterAccountsIos extends KevinFlutterAccountsPlatformInterface {
+  static void registerWith() {
+    KevinFlutterAccountsPlatformInterface.instance = KevinFlutterAccountsIos();
+  }
+
   @override
   Future<void> setAccountsConfiguration(
     KevinAccountsConfiguration configuration,
@@ -21,7 +20,7 @@ class KevinFlutterAccountsMethodChannel
     await methodChannel.invokeMethod(
       KevinFlutterAccountsMethods.setAccountsConfiguration,
       {
-        'callbackUrl': '',
+        'callbackUrl': configuration.callbackUrl.ios,
         'showUnsupportedBanks': configuration.showUnsupportedBanks
       },
     );

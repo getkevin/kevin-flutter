@@ -14,14 +14,14 @@ void main() {
   test('setAccountsConfiguration/get config data', () async {
     await KevinAccounts.setAccountsConfiguration(
       const KevinAccountsConfiguration(
-        callbackUrl: 'callbackUrl',
+        callbackUrl: KevinCallbackUrl(android: 'android', ios: 'ios'),
         showUnsupportedBanks: true,
       ),
     );
     final callbackUrl = await KevinAccounts.getCallbackUrl();
     final isShowUnsupportedBanks = await KevinAccounts.isShowUnsupportedBanks();
 
-    expect(callbackUrl, 'callbackUrl');
+    expect(callbackUrl, 'android');
     expect(isShowUnsupportedBanks, true);
   });
 
