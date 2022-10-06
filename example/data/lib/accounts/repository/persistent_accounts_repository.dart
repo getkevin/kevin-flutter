@@ -56,7 +56,12 @@ class PersistentAccountsRepository extends AccountsRepository {
   }
 
   @override
-  Future<void> delete(String bankId) async {
+  Future<void> deleteById(int id) async {
+    await _accountsBox.delete(id);
+  }
+
+  @override
+  Future<void> deleteByBankId(String bankId) async {
     final ids = _getLinkedAccountsData(
       transform: (key, _) => key,
       filter: (_, account) => account.bankId == bankId,

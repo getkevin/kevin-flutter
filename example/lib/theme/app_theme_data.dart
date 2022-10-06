@@ -1,33 +1,33 @@
 import 'package:equatable/equatable.dart';
 import 'package:kevin_flutter_example/theme/app_color.dart';
-import 'package:kevin_flutter_example/theme/app_decoration.dart';
+import 'package:kevin_flutter_example/theme/app_animation.dart';
 import 'package:kevin_flutter_example/theme/app_typography.dart';
 
 class AppThemeData extends Equatable {
   final AppColor color;
   final AppTypography typography;
-  final AppDecoration decoration;
+  final AppAnimation animation;
 
   const AppThemeData({
     required this.color,
     required this.typography,
-    required this.decoration,
+    required this.animation,
   });
 
   const AppThemeData.light()
       : color = const AppColor.light(),
         typography = AppTypography.defaultTypography,
-        decoration = const AppDecoration();
+        animation = const AppAnimation();
 
   const AppThemeData.dark()
       : color = const AppColor.dark(),
         typography = AppTypography.defaultTypography,
-        decoration = const AppDecoration();
+        animation = const AppAnimation();
 
   @override
   List<Object?> get props => [
         color,
         typography,
-        decoration,
+        animation,
       ];
 }

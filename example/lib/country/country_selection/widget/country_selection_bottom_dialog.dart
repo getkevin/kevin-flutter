@@ -7,6 +7,8 @@ import 'package:kevin_flutter_example/common_widgets/kevin_list_item.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_progress_indicator.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_snack_bar.dart';
 import 'package:kevin_flutter_example/country/country_selection/bloc/country_selection_bloc.dart';
+import 'package:kevin_flutter_example/country/country_selection/bloc/country_selection_event.dart';
+import 'package:kevin_flutter_example/country/country_selection/bloc/country_selection_state.dart';
 import 'package:kevin_flutter_example/error/api_error_mapper.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
 
@@ -52,7 +54,7 @@ class _CountrySelectionBottomDialogState
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final color = theme.color;
-    final decoration = theme.decoration;
+    final decoration = theme.animation;
 
     return BlocConsumer<CountrySelectionBloc, CountrySelectionState>(
       listener: (context, state) {

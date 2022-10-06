@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kevin_flutter_example/common_widgets/kevin_icon_button.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
 
@@ -114,17 +114,20 @@ class KevinFormFieldClearIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final color = theme.color;
-    final decoration = theme.decoration;
+    final decoration = theme.animation;
 
-    return AnimatedOpacity(
-      opacity: _text.isNotEmpty ? 1 : 0,
-      duration: decoration.duration.defaultDuration,
-      curve: decoration.animationCurve.defaultCurve,
-      child: IconButton(
-        onPressed: _onPressed,
-        icon: SvgPicture.asset(
-          AppImages.cross,
-          color: color.secondaryText,
+    return SizedBox(
+      height: 44,
+      width: 44,
+      child: AnimatedOpacity(
+        opacity: _text.isNotEmpty ? 1 : 0,
+        duration: decoration.duration.defaultDuration,
+        curve: decoration.animationCurve.defaultCurve,
+        child: KevinIconButton(
+          onPressed: _onPressed,
+          icon: AppImages.cross,
+          iconColor: color.secondaryText,
+          splashRadius: 14,
         ),
       ),
     );

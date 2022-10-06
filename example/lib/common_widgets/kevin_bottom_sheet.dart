@@ -29,7 +29,7 @@ Future<T?> _showMaterialBottomSheet<T>({
   double? closeProgressThreshold,
 }) async {
   final theme = AppTheme.of(context);
-  final decoration = theme.decoration;
+  final decoration = theme.animation;
 
   final result = await Navigator.of(context, rootNavigator: false).push(
     ModalBottomSheetRoute<T>(
@@ -212,7 +212,7 @@ class _AnimatedEdgeToEdgeContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final color = theme.color;
-    final decoration = theme.decoration;
+    final decoration = theme.animation;
 
     return Transform.translate(
       offset: Offset(

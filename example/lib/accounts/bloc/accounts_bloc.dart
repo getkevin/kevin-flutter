@@ -1,108 +1,16 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:domain/accounts/model/linked_account.dart';
 import 'package:domain/accounts/repository/accounts_repository.dart';
-import 'package:domain/kevin/model/auth_scope.dart';
 import 'package:domain/kevin/model/linking_request.dart';
 import 'package:domain/kevin/repository/kevin_repository.dart';
-import 'package:equatable/equatable.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kevin_flutter_accounts/kevin_flutter_accounts.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
+import 'package:kevin_flutter_example/accounts/bloc/accounts_event.dart';
+import 'package:kevin_flutter_example/accounts/bloc/accounts_state.dart';
 import 'package:kevin_flutter_example/accounts/model/linking_session.dart';
 import 'package:quiver/core.dart';
 
-/// Events
-abstract class AccountsEvent extends Equatable {
-  const AccountsEvent();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class ObserveLinkedAccountsEvent extends AccountsEvent {
-  final bool observe;
-
-  const ObserveLinkedAccountsEvent({required this.observe});
-
-  @override
-  List<Object?> get props => [observe];
-}
-
-class InitializeLinkingEvent extends AccountsEvent {
-  final List<AuthScope> authScopes;
-  final String redirectUrl;
-
-  const InitializeLinkingEvent({
-    required this.authScopes,
-    required this.redirectUrl,
-  });
-
-  @override
-  List<Object?> get props => [authScopes, redirectUrl];
-}
-
-class SetLinkingSuccessResultEvent extends AccountsEvent {
-  final KevinSessionResultLinkingSuccess result;
-
-  const SetLinkingSuccessResultEvent({
-    required this.result,
-  });
-
-  @override
-  List<Object?> get props => [result];
-}
-
-class ClearInitializeLinkingResultEvent extends AccountsEvent {
-  const ClearInitializeLinkingResultEvent();
-}
-
-class ClearGeneralErrorEvent extends AccountsEvent {
-  const ClearGeneralErrorEvent();
-}
-
-/// State
-class AccountsState extends Equatable {
-  final List<LinkedAccount> accounts;
-
-  final Optional<LinkingSession> initializeLinkingResult;
-  final bool initializeLinkingLoading;
-
-  final Optional<Exception> generalError;
-
-  const AccountsState({
-    required this.accounts,
-    required this.initializeLinkingResult,
-    required this.initializeLinkingLoading,
-    required this.generalError,
-  });
-
-  AccountsState copyWith({
-    List<LinkedAccount>? accounts,
-    Optional<LinkingSession>? initializeLinkingResult,
-    bool? initializeLinkingLoading,
-    Optional<Exception>? generalError,
-  }) {
-    return AccountsState(
-      accounts: accounts ?? this.accounts,
-      initializeLinkingResult:
-          initializeLinkingResult ?? this.initializeLinkingResult,
-      initializeLinkingLoading:
-          initializeLinkingLoading ?? this.initializeLinkingLoading,
-      generalError: generalError ?? this.generalError,
-    );
-  }
-
-  @override
-  List<Object?> get props => [
-        accounts,
-        initializeLinkingResult,
-        initializeLinkingLoading,
-        generalError,
-      ];
-}
-
-/// BLoC
 class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   final AccountsRepository _accountsRepository;
   final KevinRepository _kevinRepository;
@@ -130,6 +38,8 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
           await _onInitializeLinkingEvent(event, emitter);
         } else if (event is SetLinkingSuccessResultEvent) {
           await _onSetLinkingResultSuccessEvent(event, emitter);
+        } else if (event is RemoveLinkedAccountEvent) {
+          await _onRemoveLinkedAccountEvent(event, emitter);
         } else if (event is ClearInitializeLinkingResultEvent) {
           await _onClearInitializeLinkingResultEvent(event, emitter);
         } else if (event is ClearGeneralErrorEvent) {
@@ -206,8 +116,15 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
       bankId: bank.id,
     );
 
-    await _accountsRepository.delete(bank.id);
+    await _accountsRepository.deleteByBankId(bank.id);
     await _accountsRepository.insert(account: account);
+  }
+
+  Future<void> _onRemoveLinkedAccountEvent(
+    RemoveLinkedAccountEvent event,
+    Emitter<AccountsState> emitter,
+  ) async {
+    await _accountsRepository.deleteById(event.account.id);
   }
 
   Future<void> _onClearInitializeLinkingResultEvent(
