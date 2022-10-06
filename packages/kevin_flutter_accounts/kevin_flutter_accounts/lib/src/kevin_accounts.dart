@@ -1,4 +1,5 @@
 import 'package:kevin_flutter_accounts_platform_interface/kevin_flutter_accounts_platform_interface.dart';
+import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 
 class KevinAccounts {
   /// Set accounts configuration.

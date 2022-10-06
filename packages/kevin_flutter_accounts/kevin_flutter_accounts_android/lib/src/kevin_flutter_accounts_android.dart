@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kevin_flutter_accounts_platform_interface/kevin_flutter_accounts_platform_interface.dart';
+import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 
 @visibleForTesting
 const methodChannel = MethodChannel('kevin_flutter_accounts_android');

@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kevin_flutter_accounts/kevin_flutter_accounts.dart';
 import 'package:kevin_flutter_accounts_platform_interface/kevin_flutter_accounts_platform_interface.dart';
+import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 
 import '../mocks/mock_kevin_flutter_accounts_platform.dart';
 

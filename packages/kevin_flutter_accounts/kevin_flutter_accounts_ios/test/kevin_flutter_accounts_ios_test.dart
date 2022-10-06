@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kevin_flutter_accounts_ios/kevin_flutter_accounts_ios.dart';
 import 'package:kevin_flutter_accounts_platform_interface/kevin_flutter_accounts_platform_interface.dart';
+import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
