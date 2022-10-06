@@ -1,0 +1,1 @@
+enum MainPageTab { accounts, payments }
