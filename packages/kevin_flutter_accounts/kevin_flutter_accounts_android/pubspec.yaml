@@ -1,6 +1,6 @@
 name: kevin_flutter_accounts_android
 description: Android implementation of the kevin_flutter_accounts plugin.
-repository: https://github.com/getkevin/kevin-flutter/tree/master/packages/kevin_flutter_accounts/kevin_flutter_accounts_android.dart
+repository: https://github.com/getkevin/kevin-flutter/tree/master/packages/kevin_flutter_accounts/kevin_flutter_accounts_android
 homepage: https://developer.kevin.eu/mobile/
 version: 1.0.0
 
