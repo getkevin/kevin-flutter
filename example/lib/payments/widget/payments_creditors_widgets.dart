@@ -62,7 +62,7 @@ class _CreditorList extends StatelessWidget {
           AnimatedOpacity(
             opacity: _state.creditorsLoading ? 1 : 0,
             duration: decoration.duration.defaultDuration,
-            child: const KevinProgressIndicator(),
+            child: const KevinProgressIndicator.center(),
           ),
           AnimatedOpacity(
             opacity: _state.creditorsLoading ? 0 : 1,
@@ -121,10 +121,14 @@ class _Creditor extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final color = theme.color;
+    final decoration = theme.decoration;
 
     return Stack(
       children: [
-        Container(
+        AnimatedContainer(
+          duration: decoration.duration.longDuration,
+          curve: decoration.animationCurve.defaultCurve,
+          clipBehavior: Clip.antiAlias,
           width: _width,
           foregroundDecoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
@@ -139,7 +143,10 @@ class _Creditor extends StatelessWidget {
           ),
           child: AspectRatio(
             aspectRatio: _creditorItemAspectRatio,
-            child: Image.network(_creditor.logo),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.network(_creditor.logo),
+            ),
           ),
         ),
         Positioned.fill(

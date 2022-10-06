@@ -21,36 +21,73 @@ class SetMainPageTabEvent extends MainEvent {
   List<Object?> get props => [tab];
 }
 
+class SetLoadingEvent extends MainEvent {
+  final bool loading;
+
+  const SetLoadingEvent({
+    required this.loading,
+  });
+
+  @override
+  List<Object?> get props => [loading];
+}
+
 /// State
 class MainState extends Equatable {
   final MainPageTab tab;
+  final bool loading;
 
   const MainState({
     required this.tab,
+    required this.loading,
   });
 
   MainState copyWith({
     MainPageTab? tab,
+    bool? loading,
   }) {
     return MainState(
       tab: tab ?? this.tab,
+      loading: loading ?? this.loading,
     );
   }
 
   @override
-  List<Object?> get props => [tab];
+  List<Object?> get props => [
+        tab,
+        loading,
+      ];
 }
 
 /// BLoC
 class MainBloc extends Bloc<MainEvent, MainState> {
-  MainBloc() : super(const MainState(tab: MainPageTab.accounts)) {
-    on<SetMainPageTabEvent>(_onSetMainPageTabEvent);
+  MainBloc()
+      : super(
+          const MainState(
+            tab: MainPageTab.accounts,
+            loading: false,
+          ),
+        ) {
+    on<MainEvent>((event, emitter) async {
+      if (event is SetMainPageTabEvent) {
+        await _onSetMainPageTabEvent(event, emitter);
+      } else if (event is SetLoadingEvent) {
+        await _onSetLoadingEvent(event, emitter);
+      }
+    });
   }
 
-  void _onSetMainPageTabEvent(
+  Future<void> _onSetMainPageTabEvent(
     SetMainPageTabEvent event,
     Emitter<MainState> emitter,
-  ) {
+  ) async {
     emitter(state.copyWith(tab: event.tab));
+  }
+
+  Future<void> _onSetLoadingEvent(
+    SetLoadingEvent event,
+    Emitter<MainState> emitter,
+  ) async {
+    emitter(state.copyWith(loading: event.loading));
   }
 }

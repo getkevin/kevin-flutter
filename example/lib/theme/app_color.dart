@@ -33,6 +33,8 @@ class AppColor extends Equatable {
 
   final Color inputUnfocusedBorder;
 
+  final Color icon;
+
   final BottomSheet bottomSheet;
 
   const AppColor.light()
@@ -59,6 +61,7 @@ class AppColor extends Equatable {
         error = _KevinColors.warningRed,
         onError = _KevinColors.white,
         inputUnfocusedBorder = _KevinColors.gray5,
+        icon = _KevinColors.gray2,
         bottomSheet = const BottomSheet.light();
 
   const AppColor.dark()
@@ -85,7 +88,8 @@ class AppColor extends Equatable {
         error = _KevinColors.warningRed,
         onError = _KevinColors.white,
         inputUnfocusedBorder = _KevinColors.black30,
-        bottomSheet = const BottomSheet.light();
+        icon = _KevinColors.gray2,
+        bottomSheet = const BottomSheet.dark();
 
   const AppColor({
     required this.primary,
@@ -111,6 +115,7 @@ class AppColor extends Equatable {
     required this.error,
     required this.onError,
     required this.inputUnfocusedBorder,
+    required this.icon,
     required this.bottomSheet,
   });
 
@@ -139,6 +144,7 @@ class AppColor extends Equatable {
         error,
         onError,
         inputUnfocusedBorder,
+        icon,
         bottomSheet,
       ];
 }
@@ -241,8 +247,7 @@ class _KevinColors {
 
   static const gray0 = Color(0xFF373C42);
   static const gray1 = Color(0xFF7C8894);
-  // TODO: Not used now, maybe can be deleted
-  // static const gray2 = Color(0xFFBCC4CC);
+  static const gray2 = Color(0xFFBCC4CC);
   static const gray5 = Color(0xFFE6E7EE);
 // TODO: Not used now, maybe can be deleted
   // static const metallicGray = Color(0xFF90A4AE);

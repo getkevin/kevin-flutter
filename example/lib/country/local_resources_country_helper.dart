@@ -1,3 +1,5 @@
+import 'package:domain/country/country_helper.dart';
+
 const _baseFlagsPath = 'resources/flags';
 
 final _availableCountries = {
@@ -34,8 +36,9 @@ final _availableCountries = {
   'sk',
 };
 
-class CountryHelper {
-  Future<String> getFlag(String countryCode) async {
+class LocalResourcesCountryHelper extends CountryHelper {
+  @override
+  String getFlag(String countryCode) {
     final countryCodeLowerCased = countryCode.toLowerCase();
 
     final flagExists = _availableCountries.contains(countryCodeLowerCased);
@@ -43,6 +46,7 @@ class CountryHelper {
     return _getFlagPath(flagExists ? countryCodeLowerCased : 'eu');
   }
 
+  @override
   String getName(String countryCode) {
     // TODO: Localisation
     return countryCode;

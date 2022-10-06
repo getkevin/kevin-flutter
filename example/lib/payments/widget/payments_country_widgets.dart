@@ -2,11 +2,11 @@ part of 'payments_page.dart';
 
 class _CountrySection extends StatelessWidget {
   final PaymentsState _state;
-  final Function(CountryItem) _onCountryPressed;
+  final Function(Country) _onCountryPressed;
 
   const _CountrySection({
     required PaymentsState state,
-    required Function(CountryItem) onCountryPressed,
+    required Function(Country) onCountryPressed,
   })  : _state = state,
         _onCountryPressed = onCountryPressed;
 
@@ -39,12 +39,12 @@ class _CountrySection extends StatelessWidget {
 }
 
 class _Country extends StatelessWidget {
-  final CountryItem _country;
-  final Function(CountryItem) _onCountryPressed;
+  final Country _country;
+  final Function(Country) _onCountryPressed;
 
   const _Country({
-    required CountryItem country,
-    required Function(CountryItem) onCountryPressed,
+    required Country country,
+    required Function(Country) onCountryPressed,
   })  : _country = country,
         _onCountryPressed = onCountryPressed;
 

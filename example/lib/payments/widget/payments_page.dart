@@ -1,16 +1,21 @@
+import 'package:domain/country/model/country.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kevin_flutter_example/common_widgets/kevin_bottom_sheet.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_button.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_check_box.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_form_field.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_progress_indicator.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_snack_bar.dart';
+import 'package:kevin_flutter_example/country/country_selection/widget/country_selection_bottom_dialog.dart';
+import 'package:kevin_flutter_example/error/api_error_mapper.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_bloc.dart';
-import 'package:kevin_flutter_example/payments/model/country_item.dart';
 import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
+import 'package:kevin_flutter_example/payments/payment_type/model/payment_type.dart';
+import 'package:kevin_flutter_example/payments/payment_type/widget/payment_type_bottom_dialog.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
 import 'package:kevin_flutter_example/web/app_urls.dart';
@@ -30,7 +35,10 @@ part 'payments_user_input_widgets.dart';
 const _creditorItemAspectRatio = 1.92;
 
 class PaymentsPage extends StatefulWidget {
-  const PaymentsPage({super.key});
+  final Function(bool) _onSetGlobalLoading;
+
+  const PaymentsPage({super.key, required Function(bool) onSetGlobalLoading})
+      : _onSetGlobalLoading = onSetGlobalLoading;
 
   @override
   State<StatefulWidget> createState() => _PaymentsPageState();
@@ -38,6 +46,7 @@ class PaymentsPage extends StatefulWidget {
 
 class _PaymentsPageState extends State<PaymentsPage> {
   late final PaymentsBloc _bloc;
+  late final ApiErrorMapper _apiErrorMapper;
 
   final _scrollController = ScrollController();
 
@@ -50,6 +59,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
     super.initState();
 
     _bloc = context.read();
+    _apiErrorMapper = context.read();
 
     _emailController.addListener(_onEmailChanged);
     _amountController.addListener(_onAmountChanged);
@@ -81,9 +91,14 @@ class _PaymentsPageState extends State<PaymentsPage> {
                 _onOpenPaymentTypeDialog(context: context);
               }
 
-              if (state.generalError.isPresent) {
-                _onGeneralError(context: context);
+              final generalError = state.generalError.orNull;
+              if (generalError != null) {
+                _onGeneralError(context: context, error: generalError);
               }
+
+              _onInitializePaymentLoading(
+                loading: state.initializePaymentLoading,
+              );
             },
             builder: (context, state) {
               return CustomScrollView(
@@ -97,7 +112,10 @@ class _PaymentsPageState extends State<PaymentsPage> {
                         emailController: _emailController,
                         amountController: _amountController,
                         amountFocusNode: _amountFocusNode,
-                        onCountryPressed: _onCountryPressed,
+                        onCountryPressed: (country) => _onCountryPressed(
+                          context: context,
+                          country: country,
+                        ),
                         onCreditorPressed: _onCreditorPressed,
                         onTermsAcceptedChanged: _onTermsAcceptedChanged,
                         onAmountSubmitted: () =>
@@ -130,15 +148,21 @@ class _PaymentsPageState extends State<PaymentsPage> {
     _bloc.add(SetAmountEvent(amount: _amountController.text));
   }
 
-  void _onCountryPressed(CountryItem country) {
-    // TODO: Open country dialog
-    ScaffoldMessenger.of(context).showSnackBar(
-      KevinSnackBar.text(
-        context: context,
-        text: 'Open dialog',
-        type: KevinSnackBarType.success,
+  void _onCountryPressed({
+    required BuildContext context,
+    required Country country,
+  }) async {
+    final countryResult = await showKevinBottomSheet<Country>(
+      context: context,
+      builder: (context, sc) => CountrySelectionBottomDialog.withBloc(
+        scrollController: sc,
+        selectedCountry: country,
       ),
     );
+
+    if (countryResult != null) {
+      _bloc.add(SetCountryEvent(country: countryResult));
+    }
   }
 
   void _onCreditorPressed(CreditorListItem creditor) {
@@ -154,25 +178,33 @@ class _PaymentsPageState extends State<PaymentsPage> {
     _bloc.add(const ValidatePaymentEvent());
   }
 
-  void _onOpenPaymentTypeDialog({required BuildContext context}) {
+  void _onOpenPaymentTypeDialog({required BuildContext context}) async {
     _bloc.add(const ClearOpenPaymentTypeDialogEvent());
 
-    // TODO: Should open payment dialog instead
-    ScaffoldMessenger.of(context).showSnackBar(
-      KevinSnackBar.text(
-        context: context,
-        text: 'Success',
-        type: KevinSnackBarType.success,
-      ),
+    final paymentType = await showKevinBottomSheet<PaymentType>(
+      context: context,
+      builder: (context, sc) {
+        return const PaymentTypeBottomDialog();
+      },
     );
+
+    if (paymentType != null) {
+      _bloc.add(InitializeSinglePaymentEvent(paymentType: paymentType));
+    }
   }
 
-  void _onGeneralError({required BuildContext context}) {
+  void _onInitializePaymentLoading({required bool loading}) {
+    widget._onSetGlobalLoading.call(loading);
+  }
+
+  void _onGeneralError({
+    required BuildContext context,
+    required Exception error,
+  }) {
     _bloc.add(const ClearGeneralErrorEvent());
 
-    // TODO: Add proper error handling
     ScaffoldMessenger.of(context).showSnackBar(
-      KevinSnackBar.text(context: context, text: 'Error'),
+      KevinSnackBar.text(context: context, text: _apiErrorMapper.map(error)),
     );
   }
 }

@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
-class CountryItem extends Equatable {
+class Country extends Equatable {
   final String code;
   final String flag;
   final String name;
 
-  const CountryItem({
+  const Country({
     required this.code,
     required this.flag,
     required this.name,
