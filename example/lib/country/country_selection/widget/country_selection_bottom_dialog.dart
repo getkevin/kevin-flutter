@@ -164,6 +164,7 @@ class _CountrySelectionBottomDialogState
   void _onError({required BuildContext context, required Exception error}) {
     _bloc.add(const ClearErrorEvent());
 
+    Navigator.of(context).pop();
     ScaffoldMessenger.of(context).showSnackBar(
       KevinSnackBar.text(context: context, text: _apiErrorMapper.map(error)),
     );
