@@ -1,6 +1,7 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:domain/accounts/model/linked_account.dart';
 import 'package:domain/accounts/repository/accounts_repository.dart';
+import 'package:domain/auth/repository/auth_repository.dart';
 import 'package:domain/kevin/model/linking_request.dart';
 import 'package:domain/kevin/repository/kevin_repository.dart';
 import 'package:fimber/fimber.dart';
@@ -14,12 +15,15 @@ import 'package:quiver/core.dart';
 class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   final AccountsRepository _accountsRepository;
   final KevinRepository _kevinRepository;
+  final AuthRepository _authRepository;
 
   AccountsBloc({
     required AccountsRepository accountsRepository,
     required KevinRepository kevinRepository,
+    required AuthRepository authRepository,
   })  : _accountsRepository = accountsRepository,
         _kevinRepository = kevinRepository,
+        _authRepository = authRepository,
         super(
           const AccountsState(
             accounts: [],
@@ -125,6 +129,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     Emitter<AccountsState> emitter,
   ) async {
     await _accountsRepository.deleteById(event.account.id);
+    await _authRepository.removeAuthToken(event.account.linkToken);
   }
 
   Future<void> _onClearInitializeLinkingResultEvent(

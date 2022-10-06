@@ -33,6 +33,7 @@ class MainPage extends StatefulWidget {
             create: (context) => PaymentsBloc(
               kevinRepository: context.read(),
               getCreditorsUseCase: context.read(),
+              getAuthTokenUseCase: context.read(),
               emailValidator: context.read(),
               amountValidator: context.read(),
             )..add(const InitialLoadEvent()),
@@ -41,6 +42,7 @@ class MainPage extends StatefulWidget {
             create: (context) => AccountsBloc(
               accountsRepository: context.read(),
               kevinRepository: context.read(),
+              authRepository: context.read(),
             )..add(
                 const ObserveLinkedAccountsEvent(
                   observe: true,

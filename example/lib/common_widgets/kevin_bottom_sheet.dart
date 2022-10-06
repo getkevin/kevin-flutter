@@ -29,7 +29,7 @@ Future<T?> _showMaterialBottomSheet<T>({
   double? closeProgressThreshold,
 }) async {
   final theme = AppTheme.of(context);
-  final decoration = theme.animation;
+  final animation = theme.animation;
 
   final result = await Navigator.of(context, rootNavigator: false).push(
     ModalBottomSheetRoute<T>(
@@ -43,7 +43,7 @@ Future<T?> _showMaterialBottomSheet<T>({
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       isDismissible: isDismissible,
       modalBarrierColor: Colors.black.withOpacity(0.4),
-      duration: decoration.duration.longDuration,
+      duration: animation.duration.longDuration,
     ),
   );
   return result;
@@ -212,7 +212,7 @@ class _AnimatedEdgeToEdgeContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final color = theme.color;
-    final decoration = theme.animation;
+    final animation = theme.animation;
 
     return Transform.translate(
       offset: Offset(
@@ -223,7 +223,7 @@ class _AnimatedEdgeToEdgeContainer extends StatelessWidget {
         ),
       ),
       child: AnimatedContainer(
-        duration: decoration.duration.shortDuration,
+        duration: animation.duration.shortDuration,
         height: _modalSheetEdgeToEdgeContainerHeight,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(_animationProgress < 1 ? 11 : 0),

@@ -1,5 +1,6 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:collection/collection.dart';
+import 'package:domain/auth/usecase/get_auth_token_use_case.dart';
 import 'package:domain/country/model/country.dart';
 import 'package:domain/kevin/model/payment.dart';
 import 'package:domain/kevin/model/payment_request.dart';
@@ -9,11 +10,11 @@ import 'package:fimber/fimber.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_example/country/country_extensions.dart';
+import 'package:kevin_flutter_example/payment_type/model/payment_type.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_event.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_state.dart';
 import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
 import 'package:kevin_flutter_example/payments/model/payment_session.dart';
-import 'package:kevin_flutter_example/payments/payment_type/model/payment_type.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/validation/amount_validator.dart';
 import 'package:kevin_flutter_example/validation/email_validator.dart';
@@ -28,16 +29,19 @@ const _defaultCountry = Country(
 class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
   final KevinRepository _kevinRepository;
   final GetCreditorsUseCase _getCreditorsUseCase;
+  final GetAuthTokenUseCase _getAuthTokenUseCase;
   final EmailValidator _emailValidator;
   final AmountValidator _amountValidator;
 
   PaymentsBloc({
     required KevinRepository kevinRepository,
     required GetCreditorsUseCase getCreditorsUseCase,
+    required GetAuthTokenUseCase getAuthTokenUseCase,
     required EmailValidator emailValidator,
     required AmountValidator amountValidator,
   })  : _kevinRepository = kevinRepository,
         _getCreditorsUseCase = getCreditorsUseCase,
+        _getAuthTokenUseCase = getAuthTokenUseCase,
         _emailValidator = emailValidator,
         _amountValidator = amountValidator,
         super(
@@ -76,6 +80,8 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
           await _onValidatePaymentEvent(event, emitter);
         } else if (event is InitializeSinglePaymentEvent) {
           await _onInitializeSinglePaymentEvent(event, emitter);
+        } else if (event is InitializeLinkedBankPaymentEvent) {
+          await _onInitializeLinkedBankPaymentEvent(event, emitter);
         } else if (event is ClearOpenPaymentTypeDialogEvent) {
           await _onClearOpenPaymentTypeDialogEvent(event, emitter);
         } else if (event is ClearGeneralErrorEvent) {
@@ -194,42 +200,51 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
   ) async {
     emitter(state.copyWith(initializePaymentLoading: true));
 
-    try {
-      final Payment payment;
+    final resultState = await _handlePayment(
+      state: state,
+      paymentType: event.paymentType,
+      getPayment: () {
+        final paymentRequest =
+            _getPaymentRequest(state: state, redirectUrl: event.callbackUrl);
 
-      final paymentRequest =
-          _getPaymentRequest(state: state, redirectUrl: event.callbackUrl);
+        switch (event.paymentType) {
+          case PaymentType.bank:
+            return _kevinRepository.initializeBankPayment(paymentRequest);
+          case PaymentType.card:
+            return _kevinRepository.initializeCardPayment(paymentRequest);
+          case PaymentType.linked:
+            throw StateError('Wrong payment type: ${event.paymentType}');
+        }
+      },
+    );
 
-      if (event.paymentType == PaymentType.card) {
-        payment = await _kevinRepository.initializeCardPayment(paymentRequest);
-      } else {
-        payment = await _kevinRepository.initializeBankPayment(paymentRequest);
-      }
+    emitter(resultState);
+  }
 
-      final paymentSession = PaymentSession(
-        paymentId: payment.id,
-        paymentType: event.paymentType.toKevinPaymentType,
-        skipAuthentication: false,
-        preselectedCountry: state.country.toKevinCountry(
-          defaultCountry: KevinCountry.lithuania,
-        ),
-      );
+  Future<void> _onInitializeLinkedBankPaymentEvent(
+    InitializeLinkedBankPaymentEvent event,
+    Emitter<PaymentsState> emitter,
+  ) async {
+    emitter(state.copyWith(initializePaymentLoading: true));
 
-      emitter(
-        state.copyWith(
-          initializePaymentResult: Optional.of(paymentSession),
-          initializePaymentLoading: false,
-        ),
-      );
-    } on Exception catch (error, st) {
-      Fimber.e('Error initializing payment', ex: error, stacktrace: st);
-      emitter(
-        state.copyWith(
-          generalError: Optional.of(error),
-          initializePaymentLoading: false,
-        ),
-      );
-    }
+    final resultState = await _handlePayment(
+      state: state,
+      paymentType: PaymentType.linked,
+      getPayment: () async {
+        final paymentRequest =
+            _getPaymentRequest(state: state, redirectUrl: event.callbackUrl);
+
+        final authToken =
+            await _getAuthTokenUseCase.invoke(event.account.linkToken);
+
+        return _kevinRepository.initializeLinkedBankPayment(
+          accessToken: authToken.accessToken,
+          request: paymentRequest,
+        );
+      },
+    );
+
+    emitter(resultState);
   }
 
   Future<void> _onClearOpenPaymentTypeDialogEvent(
@@ -261,7 +276,6 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
   ) async {
     emitter(
       state.copyWith(
-        email: '',
         amount: '',
         termsAccepted: false,
         userInputFieldsUpdated: true,
@@ -302,6 +316,36 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
         generalError: Optional.of(error),
         creditors: [],
         creditorsLoading: false,
+      );
+    }
+  }
+
+  Future<PaymentsState> _handlePayment({
+    required PaymentsState state,
+    required PaymentType paymentType,
+    required Future<Payment> Function() getPayment,
+  }) async {
+    try {
+      final payment = await getPayment();
+
+      final paymentSession = PaymentSession(
+        paymentId: payment.id,
+        paymentType: paymentType.toKevinPaymentType,
+        skipAuthentication: paymentType == PaymentType.linked,
+        preselectedCountry: state.country.toKevinCountry(
+          defaultCountry: KevinCountry.lithuania,
+        ),
+      );
+
+      return state.copyWith(
+        initializePaymentResult: Optional.of(paymentSession),
+        initializePaymentLoading: false,
+      );
+    } on Exception catch (error, st) {
+      Fimber.e('Error initializing payment', ex: error, stacktrace: st);
+      return state.copyWith(
+        generalError: Optional.of(error),
+        initializePaymentLoading: false,
       );
     }
   }

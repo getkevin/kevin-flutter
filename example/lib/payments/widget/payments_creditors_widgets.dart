@@ -51,7 +51,7 @@ class _CreditorList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
-    final decoration = theme.animation;
+    final animation = theme.animation;
 
     final itemWidth = _getCharityWidth(context: context);
 
@@ -61,12 +61,12 @@ class _CreditorList extends StatelessWidget {
         children: [
           AnimatedOpacity(
             opacity: _state.creditorsLoading ? 1 : 0,
-            duration: decoration.duration.defaultDuration,
+            duration: animation.duration.defaultDuration,
             child: const KevinProgressIndicator.center(),
           ),
           AnimatedOpacity(
             opacity: _state.creditorsLoading ? 0 : 1,
-            duration: decoration.duration.defaultDuration,
+            duration: animation.duration.defaultDuration,
             child: ScrollSnapList(
               selectedItemAnchor: SelectedItemAnchor.START,
               listViewPadding: const EdgeInsets.symmetric(horizontal: 8),
@@ -121,13 +121,13 @@ class _Creditor extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final color = theme.color;
-    final decoration = theme.animation;
+    final animation = theme.animation;
 
     return Stack(
       children: [
         AnimatedContainer(
-          duration: decoration.duration.longDuration,
-          curve: decoration.animationCurve.defaultCurve,
+          duration: animation.duration.longDuration,
+          curve: animation.animationCurve.defaultCurve,
           clipBehavior: Clip.antiAlias,
           width: _width,
           foregroundDecoration: BoxDecoration(

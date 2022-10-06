@@ -2,7 +2,7 @@ import 'package:domain/country/model/country.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kevin_flutter_example/common_widgets/kevin_bottom_sheet_header.dart';
+import 'package:kevin_flutter_example/common_widgets/kevin_bottom_dialog.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_list_item.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_progress_indicator.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_snack_bar.dart';
@@ -54,7 +54,7 @@ class _CountrySelectionBottomDialogState
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final color = theme.color;
-    final decoration = theme.animation;
+    final animation = theme.animation;
 
     return BlocConsumer<CountrySelectionBloc, CountrySelectionState>(
       listener: (context, state) {
@@ -66,58 +66,53 @@ class _CountrySelectionBottomDialogState
       builder: (context, state) {
         return Stack(
           children: [
-            AnimatedSize(
-              duration: decoration.duration.defaultDuration,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 40),
-                child: ListView.builder(
-                  padding:
-                      const EdgeInsets.only(left: 16, right: 16, bottom: 36),
-                  controller: widget._scrollController,
-                  physics: const ClampingScrollPhysics(),
-                  // shrinkWrap is expensive and not needed when content
-                  // is large enough to cover whole screen.
-                  shrinkWrap: state.countries.length <= 12,
-                  itemBuilder: (context, index) {
-                    final country = state.countries[index];
+            KevinListBottomDialog(
+              // TODO: Localisation
+              title: 'Choose bank account',
+              itemCount: state.countries.length,
+              // shrinkWrap is expensive and not needed when content
+              // is large enough to cover a whole screen.
+              shrinkWrap: state.countries.length <= 12,
+              scrollController: widget._scrollController,
+              physics: const ClampingScrollPhysics(),
+              builder: (context, index) {
+                final country = state.countries[index];
 
-                    var type = KevinListItemType.middle;
+                var type = KevinListItemType.middle;
 
-                    if (state.countries.length == 1) {
-                      type = KevinListItemType.single;
-                    } else if (index == 0) {
-                      type = KevinListItemType.top;
-                    } else if (index == state.countries.length - 1) {
-                      type = KevinListItemType.bottom;
-                    }
+                if (state.countries.length == 1) {
+                  type = KevinListItemType.single;
+                } else if (index == 0) {
+                  type = KevinListItemType.top;
+                } else if (index == state.countries.length - 1) {
+                  type = KevinListItemType.bottom;
+                }
 
-                    return KevinListItem(
-                      centerWidget:
-                          KevinListItemCenterText(text: country.country.name),
-                      leadingWidget: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: color.inputUnfocusedBorder),
-                        ),
-                        child: SvgPicture.asset(
-                          country.country.flag,
-                        ),
-                      ),
-                      trailingWidget: const KevinListItemTrailingArrow(),
-                      type: type,
-                      onPressed: () => _onCountrySelected(
-                        context: context,
-                        country: country.country,
-                      ),
-                      selected: country.selected,
-                    );
-                  },
-                  itemCount: state.countries.length,
-                ),
-              ),
+                return KevinListItem(
+                  centerWidget:
+                      KevinListItemCenterText(text: country.country.name),
+                  leadingWidget: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: color.inputUnfocusedBorder),
+                    ),
+                    child: SvgPicture.asset(
+                      country.country.flag,
+                    ),
+                  ),
+                  trailingWidget: const KevinListItemTrailingArrow(),
+                  type: type,
+                  onPressed: () => _onCountrySelected(
+                    context: context,
+                    country: country.country,
+                  ),
+                  selected: country.selected,
+                );
+              },
+              animateList: true,
             ),
             AnimatedOpacity(
-              duration: decoration.duration.shortDuration,
+              duration: animation.duration.shortDuration,
               opacity: state.loading ? 1 : 0,
               child: Padding(
                 padding: const EdgeInsets.only(top: 48, bottom: 36),
@@ -126,11 +121,6 @@ class _CountrySelectionBottomDialogState
                   children: const [KevinProgressIndicator()],
                 ),
               ),
-            ),
-            const KevinBottomSheetHeader(
-              // TODO: Localisation
-              text: 'Choose bank account',
-              positioned: true,
             ),
           ],
         );

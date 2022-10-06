@@ -1,52 +1,48 @@
 import 'package:flutter/cupertino.dart';
-import 'package:kevin_flutter_example/common_widgets/kevin_bottom_sheet_header.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kevin_flutter_example/common_blocs/simple_linked_accounts_bloc/simple_linked_accounts_bloc.dart';
+import 'package:kevin_flutter_example/common_blocs/simple_linked_accounts_bloc/simple_linked_accounts_event.dart';
+import 'package:kevin_flutter_example/common_blocs/simple_linked_accounts_bloc/simple_linked_accounts_state.dart';
+import 'package:kevin_flutter_example/common_widgets/kevin_bottom_dialog.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_list_item.dart';
-import 'package:kevin_flutter_example/payments/payment_type/model/payment_type.dart';
+import 'package:kevin_flutter_example/payment_type/model/payment_type.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
 
 class PaymentTypeBottomDialog extends StatefulWidget {
-  final bool _hasLinkedAccount;
-
-  const PaymentTypeBottomDialog({
-    super.key,
-    bool hasLinkedAccount = false,
-  }) : _hasLinkedAccount = hasLinkedAccount;
+  const PaymentTypeBottomDialog({super.key});
 
   @override
   State<StatefulWidget> createState() => _PaymentTypeBottomDialogState();
+
+  static Widget withBloc() => BlocProvider(
+        create: (context) => SimpleLinkedAccountsBloc(
+          accountsRepository: context.read(),
+        )..add(const LoadLinkedAccountsEvent()),
+        child: const PaymentTypeBottomDialog(),
+      );
 }
 
 class _PaymentTypeBottomDialogState extends State<PaymentTypeBottomDialog> {
-  final List<PaymentType> _paymentTypes = [];
-
-  @override
-  void initState() {
-    super.initState();
-
-    _paymentTypes.add(PaymentType.bank);
-    if (widget._hasLinkedAccount) _paymentTypes.add(PaymentType.linked);
-    _paymentTypes.add(PaymentType.card);
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final color = theme.color;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const KevinBottomSheetHeader(
+    return BlocBuilder<SimpleLinkedAccountsBloc, SimpleLinkedAccountsState>(
+      builder: (context, state) {
+        final paymentTypes = state.accounts.isEmpty
+            ? [PaymentType.bank, PaymentType.card]
+            : [PaymentType.bank, PaymentType.linked, PaymentType.card];
+
+        return KevinListBottomDialog(
           // TODO: Localisation
-          text: 'Choose payment type',
-        ),
-        ListView.builder(
+          title: 'Choose payment type',
+          itemCount: paymentTypes.length,
+          shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          padding:
-              const EdgeInsets.only(left: 16, right: 16, top: 24, bottom: 36),
-          itemBuilder: (context, index) {
-            final paymentType = _paymentTypes[index];
+          builder: (context, index) {
+            final paymentType = paymentTypes[index];
 
             final String icon;
             final String text;
@@ -86,10 +82,8 @@ class _PaymentTypeBottomDialogState extends State<PaymentTypeBottomDialog> {
               ),
             );
           },
-          shrinkWrap: true,
-          itemCount: _paymentTypes.length,
-        )
-      ],
+        );
+      },
     );
   }
 
