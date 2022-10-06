@@ -111,16 +111,16 @@ class ClearGeneralErrorEvent extends PaymentsEvent {
   const ClearGeneralErrorEvent();
 }
 
-class ClearInitializePaymentResult extends PaymentsEvent {
-  const ClearInitializePaymentResult();
+class ClearInitializePaymentResultEvent extends PaymentsEvent {
+  const ClearInitializePaymentResultEvent();
 }
 
-class ClearUserInputFields extends PaymentsEvent {
-  const ClearUserInputFields();
+class ClearUserInputFieldsEvent extends PaymentsEvent {
+  const ClearUserInputFieldsEvent();
 }
 
-class ClearUserInputFieldsUpdated extends PaymentsEvent {
-  const ClearUserInputFieldsUpdated();
+class ClearUserInputFieldsUpdatedEvent extends PaymentsEvent {
+  const ClearUserInputFieldsUpdatedEvent();
 }
 
 /// State
@@ -284,12 +284,12 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
           await _onClearOpenPaymentTypeDialogEvent(event, emitter);
         } else if (event is ClearGeneralErrorEvent) {
           await _onClearGeneralErrorEvent(event, emitter);
-        } else if (event is ClearInitializePaymentResult) {
-          await _onClearInitializePaymentResult(event, emitter);
-        } else if (event is ClearUserInputFields) {
-          await _onClearUserInputFields(event, emitter);
-        } else if (event is ClearUserInputFieldsUpdated) {
-          await _onClearUserInputFieldsUpdated(event, emitter);
+        } else if (event is ClearInitializePaymentResultEvent) {
+          await _onClearInitializePaymentResultEvent(event, emitter);
+        } else if (event is ClearUserInputFieldsEvent) {
+          await _onClearUserInputFieldsEvent(event, emitter);
+        } else if (event is ClearUserInputFieldsUpdatedEvent) {
+          await _onClearUserInputFieldsUpdatedEvent(event, emitter);
         }
       },
       transformer: sequential(),
@@ -452,15 +452,15 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
     emitter(state.copyWith(generalError: const Optional.absent()));
   }
 
-  Future<void> _onClearInitializePaymentResult(
-    ClearInitializePaymentResult event,
+  Future<void> _onClearInitializePaymentResultEvent(
+    ClearInitializePaymentResultEvent event,
     Emitter<PaymentsState> emitter,
   ) async {
     emitter(state.copyWith(initializePaymentResult: const Optional.absent()));
   }
 
-  Future<void> _onClearUserInputFields(
-    ClearUserInputFields event,
+  Future<void> _onClearUserInputFieldsEvent(
+    ClearUserInputFieldsEvent event,
     Emitter<PaymentsState> emitter,
   ) async {
     emitter(
@@ -473,8 +473,8 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
     );
   }
 
-  Future<void> _onClearUserInputFieldsUpdated(
-    ClearUserInputFieldsUpdated event,
+  Future<void> _onClearUserInputFieldsUpdatedEvent(
+    ClearUserInputFieldsUpdatedEvent event,
     Emitter<PaymentsState> emitter,
   ) async {
     emitter(state.copyWith(userInputFieldsUpdated: false));

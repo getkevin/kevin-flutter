@@ -17,27 +17,30 @@ enum KevinListItemType {
 }
 
 class KevinListItem extends StatelessWidget {
-  final Widget _leadingWidget;
-  final String _text;
-  final VoidCallback _onPressed;
+  final Widget _centerWidget;
+  final Widget? _leadingWidget;
+  final Widget? _trailingWidget;
+  final VoidCallback? _onPressed;
   final KevinListItemType _type;
   final bool _selected;
 
   const KevinListItem({
     super.key,
-    required Widget trailingWidget,
-    required String text,
-    required VoidCallback onPressed,
+    required Widget centerWidget,
+    Widget? leadingWidget,
+    Widget? trailingWidget,
+    VoidCallback? onPressed,
     KevinListItemType type = KevinListItemType.middle,
     bool selected = false,
-  })  : _leadingWidget = trailingWidget,
-        _text = text,
+  })  : _centerWidget = centerWidget,
+        _leadingWidget = leadingWidget,
+        _trailingWidget = trailingWidget,
         _onPressed = onPressed,
         _type = type,
         _selected = selected;
 
-  KevinListItem.defaultLeadingIcon({
-    super.key,
+  factory KevinListItem.defaultItem({
+    Key? key,
     required String icon,
     required String text,
     required VoidCallback onPressed,
@@ -45,21 +48,44 @@ class KevinListItem extends StatelessWidget {
     Color? iconBackgroundColor,
     KevinListItemType type = KevinListItemType.middle,
     bool selected = false,
-  })  : _leadingWidget = KevinListItemLeadingIcon(
-          icon: icon,
-          iconColor: iconColor,
-          backgroundColor: iconBackgroundColor,
-        ),
-        _text = text,
-        _onPressed = onPressed,
-        _type = type,
-        _selected = selected;
+  }) {
+    return KevinListItem(
+      centerWidget: KevinListItemCenterText(text: text),
+      leadingWidget: KevinListItemLeadingIcon(
+        icon: icon,
+        iconColor: iconColor,
+        backgroundColor: iconBackgroundColor,
+      ),
+      trailingWidget: const KevinListItemTrailingArrow(),
+      onPressed: onPressed,
+      type: type,
+      selected: selected,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final color = theme.color;
-    final typography = theme.typography;
+
+    final leading = _leadingWidget != null
+        ? Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: SizedBox(
+              height: 40,
+              width: 40,
+              child: _leadingWidget,
+            ),
+          )
+        : null;
+
+    final trailing = _trailingWidget != null
+        ? SizedBox(
+            height: 48,
+            width: 48,
+            child: _trailingWidget,
+          )
+        : null;
 
     return Stack(
       children: [
@@ -76,36 +102,25 @@ class KevinListItem extends StatelessWidget {
           ),
           child: Row(
             children: [
-              SizedBox(
-                height: 40,
-                width: 40,
-                child: _leadingWidget,
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              Expanded(
-                child: Text(
-                  _text,
-                  style: typography.title1,
-                ),
-              ),
-              SvgPicture.asset(AppImages.chevronRight),
+              if (leading != null) leading,
+              Expanded(child: _centerWidget),
+              if (trailing != null) trailing,
             ],
           ),
         ),
-        Positioned.fill(
-          child: Material(
-            color: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: _getBorderRadius(),
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: () => _onPressed(),
+        if (_onPressed != null)
+          Positioned.fill(
+            child: Material(
+              color: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: _getBorderRadius(),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                onTap: _onPressed,
+              ),
             ),
           ),
-        ),
       ],
     );
   }
@@ -150,6 +165,38 @@ class KevinListItemLeadingIcon extends StatelessWidget {
           color: _iconColor ?? color.onPrimary,
         ),
       ),
+    );
+  }
+}
+
+class KevinListItemTrailingArrow extends StatelessWidget {
+  const KevinListItemTrailingArrow({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: SvgPicture.asset(AppImages.chevronRight),
+    );
+  }
+}
+
+class KevinListItemCenterText extends StatelessWidget {
+  final String text;
+
+  const KevinListItemCenterText({
+    super.key,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = AppTheme.of(context);
+    final typography = theme.typography;
+
+    return Text(
+      text,
+      style: typography.title1,
     );
   }
 }

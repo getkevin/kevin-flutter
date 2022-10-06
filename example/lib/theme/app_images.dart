@@ -1,5 +1,6 @@
 class AppImages {
   static const _baseIconsPath = 'resources/icons';
+  static const _baseImagesPath = 'resources/images';
   static const _baseFlagsPath = 'resources/flags';
 
   // Icons
@@ -15,6 +16,13 @@ class AppImages {
   static const bank = '$_baseIconsPath/bank.svg';
   static const link = '$_baseIconsPath/link.svg';
   static const card = '$_baseIconsPath/card.svg';
+
+  static const plus = '$_baseIconsPath/plus.svg';
+  static const dots = '$_baseIconsPath/dots.svg';
+
+  // Images
+
+  static const accountsBanner = '$_baseImagesPath/accounts_banner.png';
 
   // Flags
 

@@ -90,7 +90,9 @@ class _CountrySelectionBottomDialogState
                     }
 
                     return KevinListItem(
-                      trailingWidget: Container(
+                      centerWidget:
+                          KevinListItemCenterText(text: country.country.name),
+                      leadingWidget: Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(color: color.inputUnfocusedBorder),
@@ -99,7 +101,7 @@ class _CountrySelectionBottomDialogState
                           country.country.flag,
                         ),
                       ),
-                      text: country.country.name,
+                      trailingWidget: const KevinListItemTrailingArrow(),
                       type: type,
                       onPressed: () => _onCountrySelected(
                         context: context,

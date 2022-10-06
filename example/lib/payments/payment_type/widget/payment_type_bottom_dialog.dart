@@ -75,7 +75,7 @@ class _PaymentTypeBottomDialogState extends State<PaymentTypeBottomDialog> {
                 break;
             }
 
-            return KevinListItem.defaultLeadingIcon(
+            return KevinListItem.defaultItem(
               icon: icon,
               iconBackgroundColor: iconBackgroundColor,
               text: text,
