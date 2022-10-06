@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
-import 'package:kevin_flutter_in_app_payments_platform_interface/src/entity/result/kevin_session_result_payment_success_entity.dart';
 import 'package:kevin_flutter_in_app_payments_platform_interface/src/kevin_flutter_payments_method_channel.dart';
 import 'package:kevin_flutter_in_app_payments_platform_interface/src/kevin_flutter_payments_platform_interface.dart';
 import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/kevin_session_result_payment_success.dart';
@@ -62,25 +61,24 @@ void main() {
 
   test('setPaymentsConfiguration', () async {
     const configuration = KevinPaymentsConfiguration(
-      callbackUrl: 'callbackUrl',
+      callbackUrl: KevinCallbackUrl(android: 'android', ios: 'ios'),
     );
     await platform.setPaymentsConfiguration(configuration);
     expect(log, <Matcher>[
       isMethodCall(
         'setPaymentsConfiguration',
         arguments: <String, dynamic>{
-          'callbackUrl': 'callbackUrl',
+          'callbackUrl': '',
         },
       )
     ]);
   });
 
   test('startPayment: success', () async {
-    const successResult = KevinSessionResultPaymentSuccessEntity(
-      paymentId: 'paymentId',
-    );
+    const successResult =
+        KevinSessionResultPaymentSuccess(paymentId: 'paymentId');
 
-    final mockedResult = jsonEncode(successResult.toJson());
+    final mockedResult = jsonEncode(successResult.toMap());
 
     _setMethodCallReturnData(data: () => mockedResult);
 
