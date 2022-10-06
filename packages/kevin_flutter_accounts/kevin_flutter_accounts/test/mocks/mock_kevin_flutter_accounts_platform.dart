@@ -1,12 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kevin_flutter_accounts_platform_interface/kevin_flutter_accounts_platform_interface.dart';
-import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockKevinFlutterAccountsPlatform extends Fake
     with MockPlatformInterfaceMixin
     implements KevinFlutterAccountsPlatformInterface {
-  String? _callbackUrl;
+  KevinCallbackUrl? _callbackUrl;
   bool? _isShowUnsupportedBanks;
 
   @override
@@ -26,7 +25,7 @@ class MockKevinFlutterAccountsPlatform extends Fake
 
   @override
   Future<String> getCallbackUrl() async {
-    return _callbackUrl!;
+    return _callbackUrl!.android;
   }
 
   @override
