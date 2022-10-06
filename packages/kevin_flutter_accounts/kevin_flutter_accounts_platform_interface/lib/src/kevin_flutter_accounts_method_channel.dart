@@ -2,12 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/entity/account/kevin_account_session_configuration_entity.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/entity/account/kevin_accounts_configuration_entity.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/entity/result/kevin_session_result_linking_success_entity.dart';
 import 'package:kevin_flutter_accounts_platform_interface/src/kevin_flutter_accounts_platform_interface.dart';
 import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_account_session_configuration.dart';
 import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_accounts_configuration.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/model/kevin_flutter_accounts_methods.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/model/kevin_session_result_account_success.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 
 @visibleForTesting
@@ -19,12 +18,12 @@ class KevinFlutterAccountsMethodChannel
   Future<void> setAccountsConfiguration(
     KevinAccountsConfiguration configuration,
   ) async {
-    final data =
-        KevinAccountsConfigurationEntity.fromModel(configuration).toJson();
-
     await methodChannel.invokeMethod(
-      _Methods.setAccountsConfiguration,
-      data,
+      KevinFlutterAccountsMethods.setAccountsConfiguration,
+      {
+        'callbackUrl': '',
+        'showUnsupportedBanks': configuration.showUnsupportedBanks
+      },
     );
   }
 
@@ -33,20 +32,16 @@ class KevinFlutterAccountsMethodChannel
     KevinAccountSessionConfiguration configuration,
   ) async {
     try {
-      final data =
-          KevinAccountSessionConfigurationEntity.fromModel(configuration)
-              .toJson();
-
       final resultJsonString = await methodChannel.invokeMethod<String>(
-        _Methods.startAccountLinking,
-        data,
+        KevinFlutterAccountsMethods.startAccountLinking,
+        configuration.toMap(),
       );
 
       final result = jsonDecode(resultJsonString!);
 
-      return KevinSessionResultLinkingSuccessEntity.fromJson(result).toModel();
+      return KevinSessionResultLinkingSuccess.fromMap(result);
     } on PlatformException catch (error) {
-      final parsedError = _parseError(error);
+      final parsedError = KevinErrorHelper.parseError(error);
 
       if (parsedError != null) {
         return parsedError;
@@ -58,40 +53,15 @@ class KevinFlutterAccountsMethodChannel
 
   @override
   Future<String> getCallbackUrl() async {
-    final callbackUrl =
-        await methodChannel.invokeMethod<String>(_Methods.getCallbackUrl);
+    final callbackUrl = await methodChannel
+        .invokeMethod<String>(KevinFlutterAccountsMethods.getCallbackUrl);
     return callbackUrl!;
   }
 
   @override
   Future<bool> isShowUnsupportedBanks() async {
-    final isShowUnsupportedBanks =
-        await methodChannel.invokeMethod<bool>(_Methods.isShowUnsupportedBanks);
+    final isShowUnsupportedBanks = await methodChannel
+        .invokeMethod<bool>(KevinFlutterAccountsMethods.isShowUnsupportedBanks);
     return isShowUnsupportedBanks!;
   }
-
-  KevinSessionResult? _parseError(PlatformException error) {
-    switch (error.code) {
-      case _Errors.cancelled:
-        return KevinSessionResultCancelled();
-      case _Errors.general:
-        return KevinSessionResultGeneralError(
-          message: error.message,
-        );
-      default:
-        return null;
-    }
-  }
-}
-
-class _Methods {
-  static const setAccountsConfiguration = 'setAccountsConfiguration';
-  static const startAccountLinking = 'startAccountLinking';
-  static const getCallbackUrl = 'getCallbackUrl';
-  static const isShowUnsupportedBanks = 'isShowUnsupportedBanks';
-}
-
-class _Errors {
-  static const general = 'general';
-  static const cancelled = 'cancelled';
 }

@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/entity/kevin_bank_entity.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/entity/result/kevin_session_result_linking_success_entity.dart';
 import 'package:kevin_flutter_accounts_platform_interface/src/kevin_flutter_accounts_method_channel.dart';
 import 'package:kevin_flutter_accounts_platform_interface/src/kevin_flutter_accounts_platform_interface.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_account_linking_type.dart';
 import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_account_session_configuration.dart';
 import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_accounts_configuration.dart';
+import 'package:kevin_flutter_accounts_platform_interface/src/model/kevin_bank.dart';
 import 'package:kevin_flutter_accounts_platform_interface/src/model/kevin_session_result_account_success.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -63,7 +63,7 @@ void main() {
 
   test('setAccountsConfiguration', () async {
     const configuration = KevinAccountsConfiguration(
-      callbackUrl: 'callbackUrl',
+      callbackUrl: KevinCallbackUrl(android: 'android', ios: 'ios'),
       showUnsupportedBanks: true,
     );
     await platform.setAccountsConfiguration(configuration);
@@ -71,7 +71,7 @@ void main() {
       isMethodCall(
         'setAccountsConfiguration',
         arguments: <String, dynamic>{
-          'callbackUrl': 'callbackUrl',
+          'callbackUrl': '',
           'showUnsupportedBanks': true
         },
       )
@@ -79,8 +79,8 @@ void main() {
   });
 
   test('startAccountLinking: success', () async {
-    const successResult = KevinSessionResultLinkingSuccessEntity(
-      bank: KevinBankEntity(
+    const successResult = KevinSessionResultLinkingSuccess(
+      bank: KevinBank(
         id: 'id',
         name: 'name',
         officialName: 'officialName',
@@ -88,10 +88,10 @@ void main() {
         bic: 'bic',
       ),
       authorizationCode: 'authorizationCode',
-      linkingType: 'bank',
+      linkingType: KevinAccountLinkingType.bank,
     );
 
-    final mockedResult = jsonEncode(successResult.toJson());
+    final mockedResult = jsonEncode(successResult.toMap());
 
     _setMethodCallReturnData(data: () => mockedResult);
 

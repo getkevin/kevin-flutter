@@ -1,5 +1,7 @@
+import 'package:kevin_flutter_core/kevin_flutter_core.dart';
+
 class KevinAccountsConfiguration {
-  final String callbackUrl;
+  final KevinCallbackUrl callbackUrl;
   final bool showUnsupportedBanks;
 
   const KevinAccountsConfiguration({
