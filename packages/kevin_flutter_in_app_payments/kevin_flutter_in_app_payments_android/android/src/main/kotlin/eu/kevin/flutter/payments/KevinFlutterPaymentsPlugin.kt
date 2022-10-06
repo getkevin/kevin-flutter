@@ -40,7 +40,7 @@ class KevinFlutterPaymentsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
     private var paymentResult: MethodChannel.Result? = null
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "kevin_flutter_payments")
+        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "kevin_flutter_payments_android")
         channel.setMethodCallHandler(this)
     }
 
