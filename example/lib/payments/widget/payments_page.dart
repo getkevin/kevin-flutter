@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_bottom_sheet.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_button.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_check_box.dart';
+import 'package:kevin_flutter_example/common_widgets/kevin_dialog.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_form_field.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_progress_indicator.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_snack_bar.dart';
@@ -14,12 +16,14 @@ import 'package:kevin_flutter_example/country/country_selection/widget/country_s
 import 'package:kevin_flutter_example/error/api_error_mapper.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_bloc.dart';
 import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
+import 'package:kevin_flutter_example/payments/model/payment_session.dart';
 import 'package:kevin_flutter_example/payments/payment_type/model/payment_type.dart';
 import 'package:kevin_flutter_example/payments/payment_type/widget/payment_type_bottom_dialog.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
 import 'package:kevin_flutter_example/web/app_urls.dart';
 import 'package:kevin_flutter_example/web/external_url.dart';
+import 'package:kevin_flutter_in_app_payments/kevin_flutter_in_app_payments.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 part 'payments_body_widgets.dart';
@@ -99,6 +103,19 @@ class _PaymentsPageState extends State<PaymentsPage> {
               _onInitializePaymentLoading(
                 loading: state.initializePaymentLoading,
               );
+
+              final initializePaymentResult =
+                  state.initializePaymentResult.orNull;
+              if (initializePaymentResult != null) {
+                _onInitializePaymentResult(
+                  context: context,
+                  paymentSession: initializePaymentResult,
+                );
+              }
+
+              if (state.userInputFieldsUpdated) {
+                _onUserInputFieldsUpdated(state: state);
+              }
             },
             builder: (context, state) {
               return CustomScrollView(
@@ -189,12 +206,64 @@ class _PaymentsPageState extends State<PaymentsPage> {
     );
 
     if (paymentType != null) {
-      _bloc.add(InitializeSinglePaymentEvent(paymentType: paymentType));
+      _bloc.add(
+        InitializeSinglePaymentEvent(
+          paymentType: paymentType,
+          callbackUrl: await KevinPayments.getCallbackUrl(),
+        ),
+      );
     }
   }
 
   void _onInitializePaymentLoading({required bool loading}) {
     widget._onSetGlobalLoading.call(loading);
+  }
+
+  void _onInitializePaymentResult({
+    required BuildContext context,
+    required PaymentSession paymentSession,
+  }) async {
+    _bloc.add(const ClearInitializePaymentResult());
+
+    final result = await KevinPayments.startPayment(
+      KevinPaymentSessionConfiguration(
+        paymentId: paymentSession.paymentId,
+        paymentType: paymentSession.paymentType,
+        skipAuthentication: paymentSession.skipAuthentication,
+        preselectedCountry: paymentSession.preselectedCountry,
+      ),
+    );
+
+    if (result is KevinSessionResultPaymentSuccess) {
+      _bloc.add(const ClearUserInputFields());
+
+      await showKevinDialog(
+        context: context,
+        builder: (context) => KevinDialog(
+          // TODO: Localise
+          title: 'Payment successful',
+          actions: [
+            KevinDialogAction(
+              // TODO: Localise
+              text: 'Ok',
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        ),
+      );
+    } else if (result is KevinSessionResultGeneralError) {
+      // TODO: Localise
+      _showError(context: context, error: result.message ?? 'General error');
+    }
+  }
+
+  void _onUserInputFieldsUpdated({required PaymentsState state}) {
+    _bloc.add(const ClearUserInputFieldsUpdated());
+
+    _emailController.text = state.email;
+    _amountController.text = state.amount;
   }
 
   void _onGeneralError({
@@ -203,8 +272,18 @@ class _PaymentsPageState extends State<PaymentsPage> {
   }) {
     _bloc.add(const ClearGeneralErrorEvent());
 
+    _showError(context: context, error: _apiErrorMapper.map(error));
+  }
+
+  void _showError({
+    required BuildContext context,
+    required String error,
+  }) {
     ScaffoldMessenger.of(context).showSnackBar(
-      KevinSnackBar.text(context: context, text: _apiErrorMapper.map(error)),
+      KevinSnackBar.text(
+        context: context,
+        text: error,
+      ),
     );
   }
 }
