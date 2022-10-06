@@ -50,8 +50,6 @@ android {
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-
-        consumerProguardFiles "proguard-rules.pro"
     }
 
     buildTypes {
@@ -62,8 +60,6 @@ android {
 
             minifyEnabled true
             shrinkResources true
-
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }

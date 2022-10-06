@@ -200,7 +200,7 @@ class _AccountsPageState extends State<AccountsPage>
       KevinAccountSessionConfiguration(
         state: linkingSession.state.state,
         preselectedCountry: linkingSession.preselectedCountry,
-        disabledCountrySelection: linkingSession.disabledCountrySelection,
+        disableCountrySelection: linkingSession.disableCountrySelection,
       ),
     );
 

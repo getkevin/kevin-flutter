@@ -5,14 +5,14 @@ import 'package:quiver/core.dart';
 class CountrySelectionState extends Equatable {
   final List<CountryItem> unsortedCountries;
   final List<CountryItem> sortedCountries;
-  final bool countriesLoaded;
+  final bool shouldSortCountries;
   final bool loading;
   final Optional<Exception> error;
 
   const CountrySelectionState({
     required this.unsortedCountries,
     required this.sortedCountries,
-    required this.countriesLoaded,
+    required this.shouldSortCountries,
     required this.loading,
     required this.error,
   });
@@ -20,14 +20,14 @@ class CountrySelectionState extends Equatable {
   CountrySelectionState copyWith({
     List<CountryItem>? unsortedCountries,
     List<CountryItem>? sortedCountries,
-    bool? countriesLoaded,
+    bool? shouldSortCountries,
     bool? loading,
     Optional<Exception>? error,
   }) {
     return CountrySelectionState(
       unsortedCountries: unsortedCountries ?? this.unsortedCountries,
       sortedCountries: sortedCountries ?? this.sortedCountries,
-      countriesLoaded: countriesLoaded ?? this.countriesLoaded,
+      shouldSortCountries: shouldSortCountries ?? this.shouldSortCountries,
       loading: loading ?? this.loading,
       error: error ?? this.error,
     );
@@ -35,5 +35,5 @@ class CountrySelectionState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [unsortedCountries, sortedCountries, countriesLoaded, loading, error];
+      [unsortedCountries, sortedCountries, shouldSortCountries, loading, error];
 }

@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_example/theme/app_theme_mode.dart';
 import 'package:kevin_flutter_example/theme/kevin_colors.dart';
 
-class KevinThemeDataIos {
+class KevinThemeDataIos extends Equatable {
   final KevinThemeIos data;
 
   const KevinThemeDataIos({
@@ -106,4 +107,7 @@ class KevinThemeDataIos {
       mode == AppThemeMode.dark
           ? const KevinThemeDataIos.dark()
           : const KevinThemeDataIos.light();
+
+  @override
+  List<Object?> get props => [data];
 }

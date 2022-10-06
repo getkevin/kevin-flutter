@@ -31,8 +31,13 @@ class SetSortedCountriesEvent extends CountrySelectionEvent {
   List<Object?> get props => [countries];
 }
 
-class ClearCountriesLoadedEvent extends CountrySelectionEvent {
-  const ClearCountriesLoadedEvent();
+class SetShouldSortCountriesEvent extends CountrySelectionEvent {
+  final bool shouldSortCountries;
+
+  const SetShouldSortCountriesEvent({required this.shouldSortCountries});
+
+  @override
+  List<Object?> get props => [shouldSortCountries];
 }
 
 class ClearErrorEvent extends CountrySelectionEvent {
