@@ -8,7 +8,7 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
     private var paymentResult: FlutterResult? = nil
     
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "kevin_flutter_payments", binaryMessenger: registrar.messenger())
+        let channel = FlutterMethodChannel(name: "kevin_flutter_payments_ios", binaryMessenger: registrar.messenger())
         let instance = SwiftKevinFlutterInAppPaymentsPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
