@@ -1,3 +1,7 @@
+## 1.0.4
+
+* Fix kevin_size.dart formatting
+
 ## 1.0.3
 
 * **BREAKING**: introduce KevinSize to be used in KevinButtonStyle instead of Size

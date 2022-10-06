@@ -1,7 +1,7 @@
 ## 1.0.3
 
-* Upgrade kevin_flutter_core_android, kevin_flutter_core_ios, kevin_flutter_core_platform_interface
-  to 1.0.3
+* Upgrade kevin_flutter_core_platform_interface to 1.0.4, kevin_flutter_core_android,
+  kevin_flutter_core_ios to 1.0.3
 * Expose KevinErrorHelper meant for internal usage
 
 ## 1.0.2

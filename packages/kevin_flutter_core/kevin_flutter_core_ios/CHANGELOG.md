@@ -2,7 +2,7 @@
 
 * **FIX**: ios theme color parsing
 * Upgrade kevin_ios to 2.2.3
-* Upgrade kevin_flutter_core_platform_interface to 1.0.3
+* Upgrade kevin_flutter_core_platform_interface to 1.0.4
 * Remove entity classes
 
 ## 1.0.2
