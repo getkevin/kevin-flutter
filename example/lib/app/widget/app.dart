@@ -8,6 +8,7 @@ import 'package:kevin_flutter_example/generated/codegen_loader.g.dart';
 import 'package:kevin_flutter_example/generated/locale_keys.g.dart';
 import 'package:kevin_flutter_example/main/widget/main_page.dart';
 import 'package:kevin_flutter_example/theme/app_theme_data.dart';
+import 'package:kevin_flutter_example/theme/model/kevin_theme_data_ios.dart';
 
 part 'device_locale_observer.dart';
 
@@ -29,6 +30,11 @@ class _AppState extends State<App> {
       assetLoader: const CodegenLoader(),
       child: _DeviceLocaleObserver(
         builder: (context) => AppThemeManager(
+          onThemeChanged: (mode) {
+            Kevin.setTheme(
+              iosTheme: KevinThemeDataIos.getKevinThemeDataIos(mode: mode).data,
+            );
+          },
           child: MaterialApp(
             onGenerateTitle: (context) => LocaleKeys.app_title.tr(),
             builder: (context, widget) => widget!,

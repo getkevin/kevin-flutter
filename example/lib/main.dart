@@ -33,6 +33,8 @@ import 'package:kevin_flutter_example/analytics/bloc_error_observer.dart';
 import 'package:kevin_flutter_example/app/widget/app.dart';
 import 'package:kevin_flutter_example/country/local_resources_country_helper.dart';
 import 'package:kevin_flutter_example/error/api_error_mapper.dart';
+import 'package:kevin_flutter_example/theme/app_theme_mode.dart';
+import 'package:kevin_flutter_example/theme/model/kevin_theme_data_ios.dart';
 import 'package:kevin_flutter_example/validation/amount_validator.dart';
 import 'package:kevin_flutter_example/validation/email_validator.dart';
 import 'package:kevin_flutter_in_app_payments/kevin_flutter_in_app_payments.dart';
@@ -48,6 +50,8 @@ const _kevinPaymentsCallbackUrlIos = 'https://redirect.kevin.eu/payment.html';
 const _kevinAccountsCallbackUrlAndroid = 'kevin://redirect.authorization';
 const _kevinAccountsCallbackUrlIos =
     'https://redirect.kevin.eu/authorization.html';
+
+const _kevinThemeAndroid = 'KevinTheme';
 
 const _accountsBox = 'accountsBox';
 
@@ -176,6 +180,12 @@ Future<void> _initKevinSdk() async {
       ? _kevinAccountsCallbackUrlIos
       : _kevinAccountsCallbackUrlAndroid;
 
+  await Kevin.setTheme(
+    androidTheme: const KevinThemeAndroid(_kevinThemeAndroid),
+    iosTheme:
+        KevinThemeDataIos.getKevinThemeDataIos(mode: getCurrentAppThemeMode())
+            .data,
+  );
   await Kevin.setDeepLinkingEnabled(true);
   await KevinPayments.setPaymentsConfiguration(
     KevinPaymentsConfiguration(callbackUrl: paymentsCallbackUrl),
