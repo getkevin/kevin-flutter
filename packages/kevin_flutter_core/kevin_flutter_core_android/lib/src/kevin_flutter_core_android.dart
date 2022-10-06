@@ -25,9 +25,9 @@ class KevinFlutterCoreAndroid extends KevinFlutterCorePlatformInterface {
   }) async {
     if (androidTheme == null) return false;
 
-    final arguments = <String, dynamic>{};
-
-    arguments.addAll({KevinFlutterCoreArguments.theme: androidTheme.themeName});
+    final arguments = <String, dynamic>{
+      KevinFlutterCoreArguments.theme: androidTheme.themeName
+    };
 
     final themeSet = await methodChannel.invokeMethod<bool>(
       KevinFlutterCoreMethods.setTheme,
