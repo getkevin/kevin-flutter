@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_in_app_payments_platform_interface/kevin_flutter_in_app_payments_platform_interface.dart';
-import 'package:kevin_flutter_in_app_payments_platform_interface/src/model/kevin_flutter_payments_methods.dart';
 
 @visibleForTesting
 const methodChannel = MethodChannel('kevin_flutter_payments');
