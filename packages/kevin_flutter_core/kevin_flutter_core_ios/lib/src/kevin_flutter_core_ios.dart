@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kevin_flutter_core_ios/src/entity/theme/kevin_theme_ios_entity.dart';
 import 'package:kevin_flutter_core_platform_interface/kevin_flutter_core_platform_interface.dart';
 
 @visibleForTesting
@@ -26,10 +25,9 @@ class KevinFlutterCoreIos extends KevinFlutterCorePlatformInterface {
   }) async {
     if (iosTheme == null) return false;
 
-    final arguments = <String, dynamic>{};
-
-    final iosThemeJson = iosTheme.toEntity().toJson();
-    arguments.addAll({KevinFlutterCoreArguments.theme: iosThemeJson});
+    final arguments = <String, dynamic>{
+      KevinFlutterCoreArguments.theme: iosTheme.toMap()
+    };
 
     final themeSet = await methodChannel.invokeMethod<bool>(
       KevinFlutterCoreMethods.setTheme,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kevin_flutter_core_ios/kevin_flutter_core_ios.dart';
-import 'package:kevin_flutter_core_ios/src/entity/theme/kevin_theme_ios_entity.dart';
 import 'package:kevin_flutter_core_platform_interface/kevin_flutter_core_platform_interface.dart';
 
 void main() {
@@ -113,7 +112,7 @@ void main() {
         cornerRadius: 2,
         shadowRadius: 2,
         shadowOpacity: 2,
-        shadowOffset: Size(4, 4),
+        shadowOffset: KevinSize(width: 4, height: 4),
         shadowColor: Colors.black,
       ),
       negativeButtonStyle: const KevinButtonStyle(
@@ -125,7 +124,7 @@ void main() {
         cornerRadius: 2,
         shadowRadius: 2,
         shadowOpacity: 2,
-        shadowOffset: Size(4, 4),
+        shadowOffset: KevinSize(width: 4, height: 4),
         shadowColor: Colors.black,
       ),
       textFieldStyle: const KevinTextFieldStyle(
@@ -153,7 +152,7 @@ void main() {
     expect(log, <Matcher>[
       isMethodCall(
         'setTheme',
-        arguments: <String, dynamic>{'theme': themeIos.toEntity().toJson()},
+        arguments: <String, dynamic>{'theme': themeIos.toMap()},
       )
     ]);
   });

@@ -9,13 +9,13 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
 Flutter plugin to communicate with kevin. SDK.
                        DESC
-  s.homepage         = 'https://github.com/getkevin/kevin-flutter/tree/master/packages/kevin_flutter_core'
+  s.homepage         = 'https://github.com/getkevin/kevin-flutter/tree/master/packages/kevin_flutter_core/kevin_flutter_core_ios'
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'kevin.' => 'mobileteam@kevin.eu' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'kevin-ios', '2.2.2'
+  s.dependency 'kevin-ios', '2.2.3'
   s.platform = :ios, '9.0'
 
   # Flutter.framework does not contain a i386 slice.
