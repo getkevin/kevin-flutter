@@ -13,18 +13,6 @@ dependencies:
     sdk: flutter
   kevin_flutter_in_app_payments_platform_interface: ^1.0.1
 
-dependency_overrides:
-  kevin_flutter_in_app_payments_platform_interface:
-    path: ../kevin_flutter_in_app_payments_platform_interface
-  kevin_flutter_core:
-    path: ../../../packages/kevin_flutter_core/kevin_flutter_core
-  kevin_flutter_core_platform_interface:
-    path: ../../../packages/kevin_flutter_core/kevin_flutter_core_platform_interface
-  kevin_flutter_core_android:
-    path: ../../../packages/kevin_flutter_core/kevin_flutter_core_android
-  kevin_flutter_core_ios:
-    path: ../../../packages/kevin_flutter_core/kevin_flutter_core_ios
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
