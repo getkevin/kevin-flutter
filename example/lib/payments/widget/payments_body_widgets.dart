@@ -73,8 +73,7 @@ class _Title extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Text(
-        // TODO: Localisation
-        'Demo payment',
+        LocaleKeys.payments_page_title.tr(),
         style: typography.headline1,
       ),
     );

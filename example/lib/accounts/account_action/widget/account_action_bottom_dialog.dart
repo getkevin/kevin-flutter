@@ -1,7 +1,9 @@
 import 'package:domain/accounts/model/linked_account.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:kevin_flutter_example/common_widgets/kevin_bottom_sheet_header.dart';
+import 'package:kevin_flutter_example/common_widgets/kevin_list_bottom_dialog.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_list_item.dart';
+import 'package:kevin_flutter_example/generated/locale_keys.g.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
 
@@ -19,36 +21,28 @@ class AccountActionBottomDialog extends StatelessWidget {
     final theme = AppTheme.of(context);
     final color = theme.color;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        KevinBottomSheetHeader(text: _account.bankName),
-        const SizedBox(
-          height: 24,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: KevinListItem(
-            centerWidget: KevinListItemCenterText(
-              // TODO: Localisation
-              text: 'Remove',
-              textColor: color.error,
-            ),
-            leadingWidget: KevinListItemLeadingIcon(
-              icon: AppImages.bin,
-              iconColor: color.error,
-              backgroundColor: Colors.transparent,
-            ),
-            type: KevinListItemType.single,
-            onPressed: () {
-              Navigator.of(context).pop(AccountAction.delete);
-            },
+    return KevinListBottomDialog(
+      title: _account.bankName,
+      itemCount: 1,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      builder: (context, _) {
+        return KevinListItem(
+          centerWidget: KevinListItemCenterText(
+            text: LocaleKeys.linked_account_dialog_remove.tr(),
+            textColor: color.error,
           ),
-        ),
-        const SizedBox(
-          height: 36,
-        ),
-      ],
+          leadingWidget: KevinListItemLeadingIcon(
+            icon: AppImages.bin,
+            iconColor: color.error,
+            backgroundColor: Colors.transparent,
+          ),
+          type: KevinListItemType.single,
+          onPressed: () {
+            Navigator.of(context).pop(AccountAction.delete);
+          },
+        );
+      },
     );
   }
 }

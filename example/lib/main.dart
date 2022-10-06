@@ -19,6 +19,7 @@ import 'package:domain/payments/usecase/get_creditors_use_case.dart';
 import 'package:domain/payments/usecase/get_supported_countries_use_case.dart';
 import 'package:domain/storage/key_value_storage.dart';
 import 'package:domain/time/time_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,6 +54,8 @@ const _accountsBox = 'accountsBox';
 void main() {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+
+    await EasyLocalization.ensureInitialized();
 
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 

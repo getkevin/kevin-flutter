@@ -1,5 +1,5 @@
 abstract class CountryHelper {
-  String getFlag(String countryCode);
+  String getFlagKey(String countryCode);
 
-  String getName(String countryCode);
+  String getNameKey(String countryCode);
 }

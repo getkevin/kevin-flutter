@@ -37,8 +37,7 @@ class _BottomNavigationBar extends StatelessWidget {
                 currentTab: _tab,
               ),
             ),
-            // TODO: Localisation
-            label: 'Accounts',
+            label: LocaleKeys.main_page_nav_bar_accounts.tr(),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
@@ -49,8 +48,7 @@ class _BottomNavigationBar extends StatelessWidget {
                 currentTab: _tab,
               ),
             ),
-            // TODO: Localisation
-            label: 'Payments',
+            label: LocaleKeys.main_page_nav_bar_payments.tr(),
           ),
         ],
       ),

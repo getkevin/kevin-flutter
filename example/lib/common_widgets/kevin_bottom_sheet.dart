@@ -42,7 +42,7 @@ Future<T?> _showMaterialBottomSheet<T>({
       expanded: false,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       isDismissible: isDismissible,
-      modalBarrierColor: Colors.black.withOpacity(0.4),
+      modalBarrierColor: Colors.black.withOpacity(0.6),
       duration: animation.duration.longDuration,
     ),
   );

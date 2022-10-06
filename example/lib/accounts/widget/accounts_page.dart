@@ -1,5 +1,6 @@
 import 'package:domain/accounts/model/linked_account.dart';
 import 'package:domain/kevin/model/auth_scope.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,6 +17,7 @@ import 'package:kevin_flutter_example/common_widgets/kevin_icon_button.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_list_item.dart';
 import 'package:kevin_flutter_example/common_widgets/kevin_snack_bar.dart';
 import 'package:kevin_flutter_example/error/api_error_mapper.dart';
+import 'package:kevin_flutter_example/generated/locale_keys.g.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
 
@@ -205,8 +207,10 @@ class _AccountsPageState extends State<AccountsPage>
     if (result is KevinSessionResultLinkingSuccess) {
       _bloc.add(SetLinkingSuccessResultEvent(result: result));
     } else if (result is KevinSessionResultGeneralError) {
-      // TODO: Localise
-      _showError(context: context, error: result.message ?? 'General error');
+      _showError(
+        context: context,
+        error: result.message ?? LocaleKeys.general_error_unknown.tr(),
+      );
     }
   }
 

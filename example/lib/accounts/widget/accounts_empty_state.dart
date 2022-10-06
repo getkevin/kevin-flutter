@@ -30,6 +30,7 @@ class _AccountsEmptyState extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
+            key: ValueKey(context.locale.languageCode),
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -37,25 +38,24 @@ class _AccountsEmptyState extends StatelessWidget {
                 height: 32,
               ),
               Text(
-                // TODO: Localisation
-                'Link your first bank account',
+                LocaleKeys.accounts_page_empty_state_title.tr(),
                 style: typography.headline3,
+                textAlign: TextAlign.center,
               ),
               const SizedBox(
                 height: 16,
               ),
               Text(
-                // TODO: Localisation
-                'Subtitle',
+                LocaleKeys.accounts_page_empty_state_subtitle.tr(),
                 style: typography.title2.copyWith(color: color.secondaryText),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(
                 height: 32,
               ),
               KevinButton.text(
                 context: context,
-                // TODO: Localisation
-                text: 'Link Bank Account',
+                text: LocaleKeys.accounts_page_empty_state_button.tr(),
                 onPressed: _onLinkAccountPressed,
               ),
             ],

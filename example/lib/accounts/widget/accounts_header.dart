@@ -17,8 +17,7 @@ class _AccountsHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          // TODO: Localisation
-          'Account linking',
+          LocaleKeys.accounts_page_title.tr(),
           style: typography.headline1,
         ),
         const SizedBox(
@@ -26,8 +25,7 @@ class _AccountsHeader extends StatelessWidget {
         ),
         KevinListItem(
           centerWidget: Text(
-            // TODO: Localisation
-            'Link new account',
+            LocaleKeys.accounts_page_button_link_account.tr(),
             style: typography.title1.copyWith(color: color.primary),
           ),
           leadingWidget: Center(
@@ -43,8 +41,7 @@ class _AccountsHeader extends StatelessWidget {
           height: 28,
         ),
         Text(
-          // TODO: Localisation
-          'Linked accounts',
+          LocaleKeys.accounts_page_linked_accounts_subtitle.tr(),
           style: typography.title1,
         ),
       ],

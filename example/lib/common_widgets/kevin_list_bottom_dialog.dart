@@ -34,7 +34,7 @@ class KevinListBottomDialog extends StatelessWidget {
     final animation = theme.animation;
 
     Widget child = Padding(
-      padding: const EdgeInsets.only(top: 40),
+      padding: const EdgeInsets.only(top: 56),
       child: ListView.builder(
         controller: _scrollController,
         physics: _physics,
@@ -56,7 +56,6 @@ class KevinListBottomDialog extends StatelessWidget {
       children: [
         child,
         KevinBottomSheetHeader(
-          // TODO: Localisation
           text: _title,
           positioned: true,
         )

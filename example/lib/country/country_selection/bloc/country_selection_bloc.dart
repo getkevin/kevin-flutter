@@ -16,7 +16,9 @@ class CountrySelectionBloc
   })  : _getSupportedCountriesUseCase = getSupportedCountriesUseCase,
         super(
           const CountrySelectionState(
-            countries: [],
+            unsortedCountries: [],
+            sortedCountries: [],
+            countriesLoaded: false,
             loading: false,
             error: Optional.absent(),
           ),
@@ -25,6 +27,10 @@ class CountrySelectionBloc
       (event, emitter) async {
         if (event is InitialLoadEvent) {
           await _onInitialLoadEvent(event, emitter);
+        } else if (event is SetSortedCountriesEvent) {
+          await _onSetSortedCountriesEvent(event, emitter);
+        } else if (event is ClearCountriesLoadedEvent) {
+          await _onClearCountriesLoadedEvent(event, emitter);
         } else if (event is ClearErrorEvent) {
           await _onClearErrorEvent(event, emitter);
         }
@@ -51,7 +57,8 @@ class CountrySelectionBloc
           .toList();
       emitter(
         state.copyWith(
-          countries: countryItems,
+          unsortedCountries: countryItems,
+          countriesLoaded: true,
           loading: false,
         ),
       );
@@ -64,6 +71,20 @@ class CountrySelectionBloc
         ),
       );
     }
+  }
+
+  Future<void> _onSetSortedCountriesEvent(
+    SetSortedCountriesEvent event,
+    Emitter<CountrySelectionState> emitter,
+  ) async {
+    emitter(state.copyWith(sortedCountries: event.countries));
+  }
+
+  Future<void> _onClearCountriesLoadedEvent(
+    ClearCountriesLoadedEvent event,
+    Emitter<CountrySelectionState> emitter,
+  ) async {
+    emitter(state.copyWith(countriesLoaded: false));
   }
 
   Future<void> _onClearErrorEvent(

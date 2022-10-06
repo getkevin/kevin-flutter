@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:domain/country/country_helper.dart';
 import 'package:domain/country/model/country.dart';
 import 'package:domain/payments/repository/payments_data_repository.dart';
@@ -19,11 +18,10 @@ class GetSupportedCountriesUseCase {
         .map(
           (code) => Country(
             code: code,
-            flag: _countryHelper.getFlag(code),
-            name: _countryHelper.getName(code),
+            flagKey: _countryHelper.getFlagKey(code),
+            nameKey: _countryHelper.getNameKey(code),
           ),
         )
-        .sortedBy((c) => c.code)
         .toList();
     return countries;
   }

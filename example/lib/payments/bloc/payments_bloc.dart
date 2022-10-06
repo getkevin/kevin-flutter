@@ -10,6 +10,7 @@ import 'package:fimber/fimber.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_example/country/country_extensions.dart';
+import 'package:kevin_flutter_example/generated/locale_keys.g.dart';
 import 'package:kevin_flutter_example/payment_type/model/payment_type.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_event.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_state.dart';
@@ -22,8 +23,8 @@ import 'package:quiver/core.dart';
 
 const _defaultCountry = Country(
   code: 'LT',
-  flag: AppImages.flagLt,
-  name: 'Lithuania',
+  flagKey: AppImages.flagLt,
+  nameKey: LocaleKeys.country_lt,
 );
 
 class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
