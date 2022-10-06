@@ -6,4 +6,10 @@ class KevinSectionStyle {
   const KevinSectionStyle({
     required this.titleLabelFont,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'titleLabelFont': titleLabelFont.toMap(),
+    };
+  }
 }

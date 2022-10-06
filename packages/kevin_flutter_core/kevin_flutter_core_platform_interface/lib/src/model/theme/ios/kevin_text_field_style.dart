@@ -21,4 +21,17 @@ class KevinTextFieldStyle {
     this.errorBorderColor,
     this.errorMessageFont,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'textColor': textColor?.value,
+      'font': font?.toMap(),
+      'cornerRadius': cornerRadius,
+      'backgroundColor': backgroundColor?.value,
+      'borderWidth': borderWidth,
+      'borderColor': borderColor?.value,
+      'errorBorderColor': errorBorderColor?.value,
+      'errorMessageFont': errorMessageFont?.toMap(),
+    };
+  }
 }

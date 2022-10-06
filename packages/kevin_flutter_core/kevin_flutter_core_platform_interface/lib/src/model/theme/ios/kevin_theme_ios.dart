@@ -60,4 +60,21 @@ class KevinThemeIos {
     this.textFieldStyle,
     this.emptyStateStyle,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'insets': insets?.toMap(),
+      'generalStyle': generalStyle?.toMap(),
+      'navigationBarStyle': navigationBarStyle?.toMap(),
+      'sheetPresentationStyle': sheetPresentationStyle?.toMap(),
+      'sectionStyle': sectionStyle?.toMap(),
+      'gridTableStyle': gridTableStyle?.toMap(),
+      'listTableStyle': listTableStyle?.toMap(),
+      'navigationLinkStyle': navigationLinkStyle?.toMap(),
+      'mainButtonStyle': mainButtonStyle?.toMap(),
+      'negativeButtonStyle': negativeButtonStyle?.toMap(),
+      'textFieldStyle': textFieldStyle?.toMap(),
+      'emptyStateStyle': emptyStateStyle?.toMap(),
+    };
+  }
 }

@@ -13,4 +13,13 @@ class KevinSheetPresentationStyle {
     this.titleLabelFont,
     this.cornerRadius,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'dragIndicatorTintColor': dragIndicatorTintColor?.value,
+      'backgroundColor': backgroundColor?.value,
+      'titleLabelFont': titleLabelFont?.toMap(),
+      'cornerRadius': cornerRadius,
+    };
+  }
 }

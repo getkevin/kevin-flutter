@@ -420,7 +420,7 @@ private extension Int {
         let blue = (0x000000FF & self) >> 0
         
         return UIColor(
-            red: CGFloat(red/255),
+            red: CGFloat(red)/255,
             green: CGFloat(green)/255,
             blue: CGFloat(blue)/255,
             alpha: CGFloat(opacity)

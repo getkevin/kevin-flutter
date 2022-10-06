@@ -1,5 +1,6 @@
 library kevin_flutter_core_platform_interface;
 
+export 'src/error/kevin_error_helper.dart';
 export 'src/kevin_flutter_core_method_channel.dart';
 export 'src/kevin_flutter_core_platform_interface.dart';
 export 'src/model/kevin_core_models.dart';
