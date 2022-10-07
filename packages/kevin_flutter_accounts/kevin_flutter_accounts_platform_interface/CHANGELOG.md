@@ -1,12 +1,21 @@
+## 1.0.3
+
+* Expose KevinSessionUnexpectedError - wrapper of plugin's native part's unexpected errors (wrong
+  initialisation/result parsing errors)
+* Make KevinCallbackUrl.single const constructor
+* Upgrade:
+    - `kevin_flutter_core: 1.0.4`
+
 ## 1.0.2
 
 * **BREAKING**: rename disabledCountrySelection to disableCountrySelection in
   KevinAccountSessionConfiguration
 * **BREAKING**: use KevinCallbackUrl in KevinAccountsConfiguration instead of string
-* Upgrade kevin_flutter_core to 1.0.3
 * Add toMap/fromMap() methods to models where needed
 * Introduce KevinFlutterAccountsMethods for internal usage
 * Remove entity classes
+* Upgrade:
+    - `kevin_flutter_core: 1.0.3`
 
 ## 1.0.1
 
