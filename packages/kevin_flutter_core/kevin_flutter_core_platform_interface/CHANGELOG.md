@@ -1,3 +1,9 @@
+## 1.0.5
+
+* Introduce KevinSessionUnexpectedError - wrapper of plugin's native part's unexpected errors (wrong
+  initialisation/result parsing errors)
+* Make KevinCallbackUrl.single const constructor
+
 ## 1.0.4
 
 * Fix kevin_size.dart formatting
