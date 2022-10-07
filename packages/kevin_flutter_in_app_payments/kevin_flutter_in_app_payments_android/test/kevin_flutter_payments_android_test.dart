@@ -152,12 +152,8 @@ void main() {
 
     const configuration =
         KevinPaymentSessionConfiguration(paymentId: 'paymentId');
-    expect(
-      () async {
-        await platform.startPayment(configuration);
-      },
-      throwsA(isA<PlatformException>()),
-    );
+    final result = await platform.startPayment(configuration);
+    expect(result, isInstanceOf<KevinSessionUnexpectedError>());
     expect(log, <Matcher>[
       isMethodCall(
         'startPayment',

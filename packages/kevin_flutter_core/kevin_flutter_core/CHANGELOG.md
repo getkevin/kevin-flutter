@@ -1,8 +1,22 @@
+## 1.0.4
+
+* Expose KevinSessionUnexpectedError - wrapper of plugin's native part's unexpected errors (wrong
+  initialisation/result parsing errors)
+* Make KevinCallbackUrl.single const constructor
+* Upgrade:
+    - `kevin_flutter_core_platform_interface: 1.0.5`
+    - `kevin_flutter_core_android: 1.0.4`
+    - `kevin_flutter_core_ios: 1.0.4`
+
 ## 1.0.3
 
-* Upgrade kevin_flutter_core_platform_interface to 1.0.4, kevin_flutter_core_android,
-  kevin_flutter_core_ios to 1.0.3
+* **BREAKING**: expose KevinSize to be used in KevinButtonStyle instead of Size
+* Expose KevinCallbackUrl class to be used to pass specific android/ios callback urls
 * Expose KevinErrorHelper meant for internal usage
+* Upgrade:
+    - `kevin_flutter_core_platform_interface: 1.0.4`
+    - `kevin_flutter_core_android: 1.0.3`
+    - `kevin_flutter_core_ios: 1.0.3`
 
 ## 1.0.2
 
@@ -11,9 +25,11 @@
 ## 1.0.1
 
 * Lower Dart version min version to 2.17.6
-* Upgrade kevin_flutter_core_android, kevin_flutter_core_ios, kevin_flutter_core_platform_interface
-  to 1.0.1
 * Adjust pubspec.yaml description
+* Upgrade:
+    - `kevin_flutter_core_android: 1.0.1`
+    - `kevin_flutter_core_ios: 1.0.1`
+    - `kevin_flutter_core_platform_interface: 1.0.1`
 
 ## 1.0.0
 

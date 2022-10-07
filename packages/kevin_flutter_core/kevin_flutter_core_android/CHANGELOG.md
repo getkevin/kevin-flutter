@@ -1,9 +1,16 @@
+## 1.0.4
+
+* Upgrade:
+    - `kevin_flutter_core_platform_interface: 1.0.5`
+
 ## 1.0.3
 
-* Upgrade compile and target SDK to 33
-* Upgrade kevin. SDK to 2.5.0
-* Upgrade kevin_flutter_core_platform_interface to 1.0.4
 * Add proguard file
+* Upgrade:
+    - `kevin_flutter_core_platform_interface: 1.0.4`
+    - `eu.kevin.android:core:2.5.0`
+    - `compileSdk 33`
+    - `targetSdk 33`
 
 ## 1.0.2
 
@@ -12,7 +19,8 @@
 ## 1.0.1
 
 * Lower Dart version min version to 2.17.6
-* Upgrade kevin_flutter_core_platform_interface to v1.0.1
+* Upgrade:
+    - `kevin_flutter_core_platform_interface: 1.0.1`
 
 ## 1.0.0
 

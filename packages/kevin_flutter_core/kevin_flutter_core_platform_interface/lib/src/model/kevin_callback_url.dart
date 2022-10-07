@@ -7,7 +7,7 @@ class KevinCallbackUrl {
     required this.ios,
   });
 
-  KevinCallbackUrl.single({required String callbackUrl})
+  const KevinCallbackUrl.single({required String callbackUrl})
       : android = callbackUrl,
         ios = callbackUrl;
 }

@@ -153,12 +153,8 @@ void main() {
     );
 
     const configuration = KevinAccountSessionConfiguration(state: 'state');
-    expect(
-      () async {
-        await platform.startAccountLinking(configuration);
-      },
-      throwsA(isA<PlatformException>()),
-    );
+    final result = await platform.startAccountLinking(configuration);
+    expect(result, isInstanceOf<KevinSessionUnexpectedError>());
     expect(log, <Matcher>[
       isMethodCall(
         'startAccountLinking',

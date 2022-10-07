@@ -16,6 +16,13 @@ void main() {
     expect((result as KevinSessionResultGeneralError).message, 'message');
   });
 
+  test('Parses unexpected', () {
+    final result = KevinErrorHelper.parseError(
+      PlatformException(code: 'unexpected', message: 'message'),
+    );
+    expect((result as KevinSessionUnexpectedError).message, 'message');
+  });
+
   test('Returns null on unknown error', () {
     final result =
         KevinErrorHelper.parseError(PlatformException(code: 'unknown'));

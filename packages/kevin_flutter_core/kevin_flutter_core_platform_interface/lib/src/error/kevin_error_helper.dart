@@ -11,6 +11,8 @@ class KevinErrorHelper {
         return KevinSessionResultGeneralError(
           message: error.message,
         );
+      case _Errors.unexpected:
+        return KevinSessionUnexpectedError(message: error.message);
       default:
         return null;
     }
@@ -20,4 +22,5 @@ class KevinErrorHelper {
 class _Errors {
   static const general = 'general';
   static const cancelled = 'cancelled';
+  static const unexpected = 'unexpected';
 }
