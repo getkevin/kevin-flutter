@@ -1,6 +1,7 @@
 import 'package:domain/accounts/model/linked_account.dart';
 import 'package:domain/kevin/model/auth_scope.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -207,9 +208,16 @@ class _AccountsPageState extends State<AccountsPage>
     if (result is KevinSessionResultLinkingSuccess) {
       _bloc.add(SetLinkingSuccessResultEvent(result: result));
     } else if (result is KevinSessionResultGeneralError) {
+      Fimber.e('Linking session general error: \n${result.message}');
       _showError(
         context: context,
         error: result.message ?? LocaleKeys.general_error_unknown.tr(),
+      );
+    } else if (result is KevinSessionUnexpectedError) {
+      Fimber.e('Linking session unexpected error: \n${result.message}');
+      _showError(
+        context: context,
+        error: LocaleKeys.general_error_unknown.tr(),
       );
     }
   }

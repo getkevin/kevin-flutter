@@ -1,6 +1,7 @@
 import 'package:domain/accounts/model/linked_account.dart';
 import 'package:domain/country/model/country.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -288,9 +289,16 @@ class _PaymentsPageState extends State<PaymentsPage> {
         ),
       );
     } else if (result is KevinSessionResultGeneralError) {
+      Fimber.e('Payment session general error: \n${result.message}');
       _showError(
         context: context,
         error: result.message ?? LocaleKeys.general_error_unknown.tr(),
+      );
+    } else if (result is KevinSessionUnexpectedError) {
+      Fimber.e('Payment session unexpected error: \n${result.message}');
+      _showError(
+        context: context,
+        error: LocaleKeys.general_error_unknown.tr(),
       );
     }
   }
