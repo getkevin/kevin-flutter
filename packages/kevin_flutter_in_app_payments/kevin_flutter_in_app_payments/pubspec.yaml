@@ -2,7 +2,7 @@ name: kevin_flutter_in_app_payments
 description: Flutter plugin, used to easily communicate with kevin. in app payments SDK.
 repository: https://github.com/getkevin/kevin-flutter/tree/master/packages/kevin_flutter_in_app_payments/kevin_flutter_in_app_payments
 homepage: https://developer.kevin.eu/mobile/
-version: 1.0.1
+version: 1.0.2
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
