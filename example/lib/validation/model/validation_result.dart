@@ -1,21 +1,23 @@
 import 'package:equatable/equatable.dart';
 
 abstract class ValidationResult extends Equatable {
-  final String? message;
-
-  const ValidationResult({required this.message});
+  const ValidationResult();
 
   bool get isValid => this is ValidationResultValid;
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [];
 }
 
 class ValidationResultValid extends ValidationResult {
-  const ValidationResultValid() : super(message: null);
+  const ValidationResultValid();
 }
 
 class ValidationResultInvalid extends ValidationResult {
-  const ValidationResultInvalid({required String message})
-      : super(message: message);
+  final String messageKey;
+
+  const ValidationResultInvalid({required this.messageKey});
+
+  @override
+  List<Object?> get props => [messageKey];
 }

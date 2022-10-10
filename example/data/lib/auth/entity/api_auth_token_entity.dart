@@ -26,9 +26,9 @@ class ApiAuthTokenEntity {
         tokenType: tokenType,
         accessToken: accessToken,
         accessTokenExpiresAt:
-            currentTime.add(Duration(seconds: accessTokenExpiresIn)),
+            currentTime.add(Duration(milliseconds: accessTokenExpiresIn)),
         refreshToken: refreshToken,
         refreshTokenExpiresAt:
-            currentTime.add(Duration(seconds: refreshTokenExpiresIn)),
+            currentTime.add(Duration(milliseconds: refreshTokenExpiresIn)),
       );
 }

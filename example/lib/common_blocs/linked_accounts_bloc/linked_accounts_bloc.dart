@@ -13,12 +13,12 @@ class LinkedAccountsBloc
   })  : _accountsRepository = accountsRepository,
         super(const LinkedAccountsState(accounts: [])) {
     on<LoadLinkedAccountsEvent>(
-      _onObserveLinkedAccountsEvent,
+      _onLoadLinkedAccountsEvent,
       transformer: sequential(),
     );
   }
 
-  Future<void> _onObserveLinkedAccountsEvent(
+  Future<void> _onLoadLinkedAccountsEvent(
     LoadLinkedAccountsEvent event,
     Emitter<LinkedAccountsState> emitter,
   ) async {

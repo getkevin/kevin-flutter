@@ -26,6 +26,8 @@ dependencies:
     path: ./domain
   data:
     path: ./data
+  support:
+    path: ./support
   equatable: ^2.0.5
   flutter_bloc: ^8.1.1
   bloc_concurrency: ^0.2.0
@@ -83,6 +85,8 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.1
   flutter_launcher_icons: ^0.10.0
+  bloc_test: ^9.1.0
+  rxdart: ^0.27.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

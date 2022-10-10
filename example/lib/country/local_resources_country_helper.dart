@@ -59,6 +59,11 @@ class LocalResourcesCountryHelper extends CountryHelper {
         : countryCode;
   }
 
+  @override
+  Set<String> getSupportedCountryCodes() {
+    return _availableCountries;
+  }
+
   String _getFlagPath(String countryCode) =>
       '$_baseFlagsPath/flag_$countryCode.svg';
 

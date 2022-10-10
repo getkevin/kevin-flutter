@@ -7,7 +7,7 @@ class AmountValidator {
 
     if (amountDouble <= 0) {
       return const ValidationResultInvalid(
-        message: LocaleKeys.payments_page_details_amount_error,
+        messageKey: LocaleKeys.payments_page_details_amount_error,
       );
     }
 

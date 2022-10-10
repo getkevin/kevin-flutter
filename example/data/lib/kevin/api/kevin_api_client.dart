@@ -30,7 +30,7 @@ class KevinApiClient {
   ) async {
     final result = await _dio.post(
       'auth/refreshToken/',
-      data: RefreshAuthTokenRequestEntity.fromModel(request),
+      data: RefreshAuthTokenRequestEntity.fromModel(request).toJson(),
     );
 
     return ApiAuthTokenEntity.fromJson(result.data);
