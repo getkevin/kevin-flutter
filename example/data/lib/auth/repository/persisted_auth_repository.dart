@@ -13,7 +13,7 @@ class PersistedAuthRepository extends AuthRepository {
   }) : _storage = storage;
 
   @override
-  Future<AuthToken?> getAuthToken(linkToken) async {
+  Future<AuthToken?> getAuthToken(String linkToken) async {
     final tokenJsonString = await _storage.getString(linkToken);
 
     if (tokenJsonString == null) return null;
@@ -33,7 +33,7 @@ class PersistedAuthRepository extends AuthRepository {
   }
 
   @override
-  Future<void> removeAuthToken(linkToken) {
+  Future<void> removeAuthToken(String linkToken) {
     return _storage.remove(linkToken);
   }
 }

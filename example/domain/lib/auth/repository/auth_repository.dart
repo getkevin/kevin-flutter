@@ -8,5 +8,5 @@ abstract class AuthRepository {
 
   Future<AuthToken?> getAuthToken(String linkToken);
 
-  Future<void> removeAuthToken(linkToken);
+  Future<void> removeAuthToken(String linkToken);
 }

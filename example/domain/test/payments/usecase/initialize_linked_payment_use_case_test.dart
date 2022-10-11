@@ -3,9 +3,9 @@ import 'package:domain/payments/usecase/initialize_linked_payment_use_case.dart'
 import 'package:equatable/equatable.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../../../test/fakes/fake_get_auth_token_use_case.dart';
-import '../../../../test/fakes/fake_kevin_repository.dart';
-import '../../../../test/test_data.dart';
+import '../../fakes/fake_get_auth_token_use_case.dart';
+import '../../fakes/fake_kevin_repository.dart';
+import '../../test_data.dart';
 
 void main() {
   EquatableConfig.stringify = true;
