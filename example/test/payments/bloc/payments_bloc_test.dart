@@ -1,6 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:domain/country/model/country.dart';
-import 'package:domain/kevin/model/payment_request.dart';
 import 'package:domain/payments/model/creditor.dart';
 import 'package:domain/payments/model/creditor_account.dart';
 import 'package:domain/payments/model/payment_type.dart';
@@ -18,7 +17,6 @@ import 'package:kevin_flutter_example/validation/model/validation_result.dart';
 import 'package:kevin_flutter_in_app_payments/kevin_flutter_in_app_payments.dart';
 import 'package:quiver/core.dart';
 
-import '../../country/country_selection/bloc/country_selection_bloc_test.dart';
 import '../../fakes/fake_amount_validator.dart';
 import '../../fakes/fake_email_validator.dart';
 import '../../fakes/fake_get_creditors_use_case.dart';
@@ -68,13 +66,6 @@ const _creditor2 = Creditor(
 );
 
 const _creditors = [_creditor, _creditor1, _creditor2];
-
-const _paymentRequest = PaymentRequest(
-  amount: '1',
-  email: 'test@test.com',
-  creditorName: 'name',
-  redirectUrl: 'callbackUrl',
-);
 
 void main() {
   EquatableConfig.stringify = true;
@@ -615,7 +606,7 @@ void main() {
         Optional.of(paymentSession),
       );
       expect(initializeSinglePaymentUseCase.getRequestHistory(), [
-        {PaymentType.bank: _paymentRequest}
+        {PaymentType.bank: paymentRequest}
       ]);
     },
   );
@@ -648,7 +639,7 @@ void main() {
         const Optional.absent(),
       );
       expect(initializeSinglePaymentUseCase.getRequestHistory(), [
-        {PaymentType.bank: _paymentRequest}
+        {PaymentType.bank: paymentRequest}
       ]);
     },
   );
@@ -686,7 +677,7 @@ void main() {
         Optional.of(paymentSession),
       );
       expect(initializeSinglePaymentUseCase.getRequestHistory(), [
-        {PaymentType.card: _paymentRequest}
+        {PaymentType.card: paymentRequest}
       ]);
     },
   );
@@ -719,7 +710,7 @@ void main() {
         const Optional.absent(),
       );
       expect(initializeSinglePaymentUseCase.getRequestHistory(), [
-        {PaymentType.card: _paymentRequest}
+        {PaymentType.card: paymentRequest}
       ]);
     },
   );
@@ -757,7 +748,7 @@ void main() {
         Optional.of(paymentSession),
       );
       expect(initializeLinkedPaymentUseCase.getRequestHistory(), [
-        {linkedAccount: _paymentRequest}
+        {linkedAccount: paymentRequest}
       ]);
     },
   );
@@ -790,7 +781,7 @@ void main() {
         const Optional.absent(),
       );
       expect(initializeLinkedPaymentUseCase.getRequestHistory(), [
-        {linkedAccount: _paymentRequest}
+        {linkedAccount: paymentRequest}
       ]);
     },
   );

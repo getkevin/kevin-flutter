@@ -1,5 +1,4 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:domain/country/model/country.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kevin_flutter_example/country/country_selection/bloc/country_selection_bloc.dart';
@@ -17,15 +16,10 @@ const _initialState = CountrySelectionState(
   error: Optional.absent(),
 );
 
-const lithuania = Country(code: 'LT', flagKey: 'LT', nameKey: 'LT');
-const latvia = Country(code: 'LV', flagKey: 'LV', nameKey: 'LV');
-const estonia = Country(code: 'EE', flagKey: 'EE', nameKey: 'EE');
-const poland = Country(code: 'PL', flagKey: 'PL', nameKey: 'PL');
-
-const lithuaniaItem = CountryItem(country: lithuania, selected: false);
-const latviaItem = CountryItem(country: latvia, selected: false);
-const estoniaItem = CountryItem(country: estonia, selected: false);
-const polandItem = CountryItem(country: poland, selected: false);
+const _lithuaniaItem = CountryItem(country: lithuania, selected: false);
+const _latviaItem = CountryItem(country: latvia, selected: false);
+const _estoniaItem = CountryItem(country: estonia, selected: false);
+const _polandItem = CountryItem(country: poland, selected: false);
 
 void main() {
   EquatableConfig.stringify = true;
@@ -69,9 +63,9 @@ void main() {
       final loadingState = _initialState.copyWith(loading: true);
       final countriesState = _initialState.copyWith(
         countries: [
-          estoniaItem,
-          lithuaniaItem.copyWith(selected: true),
-          latviaItem,
+          _estoniaItem,
+          _lithuaniaItem.copyWith(selected: true),
+          _latviaItem,
         ],
       );
 
@@ -94,9 +88,9 @@ void main() {
       expect(
         state.countries,
         [
-          estoniaItem,
-          lithuaniaItem,
-          latviaItem,
+          _estoniaItem,
+          _lithuaniaItem,
+          _latviaItem,
         ],
       );
     },
@@ -126,10 +120,10 @@ void main() {
     build: () => subject,
     seed: () => _initialState.copyWith(
       countries: [
-        polandItem,
-        latviaItem,
-        lithuaniaItem,
-        estoniaItem,
+        _polandItem,
+        _latviaItem,
+        _lithuaniaItem,
+        _estoniaItem,
       ],
     ),
     act: (CountrySelectionBloc bloc) {
@@ -144,10 +138,10 @@ void main() {
       // in test environment localizations are absent,
       // localization keys used instead.
       expect(state.countries, [
-        estoniaItem,
-        lithuaniaItem,
-        latviaItem,
-        polandItem,
+        _estoniaItem,
+        _lithuaniaItem,
+        _latviaItem,
+        _polandItem,
       ]);
     },
   );

@@ -11,10 +11,16 @@ import 'package:support/extension/object.dart';
 import '../test_data.dart';
 
 class FakeKevinRepository extends Fake implements KevinRepository {
+  final _authTokenCallHistory = <String>[];
+  final _refreshAuthTokenCallHistory = <RefreshAuthTokenRequest>[];
   final _authStateCallHistory = <LinkingRequest>[];
   final _bankCallHistory = <PaymentRequest>[];
   final _cardCallHistory = <PaymentRequest>[];
   final _linkedCallHistory = <PaymentRequest>[];
+  var _authToken = authToken;
+  var _refreshedAuthToken = authToken;
+  Exception? _authTokenError;
+  Exception? _refreshAuthTokenError;
   Exception? _authStateError;
   Exception? _bankError;
   Exception? _cardError;
@@ -22,12 +28,20 @@ class FakeKevinRepository extends Fake implements KevinRepository {
 
   @override
   Future<AuthToken> getAuthToken(String authCode) async {
-    return authToken;
+    _authTokenCallHistory.add(authCode);
+
+    _authTokenError?.let((it) => throw it);
+
+    return _authToken;
   }
 
   @override
   Future<AuthToken> refreshAuthToken(RefreshAuthTokenRequest request) async {
-    return authToken;
+    _refreshAuthTokenCallHistory.add(request);
+
+    _refreshAuthTokenError?.let((it) => throw it);
+
+    return _refreshedAuthToken;
   }
 
   @override
@@ -72,17 +86,34 @@ class FakeKevinRepository extends Fake implements KevinRepository {
     return const Payment(id: 'linkedPaymentId');
   }
 
+  void setAuthToken({required AuthToken authToken}) {
+    _authToken = authToken;
+  }
+
+  void setRefreshedToken({required AuthToken authToken}) {
+    _refreshedAuthToken = authToken;
+  }
+
   void setErrors({
+    Exception? authTokenError,
+    Exception? refreshAuthTokenError,
     Exception? authStateError,
     Exception? bankError,
     Exception? cardError,
     Exception? linkedError,
   }) {
+    _authTokenError = authTokenError;
+    _refreshAuthTokenError = refreshAuthTokenError;
     _authStateError = authStateError;
     _bankError = bankError;
     _cardError = cardError;
     _linkedError = linkedError;
   }
+
+  List<String> getAuthTokenCallHistory() => List.of(_authTokenCallHistory);
+
+  List<RefreshAuthTokenRequest> getRefreshAuthTokenCallHistory() =>
+      List.of(_refreshAuthTokenCallHistory);
 
   List<LinkingRequest> getAuthStateCallHistory() =>
       List.of(_authStateCallHistory);

@@ -15,6 +15,23 @@ class AuthToken extends Equatable {
     required this.refreshTokenExpiresAt,
   });
 
+  AuthToken copyWith({
+    String? tokenType,
+    String? accessToken,
+    DateTime? accessTokenExpiresAt,
+    String? refreshToken,
+    DateTime? refreshTokenExpiresAt,
+  }) {
+    return AuthToken(
+      tokenType: tokenType ?? this.tokenType,
+      accessToken: accessToken ?? this.accessToken,
+      accessTokenExpiresAt: accessTokenExpiresAt ?? this.accessTokenExpiresAt,
+      refreshToken: refreshToken ?? this.refreshToken,
+      refreshTokenExpiresAt:
+      refreshTokenExpiresAt ?? this.refreshTokenExpiresAt,
+    );
+  }
+
   @override
   List<Object?> get props => [
         tokenType,
