@@ -2,9 +2,9 @@ import 'package:domain/payments/usecase/get_supported_countries_use_case.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../../../test/fakes/fake_country_helper.dart';
-import '../../../../test/fakes/fake_payments_data_repository.dart';
-import '../../../../test/test_data.dart';
+import '../../fakes/fake_country_helper.dart';
+import '../../fakes/fake_payments_data_repository.dart';
+import '../../test_data.dart';
 
 void main() {
   EquatableConfig.stringify = true;

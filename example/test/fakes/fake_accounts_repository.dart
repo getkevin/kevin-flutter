@@ -69,6 +69,15 @@ class FakeAccountsRepository extends Fake implements AccountsRepository {
     _subject.add(accounts);
   }
 
+  @override
+  Future<void> deleteByBankIdAndInsert({
+    required String bankId,
+    required LinkedAccount account,
+  }) async {
+    await deleteByBankId(bankId);
+    await insert(account: account);
+  }
+
   void setAccounts({required List<LinkedAccount> accounts}) {
     _subject.add(accounts);
   }

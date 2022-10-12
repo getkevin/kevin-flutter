@@ -3,10 +3,10 @@ import 'package:domain/auth/usecase/get_auth_token_use_case.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../../../test/fakes/fake_auth_repository.dart';
-import '../../../../test/fakes/fake_kevin_repository.dart';
-import '../../../../test/fakes/fake_time_provider.dart';
-import '../../../../test/test_data.dart';
+import '../../fakes/fake_auth_repository.dart';
+import '../../fakes/fake_kevin_repository.dart';
+import '../../fakes/fake_time_provider.dart';
+import '../../test_data.dart';
 
 void main() {
   EquatableConfig.stringify = true;

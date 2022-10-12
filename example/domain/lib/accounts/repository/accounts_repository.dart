@@ -14,4 +14,9 @@ abstract class AccountsRepository {
   Future<void> deleteById(int id);
 
   Future<void> deleteByBankId(String bankId);
+
+  Future<void> deleteByBankIdAndInsert({
+    required String bankId,
+    required LinkedAccount account,
+  });
 }

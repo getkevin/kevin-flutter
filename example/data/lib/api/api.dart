@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:data/api/entity/api_error_entity.dart';
 import 'package:dio/dio.dart';
 import 'package:domain/error/model/api_error.dart';
+import 'package:support/extension/object.dart';
 
 Future<Response<T>> makeRequest<T>(
   Future<Response<T>> Function() requestFn,
@@ -22,23 +23,28 @@ Future<Response<T>> makeRequest<T>(
       }
 
       if (parsedData != null && parsedData is Map<String, dynamic>) {
+        ApiErrorEntity? parsedError;
+
         try {
-          final parsedError = ApiErrorEntity.fromJson(parsedData);
-          throw ApiError(
-            code: parsedError.error.code,
-            name: parsedError.error.name,
-            description: parsedError.error.description,
-            statusCode: error.response?.statusCode,
-          );
+          parsedError = ApiErrorEntity.fromJson(parsedData);
         } catch (_) {
           // Ignore
         }
+
+        parsedError?.let(
+          (it) => throw ApiError(
+            code: it.error.code,
+            name: it.error.name,
+            description: it.error.description,
+            statusCode: error.response?.statusCode,
+          ),
+        );
       }
     }
 
     throw ApiError(
       statusCode: error.response?.statusCode,
-      description: error.message,
+      description: error.message.takeIf((it) => it.isNotEmpty),
       cause: error.error,
     );
   }

@@ -3,8 +3,8 @@ import 'package:domain/payments/usecase/get_creditors_use_case.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../../../test/fakes/fake_payments_data_repository.dart';
-import '../../../../test/test_data.dart';
+import '../../fakes/fake_payments_data_repository.dart';
+import '../../test_data.dart';
 
 const _creditor = Creditor(logo: 'logo', name: 'name', accounts: []);
 
