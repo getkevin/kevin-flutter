@@ -237,4 +237,29 @@ void main() {
       ),
     ]);
   });
+
+  test('Delete account by bank id and insert test', () async {
+    await subject.insert(account: linkedAccount.copyWith(id: 1));
+    await subject.insert(
+      account: linkedAccount.copyWith(
+        id: 2,
+        bankId: 'otherBankId',
+      ),
+    );
+
+    await subject.deleteByBankIdAndInsert(
+      bankId: 'bankId',
+      account: linkedAccount,
+    );
+
+    final result = await subject.getLinkedAccounts();
+
+    expect(result, [
+      linkedAccount,
+      linkedAccount.copyWith(
+        id: 2,
+        bankId: 'otherBankId',
+      ),
+    ]);
+  });
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:data/accounts/entity/linked_account_entity.dart';
 import 'package:data/accounts/repository/persistent_accounts_repository.dart';
@@ -190,7 +191,9 @@ Future<void> _initKevinSdk() async {
         KevinThemeDataIos.getKevinThemeDataIos(mode: getCurrentAppThemeMode())
             .data,
   );
-  await Kevin.setDeepLinkingEnabled(true);
+  // For iOS https deep links to work, apple-app-site-association must be configured.
+  // Read more: https://asbelita.medium.com/manage-universal-links-with-multiple-associated-domains-in-ios-97bda851b654
+  await Kevin.setDeepLinkingEnabled(Platform.isAndroid);
   await KevinPayments.setPaymentsConfiguration(
     const KevinPaymentsConfiguration(
       callbackUrl: KevinCallbackUrl(

@@ -120,8 +120,10 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
       bankId: bank.id,
     );
 
-    await _accountsRepository.deleteByBankId(bank.id);
-    await _accountsRepository.insert(account: account);
+    await _accountsRepository.deleteByBankIdAndInsert(
+      bankId: bank.id,
+      account: account,
+    );
   }
 
   Future<void> _onRemoveLinkedAccountEvent(

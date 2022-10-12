@@ -4,6 +4,7 @@ import 'package:data/auth/entity/auth_token_entity.dart';
 import 'package:domain/auth/model/auth_token.dart';
 import 'package:domain/auth/repository/auth_repository.dart';
 import 'package:domain/storage/key_value_storage.dart';
+import 'package:synchronized/extension.dart';
 
 class PersistedAuthRepository extends AuthRepository {
   final KeyValueStorage _storage;
@@ -14,11 +15,13 @@ class PersistedAuthRepository extends AuthRepository {
 
   @override
   Future<AuthToken?> getAuthToken(String linkToken) async {
-    final tokenJsonString = await _storage.getString(linkToken);
+    return synchronized(() async {
+      final tokenJsonString = await _storage.getString(linkToken);
 
-    if (tokenJsonString == null) return null;
+      if (tokenJsonString == null) return null;
 
-    return AuthTokenEntity.fromJson(jsonDecode(tokenJsonString)).toModel();
+      return AuthTokenEntity.fromJson(jsonDecode(tokenJsonString)).toModel();
+    });
   }
 
   @override
@@ -26,14 +29,16 @@ class PersistedAuthRepository extends AuthRepository {
     required String linkToken,
     required AuthToken authToken,
   }) {
-    return _storage.putString(
-      linkToken,
-      jsonEncode(AuthTokenEntity.fromModel(authToken).toJson()),
+    return synchronized(
+      () => _storage.putString(
+        linkToken,
+        jsonEncode(AuthTokenEntity.fromModel(authToken).toJson()),
+      ),
     );
   }
 
   @override
   Future<void> removeAuthToken(String linkToken) {
-    return _storage.remove(linkToken);
+    return synchronized(() => _storage.remove(linkToken));
   }
 }
