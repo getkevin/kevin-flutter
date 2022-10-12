@@ -22,6 +22,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  support:
+    path: ../support
   equatable: ^2.0.5
   collection: ^1.16.0
 

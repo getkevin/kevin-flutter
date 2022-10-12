@@ -1,17 +1,18 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:collection/collection.dart';
-import 'package:domain/auth/usecase/get_auth_token_use_case.dart';
 import 'package:domain/country/model/country.dart';
 import 'package:domain/kevin/model/payment.dart';
 import 'package:domain/kevin/model/payment_request.dart';
-import 'package:domain/kevin/repository/kevin_repository.dart';
+import 'package:domain/payments/model/payment_type.dart';
 import 'package:domain/payments/usecase/get_creditors_use_case.dart';
+import 'package:domain/payments/usecase/initialize_linked_payment_use_case.dart';
+import 'package:domain/payments/usecase/initialize_single_payment_use_case.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_example/country/country_extensions.dart';
 import 'package:kevin_flutter_example/generated/locale_keys.g.dart';
-import 'package:kevin_flutter_example/payment_type/model/payment_type.dart';
+import 'package:kevin_flutter_example/payment_type/extensions/payment_type_extensions.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_event.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_state.dart';
 import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
@@ -28,21 +29,21 @@ const _defaultCountry = Country(
 );
 
 class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
-  final KevinRepository _kevinRepository;
+  final InitializeSinglePaymentUseCase _initializeSinglePaymentUseCase;
+  final InitializeLinkedPaymentUseCase _initializeLinkedPaymentUseCase;
   final GetCreditorsUseCase _getCreditorsUseCase;
-  final GetAuthTokenUseCase _getAuthTokenUseCase;
   final EmailValidator _emailValidator;
   final AmountValidator _amountValidator;
 
   PaymentsBloc({
-    required KevinRepository kevinRepository,
+    required InitializeSinglePaymentUseCase initializeSinglePaymentUseCase,
+    required InitializeLinkedPaymentUseCase initializeLinkedPaymentUseCase,
     required GetCreditorsUseCase getCreditorsUseCase,
-    required GetAuthTokenUseCase getAuthTokenUseCase,
     required EmailValidator emailValidator,
     required AmountValidator amountValidator,
-  })  : _kevinRepository = kevinRepository,
+  })  : _initializeSinglePaymentUseCase = initializeSinglePaymentUseCase,
+        _initializeLinkedPaymentUseCase = initializeLinkedPaymentUseCase,
         _getCreditorsUseCase = getCreditorsUseCase,
-        _getAuthTokenUseCase = getAuthTokenUseCase,
         _emailValidator = emailValidator,
         _amountValidator = amountValidator,
         super(
@@ -51,9 +52,9 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
             creditors: [],
             creditorsLoading: false,
             email: '',
-            emailError: Optional.absent(),
+            emailValidationResult: Optional.absent(),
             amount: '',
-            amountError: Optional.absent(),
+            amountValidationResult: Optional.absent(),
             userInputFieldsUpdated: false,
             termsAccepted: false,
             termsError: false,
@@ -137,7 +138,7 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
     emitter(
       state.copyWith(
         email: event.email,
-        emailError: const Optional.absent(),
+        emailValidationResult: const Optional.absent(),
       ),
     );
   }
@@ -151,7 +152,7 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
     emitter(
       state.copyWith(
         amount: event.amount.replaceFirst(',', '.'),
-        amountError: const Optional.absent(),
+        amountValidationResult: const Optional.absent(),
       ),
     );
   }
@@ -176,23 +177,31 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
     final amountValidationResult =
         _amountValidator.validate(state.amount.trim());
 
+    final newState = state.copyWith(
+      emailValidationResult: Optional.of(emailValidationResult),
+      amountValidationResult: Optional.of(amountValidationResult),
+    );
+
     if (!emailValidationResult.isValid ||
         !amountValidationResult.isValid ||
-        !state.termsAccepted) {
+        !state.termsAccepted ||
+        state.creditors.isEmpty) {
       emitter(
-        state.copyWith(
-          emailError: Optional.fromNullable(emailValidationResult.message),
-          amountError: Optional.fromNullable(amountValidationResult.message),
+        newState.copyWith(
           termsError: !state.termsAccepted,
+          generalError: Optional.fromNullable(
+            state.creditors.isEmpty ? Exception('Creditors are empty') : null,
+          ),
         ),
       );
-    } else {
-      emitter(
-        state.copyWith(
-          openPaymentTypeDialog: true,
-        ),
-      );
+      return;
     }
+
+    emitter(
+      newState.copyWith(
+        openPaymentTypeDialog: true,
+      ),
+    );
   }
 
   Future<void> _onInitializeSinglePaymentEvent(
@@ -208,14 +217,10 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
         final paymentRequest =
             _getPaymentRequest(state: state, redirectUrl: event.callbackUrl);
 
-        switch (event.paymentType) {
-          case PaymentType.bank:
-            return _kevinRepository.initializeBankPayment(paymentRequest);
-          case PaymentType.card:
-            return _kevinRepository.initializeCardPayment(paymentRequest);
-          case PaymentType.linked:
-            throw StateError('Wrong payment type: ${event.paymentType}');
-        }
+        return _initializeSinglePaymentUseCase.invoke(
+          paymentType: event.paymentType,
+          paymentRequest: paymentRequest,
+        );
       },
     );
 
@@ -235,12 +240,9 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
         final paymentRequest =
             _getPaymentRequest(state: state, redirectUrl: event.callbackUrl);
 
-        final authToken =
-            await _getAuthTokenUseCase.invoke(event.account.linkToken);
-
-        return _kevinRepository.initializeLinkedBankPayment(
-          accessToken: authToken.accessToken,
-          request: paymentRequest,
+        return _initializeLinkedPaymentUseCase.invoke(
+          linkedAccount: event.account,
+          paymentRequest: paymentRequest,
         );
       },
     );

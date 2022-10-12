@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:domain/country/model/country.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:kevin_flutter_example/common_widgets/kevin_snack_bar.dart';
 import 'package:kevin_flutter_example/country/country_selection/bloc/country_selection_bloc.dart';
 import 'package:kevin_flutter_example/country/country_selection/bloc/country_selection_event.dart';
 import 'package:kevin_flutter_example/country/country_selection/bloc/country_selection_state.dart';
-import 'package:kevin_flutter_example/country/country_selection/model/country_item.dart';
 import 'package:kevin_flutter_example/error/api_error_mapper.dart';
 import 'package:kevin_flutter_example/generated/locale_keys.g.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
@@ -73,10 +71,6 @@ class _CountrySelectionBottomDialogState
 
     return BlocConsumer<CountrySelectionBloc, CountrySelectionState>(
       listener: (context, state) {
-        if (state.shouldSortCountries) {
-          _onShouldSortCountries(countries: state.unsortedCountries);
-        }
-
         final error = state.error.orNull;
         if (error != null) {
           _onError(context: context, error: error);
@@ -87,22 +81,22 @@ class _CountrySelectionBottomDialogState
           children: [
             KevinListBottomDialog(
               title: LocaleKeys.country_selection_dialog_title.tr(),
-              itemCount: state.sortedCountries.length,
+              itemCount: state.countries.length,
               // shrinkWrap is expensive and not needed when content
               // is large enough to cover a whole screen.
-              shrinkWrap: state.sortedCountries.length <= 12,
+              shrinkWrap: state.countries.length <= 12,
               scrollController: widget._scrollController,
               physics: const ClampingScrollPhysics(),
               builder: (context, index) {
-                final country = state.sortedCountries[index];
+                final country = state.countries[index];
 
                 var type = KevinListItemType.middle;
 
-                if (state.sortedCountries.length == 1) {
+                if (state.countries.length == 1) {
                   type = KevinListItemType.single;
                 } else if (index == 0) {
                   type = KevinListItemType.top;
-                } else if (index == state.sortedCountries.length - 1) {
+                } else if (index == state.countries.length - 1) {
                   type = KevinListItemType.bottom;
                 }
 
@@ -147,19 +141,6 @@ class _CountrySelectionBottomDialogState
     );
   }
 
-  void _onShouldSortCountries({required List<CountryItem> countries}) {
-    final countriesSorted = countries.sorted(
-      (first, second) {
-        final firstLocalizedName = first.country.nameKey.tr();
-        final secondLocalizedName = second.country.nameKey.tr();
-
-        return firstLocalizedName.compareTo(secondLocalizedName);
-      },
-    ).toList();
-
-    _bloc.add(SetSortedCountriesEvent(countries: countriesSorted));
-  }
-
   void _onCountrySelected({
     required BuildContext context,
     required Country country,
@@ -189,7 +170,7 @@ class _CountrySelectionBottomDialogState
     if (currentLocale != _cachedLocale) {
       _cachedLocale = currentLocale;
       _bloc.add(
-        const SetShouldSortCountriesEvent(shouldSortCountries: true),
+        const SortCountriesEvent(),
       );
     }
   }

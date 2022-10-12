@@ -10,6 +10,16 @@ class CountryItem extends Equatable {
     required this.selected,
   });
 
+  CountryItem copyWith({
+    Country? country,
+    bool? selected,
+  }) {
+    return CountryItem(
+      country: country ?? this.country,
+      selected: selected ?? this.selected,
+    );
+  }
+
   @override
   List<Object?> get props => [country, selected];
 }

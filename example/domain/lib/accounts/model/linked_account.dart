@@ -15,6 +15,22 @@ class LinkedAccount extends Equatable {
     required this.bankId,
   });
 
+  LinkedAccount copyWith({
+    int? id,
+    String? bankName,
+    String? logoUrl,
+    String? linkToken,
+    String? bankId,
+  }) {
+    return LinkedAccount(
+      id: id ?? this.id,
+      bankName: bankName ?? this.bankName,
+      logoUrl: logoUrl ?? this.logoUrl,
+      linkToken: linkToken ?? this.linkToken,
+      bankId: bankId ?? this.bankId,
+    );
+  }
+
   @override
   List<Object?> get props => [
         id,

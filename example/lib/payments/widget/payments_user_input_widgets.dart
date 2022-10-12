@@ -109,7 +109,9 @@ class _FormFields extends StatelessWidget {
           ),
           textInputAction: TextInputAction.next,
           onFieldSubmitted: (_) => _amountFocusNode.requestFocus(),
-          errorText: _state.emailError.orNull?.tr(),
+          errorText: _getValidationErrorString(
+            validationResult: _state.emailValidationResult.orNull,
+          ),
         ),
         const SizedBox(
           height: 24,
@@ -135,11 +137,22 @@ class _FormFields extends StatelessWidget {
             onPressed: () => _amountController.clear(),
           ),
           prefixText: '€ ',
-          errorText: _state.amountError.orNull?.tr(),
+          errorText: _getValidationErrorString(
+            validationResult: _state.amountValidationResult.orNull,
+          ),
           onFieldSubmitted: (_) => _onAmountSubmitted(),
         ),
       ],
     );
+  }
+
+  String? _getValidationErrorString({
+    required ValidationResult? validationResult,
+  }) {
+    return validationResult
+        ?.takeInstance<ValidationResultInvalid>()
+        ?.messageKey
+        .tr();
   }
 }
 

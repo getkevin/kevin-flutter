@@ -3,37 +3,28 @@ import 'package:kevin_flutter_example/country/country_selection/model/country_it
 import 'package:quiver/core.dart';
 
 class CountrySelectionState extends Equatable {
-  final List<CountryItem> unsortedCountries;
-  final List<CountryItem> sortedCountries;
-  final bool shouldSortCountries;
+  final List<CountryItem> countries;
   final bool loading;
   final Optional<Exception> error;
 
   const CountrySelectionState({
-    required this.unsortedCountries,
-    required this.sortedCountries,
-    required this.shouldSortCountries,
+    required this.countries,
     required this.loading,
     required this.error,
   });
 
   CountrySelectionState copyWith({
-    List<CountryItem>? unsortedCountries,
-    List<CountryItem>? sortedCountries,
-    bool? shouldSortCountries,
+    List<CountryItem>? countries,
     bool? loading,
     Optional<Exception>? error,
   }) {
     return CountrySelectionState(
-      unsortedCountries: unsortedCountries ?? this.unsortedCountries,
-      sortedCountries: sortedCountries ?? this.sortedCountries,
-      shouldSortCountries: shouldSortCountries ?? this.shouldSortCountries,
+      countries: countries ?? this.countries,
       loading: loading ?? this.loading,
       error: error ?? this.error,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [unsortedCountries, sortedCountries, shouldSortCountries, loading, error];
+  List<Object?> get props => [countries, loading, error];
 }

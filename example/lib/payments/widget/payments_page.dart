@@ -1,6 +1,8 @@
 import 'package:domain/accounts/model/linked_account.dart';
 import 'package:domain/country/model/country.dart';
+import 'package:domain/payments/model/payment_type.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +19,6 @@ import 'package:kevin_flutter_example/common_widgets/kevin_progress_indicator.da
 import 'package:kevin_flutter_example/common_widgets/kevin_snack_bar.dart';
 import 'package:kevin_flutter_example/country/country_selection/widget/country_selection_bottom_dialog.dart';
 import 'package:kevin_flutter_example/error/api_error_mapper.dart';
-import 'package:kevin_flutter_example/payment_type/model/payment_type.dart';
 import 'package:kevin_flutter_example/payment_type/widget/payment_type_bottom_dialog.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_bloc.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_event.dart';
@@ -26,11 +27,13 @@ import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
 import 'package:kevin_flutter_example/payments/model/payment_session.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
+import 'package:kevin_flutter_example/validation/model/validation_result.dart';
 import 'package:kevin_flutter_example/web/app_urls.dart';
 import 'package:kevin_flutter_example/web/external_url.dart';
 import 'package:kevin_flutter_in_app_payments/kevin_flutter_in_app_payments.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:kevin_flutter_example/generated/locale_keys.g.dart';
+import 'package:support/extension/object.dart';
 
 part 'payments_body_widgets.dart';
 
@@ -288,9 +291,16 @@ class _PaymentsPageState extends State<PaymentsPage> {
         ),
       );
     } else if (result is KevinSessionResultGeneralError) {
+      Fimber.e('Payment session general error: \n${result.message}');
       _showError(
         context: context,
         error: result.message ?? LocaleKeys.general_error_unknown.tr(),
+      );
+    } else if (result is KevinSessionUnexpectedError) {
+      Fimber.e('Payment session unexpected error: \n${result.message}');
+      _showError(
+        context: context,
+        error: LocaleKeys.general_error_unknown.tr(),
       );
     }
   }

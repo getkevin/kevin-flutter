@@ -1,7 +1,7 @@
 import 'package:domain/accounts/model/linked_account.dart';
 import 'package:domain/country/model/country.dart';
+import 'package:domain/payments/model/payment_type.dart';
 import 'package:equatable/equatable.dart';
-import 'package:kevin_flutter_example/payment_type/model/payment_type.dart';
 import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
 
 abstract class PaymentsEvent extends Equatable {

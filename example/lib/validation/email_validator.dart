@@ -5,11 +5,11 @@ class EmailValidator {
   ValidationResult validate(String email) {
     if (email.isEmpty) {
       return const ValidationResultInvalid(
-        message: LocaleKeys.payments_page_details_email_error_empty,
+        messageKey: LocaleKeys.payments_page_details_email_error_empty,
       );
     } else if (!_isValidEmail(email)) {
       return const ValidationResultInvalid(
-        message: LocaleKeys.payments_page_details_email_error_invalid,
+        messageKey: LocaleKeys.payments_page_details_email_error_invalid,
       );
     }
 

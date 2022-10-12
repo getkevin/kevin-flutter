@@ -2,6 +2,7 @@ import 'package:domain/country/model/country.dart';
 import 'package:equatable/equatable.dart';
 import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
 import 'package:kevin_flutter_example/payments/model/payment_session.dart';
+import 'package:kevin_flutter_example/validation/model/validation_result.dart';
 import 'package:quiver/core.dart';
 
 class PaymentsState extends Equatable {
@@ -11,10 +12,10 @@ class PaymentsState extends Equatable {
   final bool creditorsLoading;
 
   final String email;
-  final Optional<String> emailError;
+  final Optional<ValidationResult> emailValidationResult;
 
   final String amount;
-  final Optional<String> amountError;
+  final Optional<ValidationResult> amountValidationResult;
 
   final bool userInputFieldsUpdated;
 
@@ -33,9 +34,9 @@ class PaymentsState extends Equatable {
     required this.creditors,
     required this.creditorsLoading,
     required this.email,
-    required this.emailError,
+    required this.emailValidationResult,
     required this.amount,
-    required this.amountError,
+    required this.amountValidationResult,
     required this.userInputFieldsUpdated,
     required this.termsAccepted,
     required this.termsError,
@@ -50,9 +51,9 @@ class PaymentsState extends Equatable {
     List<CreditorListItem>? creditors,
     bool? creditorsLoading,
     String? email,
-    Optional<String>? emailError,
+    Optional<ValidationResult>? emailValidationResult,
     String? amount,
-    Optional<String>? amountError,
+    Optional<ValidationResult>? amountValidationResult,
     bool? userInputFieldsUpdated,
     bool? termsAccepted,
     bool? termsError,
@@ -66,38 +67,40 @@ class PaymentsState extends Equatable {
       creditors: creditors ?? this.creditors,
       creditorsLoading: creditorsLoading ?? this.creditorsLoading,
       email: email ?? this.email,
-      emailError: emailError ?? this.emailError,
+      emailValidationResult:
+          emailValidationResult ?? this.emailValidationResult,
       amount: amount ?? this.amount,
-      amountError: amountError ?? this.amountError,
+      amountValidationResult:
+          amountValidationResult ?? this.amountValidationResult,
       userInputFieldsUpdated:
-      userInputFieldsUpdated ?? this.userInputFieldsUpdated,
+          userInputFieldsUpdated ?? this.userInputFieldsUpdated,
       termsAccepted: termsAccepted ?? this.termsAccepted,
       termsError: termsError ?? this.termsError,
       openPaymentTypeDialog:
-      openPaymentTypeDialog ?? this.openPaymentTypeDialog,
+          openPaymentTypeDialog ?? this.openPaymentTypeDialog,
       initializePaymentResult:
-      initializePaymentResult ?? this.initializePaymentResult,
+          initializePaymentResult ?? this.initializePaymentResult,
       initializePaymentLoading:
-      initializePaymentLoading ?? this.initializePaymentLoading,
+          initializePaymentLoading ?? this.initializePaymentLoading,
       generalError: generalError ?? this.generalError,
     );
   }
 
   @override
   List<Object?> get props => [
-    country,
-    creditors,
-    creditorsLoading,
-    email,
-    emailError,
-    amount,
-    amountError,
-    userInputFieldsUpdated,
-    termsAccepted,
-    termsError,
-    openPaymentTypeDialog,
-    initializePaymentResult,
-    initializePaymentLoading,
-    generalError
-  ];
+        country,
+        creditors,
+        creditorsLoading,
+        email,
+        emailValidationResult,
+        amount,
+        amountValidationResult,
+        userInputFieldsUpdated,
+        termsAccepted,
+        termsError,
+        openPaymentTypeDialog,
+        initializePaymentResult,
+        initializePaymentLoading,
+        generalError
+      ];
 }
