@@ -101,6 +101,6 @@ class PaymentsState extends Equatable {
         openPaymentTypeDialog,
         initializePaymentResult,
         initializePaymentLoading,
-        generalError
+        generalError,
       ];
 }
