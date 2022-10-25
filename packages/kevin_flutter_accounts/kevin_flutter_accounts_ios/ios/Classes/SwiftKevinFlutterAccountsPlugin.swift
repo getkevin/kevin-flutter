@@ -29,6 +29,9 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
     }
     
     public func onKevinAccountLinkingStarted(controller: UINavigationController) {
+        if #available(iOS 13.0, *) {
+            controller.isModalInPresentation = true
+        }
         UIApplication.shared.delegate!.window!!.rootViewController!
             .present(controller, animated: true, completion: nil)
     }
