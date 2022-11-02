@@ -1,3 +1,8 @@
+## 1.0.3
+
+* Upgrade:
+  - `kevin_flutter_core: 1.0.5`
+
 ## 1.0.2
 
 * Expose KevinSessionUnexpectedError - wrapper of plugin's native part's unexpected errors (wrong
