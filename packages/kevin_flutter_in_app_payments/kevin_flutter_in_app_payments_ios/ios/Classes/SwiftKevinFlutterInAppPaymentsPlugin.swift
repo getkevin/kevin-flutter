@@ -27,6 +27,9 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
     }
     
     public func onKevinPaymentInitiationStarted(controller: UINavigationController) {
+        if #available(iOS 13.0, *) {
+            controller.isModalInPresentation = true
+        }
         UIApplication.shared.delegate!.window!!.rootViewController!
             .present(controller, animated: true, completion: nil)
     }

@@ -1,3 +1,7 @@
+## 1.0.2
+
+* Make SDK modal sheet non-dismissible on iOS >= 13
+
 ## 1.0.1
 
 * Upgrade:
