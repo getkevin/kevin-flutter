@@ -1,7 +1,7 @@
 ## 1.0.5
 
 * Upgrade:
-  - `eu.kevin.android:core:2.5.1`
+    - `eu.kevin.android:core:2.5.1`
 
 ## 1.0.4
 

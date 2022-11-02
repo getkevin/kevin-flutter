@@ -1,7 +1,7 @@
 ## 1.0.5
 
 * Upgrade:
-  - `kevin_ios: 2.2.6`
+    - `kevin_ios: 2.2.6`
 
 ## 1.0.4
 
