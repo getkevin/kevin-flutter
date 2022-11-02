@@ -15,7 +15,7 @@ Flutter plugin to communicate with kevin. accounts SDK
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'kevin-ios', '2.2.3'
+  s.dependency 'kevin-ios', '2.2.6'
   s.dependency 'kevin_flutter_core_ios'
   s.platform = :ios, '9.0'
 

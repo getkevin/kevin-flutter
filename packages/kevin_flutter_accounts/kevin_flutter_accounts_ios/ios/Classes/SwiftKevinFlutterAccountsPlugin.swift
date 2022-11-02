@@ -139,6 +139,7 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
             .setDisableCountrySelection(configurationData.disableCountrySelection)
             .setCountryFilter(countryFilter)
             .setSkipBankSelection(configurationData.skipBankSelection)
+            .setBankFilter(configurationData.bankFilter)
         
         if let preselectedBank = configurationData.preselectedBank {
             _ = configurationBuilder.setPreselectedBank(preselectedBank)

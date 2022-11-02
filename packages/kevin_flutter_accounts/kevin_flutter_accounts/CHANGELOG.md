@@ -1,7 +1,11 @@
 ## 1.0.4
 
+* iOS: Make SDK modal sheet non-dismissible on iOS >= 13
 * Upgrade:
-  - `kevin_flutter_accounts_ios: 1.0.2`
+    - `kevin_flutter_accounts_ios: 1.0.2`
+    - `kevin_flutter_accounts_android: 1.0.2`
+    - `kevin_flutter_accounts_platform_interface: 1.0.4`
+    - `kevin_flutter_core: 1.0.5`
 
 ## 1.0.3
 
