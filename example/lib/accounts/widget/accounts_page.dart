@@ -209,16 +209,20 @@ class _AccountsPageState extends State<AccountsPage>
       _bloc.add(SetLinkingSuccessResultEvent(result: result));
     } else if (result is KevinSessionResultGeneralError) {
       Fimber.e('Linking session general error: \n${result.message}');
-      _showError(
-        context: context,
-        error: result.message ?? LocaleKeys.general_error_unknown.tr(),
-      );
+      if (context.mounted) {
+        _showError(
+          context: context,
+          error: result.message ?? LocaleKeys.general_error_unknown.tr(),
+        );
+      }
     } else if (result is KevinSessionUnexpectedError) {
       Fimber.e('Linking session unexpected error: \n${result.message}');
-      _showError(
-        context: context,
-        error: LocaleKeys.general_error_unknown.tr(),
-      );
+      if (context.mounted) {
+        _showError(
+          context: context,
+          error: LocaleKeys.general_error_unknown.tr(),
+        );
+      }
     }
   }
 

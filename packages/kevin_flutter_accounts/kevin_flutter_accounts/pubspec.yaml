@@ -2,7 +2,7 @@ name: kevin_flutter_accounts
 description: Flutter plugin, used to easily communicate with kevin. account linking SDK.
 repository: https://github.com/getkevin/kevin-flutter/tree/master/packages/kevin_flutter_accounts/kevin_flutter_accounts
 homepage: https://developer.kevin.eu/mobile/
-version: 1.0.4
+version: 1.0.5
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
@@ -11,10 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  kevin_flutter_core: ^1.0.5
-  kevin_flutter_accounts_android: ^1.0.2
-  kevin_flutter_accounts_ios: ^1.0.2
-  kevin_flutter_accounts_platform_interface: ^1.0.4
+  kevin_flutter_core: ^1.0.6
+  kevin_flutter_accounts_android: ^1.0.3
+  kevin_flutter_accounts_ios: ^1.0.3
+  kevin_flutter_accounts_platform_interface: ^1.0.5
 
 dev_dependencies:
   flutter_test:

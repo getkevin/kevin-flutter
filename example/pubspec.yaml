@@ -38,7 +38,7 @@ dependencies:
   flutter_svg: ^1.1.5
   scroll_snap_list: ^0.9.1
   url_launcher: ^6.1.5
-  modal_bottom_sheet: ^2.1.2
+  modal_bottom_sheet: ^3.0.0-pre
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_secure_storage: ^6.0.0

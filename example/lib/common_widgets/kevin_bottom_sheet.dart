@@ -3,7 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-const _modalSheetEdgeToEdgeContainerHeight = 56.0;
+const _modalSheetEdgeToEdgeContainerHeight = 72.0;
 
 Future<T?> showKevinBottomSheet<T>({
   required BuildContext context,
@@ -32,7 +32,7 @@ Future<T?> _showMaterialBottomSheet<T>({
   final animation = theme.animation;
 
   final result = await Navigator.of(context, rootNavigator: false).push(
-    ModalBottomSheetRoute<T>(
+    ModalSheetRoute<T>(
       builder: builder,
       closeProgressThreshold: closeProgressThreshold,
       containerBuilder: _materialContainerBuilder(
