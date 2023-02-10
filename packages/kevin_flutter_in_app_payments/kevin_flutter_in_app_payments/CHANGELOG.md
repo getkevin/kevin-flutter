@@ -3,6 +3,8 @@
 * Upgrade:
   - `kevin_flutter_in_app_payments_ios: 1.0.4`
   - `kevin_flutter_in_app_payments_android: 1.0.3`
+  - `kevin_flutter_in_app_payments_platform_interface: 1.0.4`
+  - `kevin_flutter_core: 1.0.6`
 
 ## 1.0.4
 

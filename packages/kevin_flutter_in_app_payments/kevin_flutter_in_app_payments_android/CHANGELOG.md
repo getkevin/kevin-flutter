@@ -2,6 +2,8 @@
 
 * Upgrade:
   - `eu.kevin.android:core:2.6.1`
+  - `kevin_flutter_core: 1.0.6`
+  - `kevin_flutter_in_app_payments_platform_interface: 1.0.4`
 
 ## 1.0.2
 

@@ -1,3 +1,8 @@
+## 1.0.4
+
+* Upgrade:
+  - `kevin_flutter_core: 1.0.6`
+
 ## 1.0.3
 
 * Upgrade:
