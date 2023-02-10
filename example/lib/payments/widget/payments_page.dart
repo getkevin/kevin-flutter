@@ -219,10 +219,12 @@ class _PaymentsPageState extends State<PaymentsPage> {
     final callbackUrl = await KevinPayments.getCallbackUrl();
 
     if (paymentType == PaymentType.linked) {
-      _onOpenLinkedAccountsDialog(
-        context: context,
-        callbackUrl: callbackUrl,
-      );
+      if (context.mounted) {
+        _onOpenLinkedAccountsDialog(
+          context: context,
+          callbackUrl: callbackUrl,
+        );
+      }
       return;
     }
 
@@ -276,32 +278,38 @@ class _PaymentsPageState extends State<PaymentsPage> {
     if (result is KevinSessionResultPaymentSuccess) {
       _bloc.add(const ClearUserInputFieldsEvent());
 
-      await showKevinDialog(
-        context: context,
-        builder: (context) => KevinDialog(
-          title: LocaleKeys.payment_successful_dialog_title.tr(),
-          actions: [
-            KevinDialogAction(
-              text: LocaleKeys.general_ok.tr(),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        ),
-      );
+      if (context.mounted) {
+        await showKevinDialog(
+          context: context,
+          builder: (context) => KevinDialog(
+            title: LocaleKeys.payment_successful_dialog_title.tr(),
+            actions: [
+              KevinDialogAction(
+                text: LocaleKeys.general_ok.tr(),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          ),
+        );
+      }
     } else if (result is KevinSessionResultGeneralError) {
       Fimber.e('Payment session general error: \n${result.message}');
-      _showError(
-        context: context,
-        error: result.message ?? LocaleKeys.general_error_unknown.tr(),
-      );
+      if (context.mounted) {
+        _showError(
+          context: context,
+          error: result.message ?? LocaleKeys.general_error_unknown.tr(),
+        );
+      }
     } else if (result is KevinSessionUnexpectedError) {
       Fimber.e('Payment session unexpected error: \n${result.message}');
-      _showError(
-        context: context,
-        error: LocaleKeys.general_error_unknown.tr(),
-      );
+      if (context.mounted) {
+        _showError(
+          context: context,
+          error: LocaleKeys.general_error_unknown.tr(),
+        );
+      }
     }
   }
 
