@@ -1,3 +1,8 @@
+## 1.0.6
+
+* Upgrade:
+  - `kevin_ios: 2.2.9`
+
 ## 1.0.5
 
 * Upgrade:
