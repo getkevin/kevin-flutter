@@ -2,7 +2,7 @@ name: kevin_flutter_in_app_payments_ios
 description: iOS implementation of the kevin_flutter_in_app_payments plugin.
 repository: https://github.com/getkevin/kevin-flutter/tree/master/packages/kevin_flutter_in_app_payments/kevin_flutter_in_app_payments_ios
 homepage: https://developer.kevin.eu/mobile/
-version: 1.0.3
+version: 1.0.4
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
