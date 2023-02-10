@@ -2,6 +2,8 @@
 
 * Upgrade:
   - `kevin_ios: 2.2.9`
+  - `kevin_flutter_core: 1.0.6`
+  - `kevin_flutter_accounts_platform_interface: 1.0.5`
 
 ## 1.0.2
 
