@@ -13,10 +13,14 @@ void main() {
   final platform = KevinFlutterCoreIos();
 
   void _setMethodCallReturnData({dynamic Function()? data}) {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-      return data?.call();
-    });
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      channel,
+      (MethodCall methodCall) async {
+        log.add(methodCall);
+        return data?.call();
+      },
+    );
   }
 
   setUp(() {

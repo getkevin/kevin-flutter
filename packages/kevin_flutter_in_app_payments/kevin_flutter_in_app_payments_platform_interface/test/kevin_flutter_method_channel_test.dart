@@ -21,10 +21,14 @@ void main() {
   final initialInstance = KevinFlutterPaymentsPlatformInterface.instance;
 
   void _setMethodCallReturnData({dynamic Function()? data}) {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      log.add(methodCall);
-      return data?.call();
-    });
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      channel,
+      (MethodCall methodCall) async {
+        log.add(methodCall);
+        return data?.call();
+      },
+    );
   }
 
   setUp(() {
