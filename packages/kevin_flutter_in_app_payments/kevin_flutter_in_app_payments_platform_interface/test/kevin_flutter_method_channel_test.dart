@@ -74,7 +74,7 @@ void main() {
         arguments: <String, dynamic>{
           'callbackUrl': '',
         },
-      )
+      ),
     ]);
   });
 
@@ -104,7 +104,7 @@ void main() {
           'skipBankSelection': false,
           'skipAuthentication': false,
         },
-      )
+      ),
     ]);
   });
 
@@ -133,7 +133,7 @@ void main() {
           'skipBankSelection': false,
           'skipAuthentication': false,
         },
-      )
+      ),
     ]);
   });
 
@@ -162,7 +162,7 @@ void main() {
           'skipBankSelection': false,
           'skipAuthentication': false,
         },
-      )
+      ),
     ]);
   });
 
@@ -191,7 +191,7 @@ void main() {
           'skipBankSelection': false,
           'skipAuthentication': false,
         },
-      )
+      ),
     ]);
   });
 
@@ -218,7 +218,7 @@ void main() {
           'skipBankSelection': false,
           'skipAuthentication': false,
         },
-      )
+      ),
     ]);
   });
 
@@ -231,7 +231,7 @@ void main() {
       isMethodCall(
         'getCallbackUrl',
         arguments: null,
-      )
+      ),
     ]);
   });
 
@@ -246,7 +246,7 @@ void main() {
       isMethodCall(
         'getCallbackUrl',
         arguments: null,
-      )
+      ),
     ]);
   });
 }

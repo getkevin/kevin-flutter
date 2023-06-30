@@ -18,7 +18,8 @@ void main() {
   final platform = KevinFlutterPaymentsAndroid();
 
   void _setMethodCallReturnData({dynamic Function()? data}) {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, (MethodCall methodCall) {
       log.add(methodCall);
       return data?.call();
     });
@@ -51,7 +52,7 @@ void main() {
         arguments: <String, dynamic>{
           'callbackUrl': 'android',
         },
-      )
+      ),
     ]);
   });
 
@@ -81,7 +82,7 @@ void main() {
           'skipBankSelection': false,
           'skipAuthentication': false,
         },
-      )
+      ),
     ]);
   });
 
@@ -110,7 +111,7 @@ void main() {
           'skipBankSelection': false,
           'skipAuthentication': false,
         },
-      )
+      ),
     ]);
   });
 
@@ -139,7 +140,7 @@ void main() {
           'skipBankSelection': false,
           'skipAuthentication': false,
         },
-      )
+      ),
     ]);
   });
 
@@ -168,7 +169,7 @@ void main() {
           'skipBankSelection': false,
           'skipAuthentication': false,
         },
-      )
+      ),
     ]);
   });
 
@@ -195,7 +196,7 @@ void main() {
           'skipBankSelection': false,
           'skipAuthentication': false,
         },
-      )
+      ),
     ]);
   });
 
@@ -208,7 +209,7 @@ void main() {
       isMethodCall(
         'getCallbackUrl',
         arguments: null,
-      )
+      ),
     ]);
   });
 
@@ -223,7 +224,7 @@ void main() {
       isMethodCall(
         'getCallbackUrl',
         arguments: null,
-      )
+      ),
     ]);
   });
 }
