@@ -22,7 +22,7 @@ class KevinFlutterAccountsMethodChannel
       KevinFlutterAccountsMethods.setAccountsConfiguration,
       {
         'callbackUrl': '',
-        'showUnsupportedBanks': configuration.showUnsupportedBanks
+        'showUnsupportedBanks': configuration.showUnsupportedBanks,
       },
     );
   }

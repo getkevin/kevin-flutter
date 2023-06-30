@@ -1,7 +1,13 @@
+## 1.1.0
+
+* Update Dart min version to 3.0.0
+* Upgrade:
+    - `kevin_flutter_core: 1.1.0`
+
 ## 1.0.5
 
 * Upgrade:
-  - `kevin_flutter_core: 1.0.6`
+    - `kevin_flutter_core: 1.0.6`
 
 ## 1.0.4
 
