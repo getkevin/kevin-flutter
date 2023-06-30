@@ -127,11 +127,11 @@ class _CountrySelectionBottomDialogState
             AnimatedOpacity(
               duration: animation.duration.shortDuration,
               opacity: state.loading ? 1 : 0,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 48, bottom: 36),
+              child: const Padding(
+                padding: EdgeInsets.only(top: 48, bottom: 36),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [KevinProgressIndicator()],
+                  children: [KevinProgressIndicator()],
                 ),
               ),
             ),

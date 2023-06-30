@@ -78,7 +78,7 @@ void main() {
           [
             linkedAccount,
             linkedAccount.copyWith(id: 1),
-            linkedAccount.copyWith(id: 2)
+            linkedAccount.copyWith(id: 2),
           ],
         ]),
       ),
@@ -98,7 +98,7 @@ void main() {
           [
             linkedAccount,
             linkedAccount.copyWith(id: 1),
-            linkedAccount.copyWith(id: 2)
+            linkedAccount.copyWith(id: 2),
           ],
         ]),
       ),

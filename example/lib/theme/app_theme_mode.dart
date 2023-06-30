@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
 AppThemeMode getCurrentAppThemeMode() {
-  final window = WidgetsBinding.instance.window;
+  final dispatcher = PlatformDispatcher.instance;
 
-  if (window.platformBrightness == Brightness.dark) {
+  if (dispatcher.platformBrightness == Brightness.dark) {
     return AppThemeMode.dark;
   } else {
     return AppThemeMode.light;

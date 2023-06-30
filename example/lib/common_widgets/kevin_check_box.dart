@@ -37,7 +37,7 @@ class KevinCheckBox extends StatelessWidget {
             onTap: () => _onChanged(!_value),
             child: _trailingWidget,
           ),
-        )
+        ),
       ],
     );
   }

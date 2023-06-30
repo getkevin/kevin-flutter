@@ -175,7 +175,7 @@ class _AnimatedModalSheetBodyState extends State<_AnimatedModalSheetBody> {
                 key: ValueKey(_showEdgeToEdgeContainer),
                 animationProgress: widget._animation.value,
               ),
-            widget._child
+            widget._child,
           ],
         ),
       ),

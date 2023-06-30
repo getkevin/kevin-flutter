@@ -113,7 +113,7 @@ void main() {
         const LinkingRequest(
           scopes: ['accounts_basic', 'payments'],
           redirectUrl: 'redirectUrl',
-        )
+        ),
       ]);
 
       return [
@@ -148,7 +148,7 @@ void main() {
         const LinkingRequest(
           scopes: ['accounts_basic', 'payments'],
           redirectUrl: 'redirectUrl',
-        )
+        ),
       ]);
 
       return [

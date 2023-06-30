@@ -60,7 +60,7 @@ class _AccountsEmptyState extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }
