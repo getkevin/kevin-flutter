@@ -62,20 +62,20 @@ class _AppThemeManagerState extends State<AppThemeManager>
   }
 
   void _setUpAppTheme() {
-    final window = WidgetsBinding.instance.window;
-    _mode = _getThemeMode(window: window);
+    final dispatcher = PlatformDispatcher.instance;
+    _mode = _getThemeMode(dispatcher: dispatcher);
 
-    window.onPlatformBrightnessChanged = () {
+    dispatcher.onPlatformBrightnessChanged = () {
       setState(() {
-        final mode = _getThemeMode(window: window);
+        final mode = _getThemeMode(dispatcher: dispatcher);
         _mode = mode;
         widget._onThemeChanged?.call(mode);
       });
     };
   }
 
-  AppThemeMode _getThemeMode({required SingletonFlutterWindow window}) {
-    return window.platformBrightness == Brightness.dark
+  AppThemeMode _getThemeMode({required PlatformDispatcher dispatcher}) {
+    return dispatcher.platformBrightness == Brightness.dark
         ? AppThemeMode.dark
         : AppThemeMode.light;
   }

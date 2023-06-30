@@ -45,7 +45,7 @@ void main() {
         'code': 400,
         'name': 'name',
         'description': 'description',
-      }
+      },
     };
     final errorJsonString = jsonEncode(errorMap);
 
@@ -74,7 +74,7 @@ void main() {
         'code': 400,
         'name': 'name',
         'description': 'description',
-      }
+      },
     };
 
     final error = dioError(
@@ -102,7 +102,7 @@ void main() {
         'code': 400,
         'name': 'name',
         'description': 'description',
-      }
+      },
     };
     final errorJsonString = jsonEncode(errorMap);
 
@@ -126,7 +126,7 @@ void main() {
         'code': 400,
         'name': 'name',
         'description': 'description',
-      }
+      },
     };
 
     final error = dioError(

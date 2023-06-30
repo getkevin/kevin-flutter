@@ -23,7 +23,8 @@ void main() {
   final initialInstance = KevinFlutterAccountsPlatformInterface.instance;
 
   void _setMethodCallReturnData({dynamic Function()? data}) {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, (MethodCall methodCall) {
       log.add(methodCall);
       return data?.call();
     });
@@ -72,9 +73,9 @@ void main() {
         'setAccountsConfiguration',
         arguments: <String, dynamic>{
           'callbackUrl': '',
-          'showUnsupportedBanks': true
+          'showUnsupportedBanks': true,
         },
-      )
+      ),
     ]);
   });
 
@@ -111,7 +112,7 @@ void main() {
           'skipBankSelection': false,
           'accountLinkingType': 'bank',
         },
-      )
+      ),
     ]);
   });
 
@@ -138,7 +139,7 @@ void main() {
           'skipBankSelection': false,
           'accountLinkingType': 'bank',
         },
-      )
+      ),
     ]);
   });
 
@@ -165,7 +166,7 @@ void main() {
           'skipBankSelection': false,
           'accountLinkingType': 'bank',
         },
-      )
+      ),
     ]);
   });
 
@@ -192,7 +193,7 @@ void main() {
           'skipBankSelection': false,
           'accountLinkingType': 'bank',
         },
-      )
+      ),
     ]);
   });
 
@@ -217,7 +218,7 @@ void main() {
           'skipBankSelection': false,
           'accountLinkingType': 'bank',
         },
-      )
+      ),
     ]);
   });
 
@@ -229,7 +230,7 @@ void main() {
       isMethodCall(
         'getCallbackUrl',
         arguments: null,
-      )
+      ),
     ]);
   });
 
@@ -244,7 +245,7 @@ void main() {
       isMethodCall(
         'getCallbackUrl',
         arguments: null,
-      )
+      ),
     ]);
   });
 
@@ -256,7 +257,7 @@ void main() {
       isMethodCall(
         'isShowUnsupportedBanks',
         arguments: null,
-      )
+      ),
     ]);
   });
 
@@ -271,7 +272,7 @@ void main() {
       isMethodCall(
         'isShowUnsupportedBanks',
         arguments: null,
-      )
+      ),
     ]);
   });
 }

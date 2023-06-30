@@ -58,7 +58,7 @@ class KevinListBottomDialog extends StatelessWidget {
         KevinBottomSheetHeader(
           text: _title,
           positioned: true,
-        )
+        ),
       ],
     );
   }

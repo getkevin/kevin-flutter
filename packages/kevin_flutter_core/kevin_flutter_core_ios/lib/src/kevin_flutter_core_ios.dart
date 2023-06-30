@@ -26,7 +26,7 @@ class KevinFlutterCoreIos extends KevinFlutterCorePlatformInterface {
     if (iosTheme == null) return false;
 
     final arguments = <String, dynamic>{
-      KevinFlutterCoreArguments.theme: iosTheme.toMap()
+      KevinFlutterCoreArguments.theme: iosTheme.toMap(),
     };
 
     final themeSet = await methodChannel.invokeMethod<bool>(

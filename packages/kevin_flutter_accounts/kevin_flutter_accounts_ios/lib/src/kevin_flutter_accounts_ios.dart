@@ -21,7 +21,7 @@ class KevinFlutterAccountsIos extends KevinFlutterAccountsPlatformInterface {
       KevinFlutterAccountsMethods.setAccountsConfiguration,
       {
         'callbackUrl': configuration.callbackUrl.ios,
-        'showUnsupportedBanks': configuration.showUnsupportedBanks
+        'showUnsupportedBanks': configuration.showUnsupportedBanks,
       },
     );
   }

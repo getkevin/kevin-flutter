@@ -34,7 +34,7 @@ final _availableCountries = {
   'se',
   'si',
   'sk',
-  'hu'
+  'hu',
 };
 
 class LocalResourcesCountryHelper extends CountryHelper {

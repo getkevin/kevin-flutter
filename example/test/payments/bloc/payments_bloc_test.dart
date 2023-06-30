@@ -606,7 +606,7 @@ void main() {
         Optional.of(paymentSession),
       );
       expect(initializeSinglePaymentUseCase.getRequestHistory(), [
-        {PaymentType.bank: paymentRequest}
+        {PaymentType.bank: paymentRequest},
       ]);
     },
   );
@@ -639,7 +639,7 @@ void main() {
         const Optional.absent(),
       );
       expect(initializeSinglePaymentUseCase.getRequestHistory(), [
-        {PaymentType.bank: paymentRequest}
+        {PaymentType.bank: paymentRequest},
       ]);
     },
   );
@@ -677,7 +677,7 @@ void main() {
         Optional.of(paymentSession),
       );
       expect(initializeSinglePaymentUseCase.getRequestHistory(), [
-        {PaymentType.card: paymentRequest}
+        {PaymentType.card: paymentRequest},
       ]);
     },
   );
@@ -710,7 +710,7 @@ void main() {
         const Optional.absent(),
       );
       expect(initializeSinglePaymentUseCase.getRequestHistory(), [
-        {PaymentType.card: paymentRequest}
+        {PaymentType.card: paymentRequest},
       ]);
     },
   );
@@ -748,7 +748,7 @@ void main() {
         Optional.of(paymentSession),
       );
       expect(initializeLinkedPaymentUseCase.getRequestHistory(), [
-        {linkedAccount: paymentRequest}
+        {linkedAccount: paymentRequest},
       ]);
     },
   );
@@ -781,7 +781,7 @@ void main() {
         const Optional.absent(),
       );
       expect(initializeLinkedPaymentUseCase.getRequestHistory(), [
-        {linkedAccount: paymentRequest}
+        {linkedAccount: paymentRequest},
       ]);
     },
   );

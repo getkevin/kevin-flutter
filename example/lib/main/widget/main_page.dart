@@ -50,7 +50,7 @@ class MainPage extends StatefulWidget {
                   observe: true,
                 ),
               ),
-          )
+          ),
         ],
         child: const MainPage(),
       );

@@ -156,7 +156,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
                       amount: state.amount,
                       onPressed: () => _onValidatePayment(context: context),
                     ),
-                  )
+                  ),
                 ],
               );
             },
@@ -289,7 +289,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-              )
+              ),
             ],
           ),
         );

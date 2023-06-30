@@ -23,7 +23,7 @@ class KevinFlutterAccountsAndroid
       KevinFlutterAccountsMethods.setAccountsConfiguration,
       {
         'callbackUrl': configuration.callbackUrl.android,
-        'showUnsupportedBanks': configuration.showUnsupportedBanks
+        'showUnsupportedBanks': configuration.showUnsupportedBanks,
       },
     );
   }

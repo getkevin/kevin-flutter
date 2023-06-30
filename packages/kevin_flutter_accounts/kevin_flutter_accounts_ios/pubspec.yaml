@@ -2,17 +2,17 @@ name: kevin_flutter_accounts_ios
 description: iOS implementation of the kevin_flutter_accounts plugin.
 repository: https://github.com/getkevin/kevin-flutter/tree/master/packages/kevin_flutter_accounts/kevin_flutter_accounts_ios
 homepage: https://developer.kevin.eu/mobile/
-version: 1.0.3
+version: 1.1.0
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
-  flutter: ">=2.5.0"
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  kevin_flutter_core: ^1.0.6
-  kevin_flutter_accounts_platform_interface: ^1.0.5
+  kevin_flutter_core: ^1.1.0
+  kevin_flutter_accounts_platform_interface: ^1.1.0
 
 dev_dependencies:
   flutter_test:

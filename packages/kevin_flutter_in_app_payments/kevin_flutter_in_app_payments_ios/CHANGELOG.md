@@ -1,7 +1,15 @@
+## 1.1.0
+
+* Update Dart min version to 3.0.0
+* Upgrade:
+    - `kevin_ios: 2.3.0`
+    - `kevin_flutter_core: 1.1.0`
+    - `kevin_flutter_in_app_payments_platform_interface: 1.1.0`
+
 ## 1.0.4
 
 * Upgrade:
-  - `kevin_ios: 2.2.9`
+    - `kevin_ios: 2.2.9`
     - `kevin_flutter_core: 1.0.6`
     - `kevin_flutter_in_app_payments_platform_interface: 1.0.4`
 
