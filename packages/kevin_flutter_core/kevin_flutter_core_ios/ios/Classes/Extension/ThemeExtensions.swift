@@ -179,12 +179,28 @@ private func getGridTableStyle(data: KevinGridTableStyleEntity) -> KevinTheme.Gr
         gridTableStyle.cellBackgroundColor = cellBackgroundColor.toUIColor()
     }
     
+    if let cellCornerRadius = data.cellCornerRadius {
+        gridTableStyle.cellCornerRadius = cellCornerRadius
+    }
+    
+    if let cellBorderWidth = data.cellBorderWidth {
+        gridTableStyle.cellBorderWidth = cellBorderWidth
+    }
+    
+    if let cellBorderColor = data.cellBorderColor {
+        gridTableStyle.cellBorderColor = cellBorderColor.toUIColor()
+    }
+    
     if let cellSelectedBackgroundColor = data.cellSelectedBackgroundColor {
         gridTableStyle.cellSelectedBackgroundColor = cellSelectedBackgroundColor.toUIColor()
     }
     
-    if let cellCornerRadius = data.cellCornerRadius {
-        gridTableStyle.cellCornerRadius = cellCornerRadius
+    if let cellSelectedBorderWidth = data.cellSelectedBorderWidth {
+        gridTableStyle.cellSelectedBorderWidth = cellSelectedBorderWidth
+    }
+    
+    if let cellSelectedBorderColor = data.cellSelectedBorderColor {
+        gridTableStyle.cellSelectedBorderColor = cellSelectedBorderColor.toUIColor()
     }
     
     return gridTableStyle

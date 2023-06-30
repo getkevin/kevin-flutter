@@ -1,8 +1,17 @@
+## 1.1.0
+
+* Add new customisation parameters to KevinGridTableStyle on iOS
+* Update Dart min version to 3.0.0
+* Upgrade:
+    - `kevin_flutter_core_android: 1.1.0`
+    - `kevin_flutter_core_ios: 1.1.0`
+    - `kevin_flutter_core_platform_interface: 1.1.0`
+
 ## 1.0.6
 
 * Upgrade:
-  - `kevin_flutter_core_android: 1.0.6`
-  - `kevin_flutter_core_ios: 1.0.6`
+    - `kevin_flutter_core_android: 1.0.6`
+    - `kevin_flutter_core_ios: 1.0.6`
 
 ## 1.0.5
 

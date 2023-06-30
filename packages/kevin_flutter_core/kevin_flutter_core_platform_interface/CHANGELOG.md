@@ -1,3 +1,8 @@
+## 1.1.0
+
+* Add new customisation parameters to KevinGridTableStyle on iOS
+* Update Dart min version to 3.0.0
+
 ## 1.0.5
 
 * Introduce KevinSessionUnexpectedError - wrapper of plugin's native part's unexpected errors (wrong

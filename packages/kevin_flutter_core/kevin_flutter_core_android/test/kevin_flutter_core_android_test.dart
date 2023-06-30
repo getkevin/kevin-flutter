@@ -12,7 +12,8 @@ void main() {
   final platform = KevinFlutterCoreAndroid();
 
   void _setMethodCallReturnData({dynamic Function()? data}) {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, (MethodCall methodCall) {
       log.add(methodCall);
       return data?.call();
     });
@@ -40,7 +41,7 @@ void main() {
       isMethodCall(
         'setLocale',
         arguments: <String, String>{'languageCode': 'en'},
-      )
+      ),
     ]);
   });
 
@@ -54,7 +55,7 @@ void main() {
       isMethodCall(
         'setTheme',
         arguments: <String, String>{'theme': 'theme'},
-      )
+      ),
     ]);
   });
 
@@ -69,7 +70,7 @@ void main() {
       isMethodCall(
         'setSandbox',
         arguments: <String, bool>{'sandbox': true},
-      )
+      ),
     ]);
   });
 
@@ -79,7 +80,7 @@ void main() {
       isMethodCall(
         'setDeepLinkingEnabled',
         arguments: <String, bool>{'deepLinkingEnabled': true},
-      )
+      ),
     ]);
   });
 
@@ -92,7 +93,7 @@ void main() {
       isMethodCall(
         'getLocale',
         arguments: null,
-      )
+      ),
     ]);
   });
 
@@ -103,7 +104,7 @@ void main() {
       isMethodCall(
         'getLocale',
         arguments: null,
-      )
+      ),
     ]);
   });
 
@@ -116,7 +117,7 @@ void main() {
       isMethodCall(
         'isSandbox',
         arguments: null,
-      )
+      ),
     ]);
   });
 
@@ -131,7 +132,7 @@ void main() {
       isMethodCall(
         'isSandbox',
         arguments: null,
-      )
+      ),
     ]);
   });
 
@@ -144,7 +145,7 @@ void main() {
       isMethodCall(
         'isDeepLinkingEnabled',
         arguments: null,
-      )
+      ),
     ]);
   });
 
@@ -159,7 +160,7 @@ void main() {
       isMethodCall(
         'isDeepLinkingEnabled',
         arguments: null,
-      )
+      ),
     ]);
   });
 }
