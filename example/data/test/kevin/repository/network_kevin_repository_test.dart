@@ -124,28 +124,6 @@ void main() {
     );
   });
 
-  test('Initialize card payment success', () async {
-    final result = await subject.initializeCardPayment(
-      paymentRequest,
-    );
-
-    expect(
-      result,
-      const Payment(id: 'cardPaymentId'),
-    );
-  });
-
-  test('Initialize card payment error', () async {
-    apiClient.setErrors(cardPaymentError: exception);
-
-    expect(
-      () async => subject.initializeCardPayment(
-        paymentRequest,
-      ),
-      throwsA(exception),
-    );
-  });
-
   test('Initialize linked payment success', () async {
     final result = await subject.initializeLinkedBankPayment(
       accessToken: 'accessToken',

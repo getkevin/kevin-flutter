@@ -40,28 +40,6 @@ void main() {
     );
   });
 
-  test('Card payment success test', () async {
-    final result = await subject.invoke(
-      paymentType: PaymentType.card,
-      paymentRequest: paymentRequest,
-    );
-
-    expect(kevinRepository.getCardCallHistory(), [paymentRequest]);
-    expect(result, const Payment(id: 'cardPaymentId'));
-  });
-
-  test('Card payment error test', () async {
-    kevinRepository.setErrors(cardError: exception);
-
-    expect(
-      () async => subject.invoke(
-        paymentType: PaymentType.card,
-        paymentRequest: paymentRequest,
-      ),
-      throwsA(exception),
-    );
-  });
-
   test('Linked payment is not supported test', () async {
     expect(
       () async => subject.invoke(

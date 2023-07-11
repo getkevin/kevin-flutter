@@ -48,9 +48,6 @@ class KevinApiClient {
   Future<Payment> initializeBankPayment(PaymentRequest request) =>
       _initializePayment(path: 'payments/bank/', request: request);
 
-  Future<Payment> initializeCardPayment(PaymentRequest request) =>
-      _initializePayment(path: 'payments/card/', request: request);
-
   Future<Payment> initializeLinkedBankPayment({
     required String accessToken,
     required PaymentRequest request,

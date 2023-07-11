@@ -39,10 +39,6 @@ class NetworkKevinRepository extends KevinRepository {
       _apiClient.initializeBankPayment(request);
 
   @override
-  Future<Payment> initializeCardPayment(PaymentRequest request) =>
-      _apiClient.initializeCardPayment(request);
-
-  @override
   Future<Payment> initializeLinkedBankPayment({
     required String accessToken,
     required PaymentRequest request,

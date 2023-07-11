@@ -10,7 +10,7 @@ class CodegenLoader extends AssetLoader{
   const CodegenLoader();
 
   @override
-  Future<Map<String, dynamic>> load(String fullPath, Locale locale ) {
+  Future<Map<String, dynamic>?> load(String path, Locale locale) {
     return Future.value(mapLocales[locale.toString()]);
   }
 
@@ -41,7 +41,6 @@ class CodegenLoader extends AssetLoader{
   "payment_type_dialog_title": "Выберите метод оплаты",
   "payment_type_dialog_bank": "Банковский платёж",
   "payment_type_dialog_linked": "Платёж через привязанный счёт",
-  "payment_type_dialog_card": "Оплата картой",
   "payment_successful_dialog_title": "Платёж успешен",
   "account_selection_dialog_title": "Выберите банковский счёт",
   "country_selection_dialog_title": "Выберите страну",
@@ -108,7 +107,6 @@ static const Map<String,dynamic> en = {
   "payment_type_dialog_title": "Choose payment type",
   "payment_type_dialog_bank": "Bank Payment",
   "payment_type_dialog_linked": "Bank Payment vid Linked Account",
-  "payment_type_dialog_card": "Card Payment",
   "payment_successful_dialog_title": "Payment successful",
   "account_selection_dialog_title": "Choose bank account",
   "country_selection_dialog_title": "Select country",

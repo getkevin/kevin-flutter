@@ -17,8 +17,6 @@ class InitializeSinglePaymentUseCase {
     switch (paymentType) {
       case PaymentType.bank:
         return _kevinRepository.initializeBankPayment(paymentRequest);
-      case PaymentType.card:
-        return _kevinRepository.initializeCardPayment(paymentRequest);
       case PaymentType.linked:
         throw StateError('Wrong payment type: $paymentType');
     }

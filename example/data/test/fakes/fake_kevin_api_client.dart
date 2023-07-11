@@ -21,7 +21,6 @@ class FakeKevinApiClient extends Fake implements KevinApiClient {
   Exception? _refreshAuthTokenError;
   Exception? _authStateError;
   Exception? _bankPaymentError;
-  Exception? _cardPaymentError;
   Exception? _linkedPaymentError;
 
   @override
@@ -58,13 +57,6 @@ class FakeKevinApiClient extends Fake implements KevinApiClient {
   }
 
   @override
-  Future<Payment> initializeCardPayment(PaymentRequest request) async {
-    _cardPaymentError?.let((it) => throw it);
-
-    return const Payment(id: 'cardPaymentId');
-  }
-
-  @override
   Future<Payment> initializeLinkedBankPayment({
     required String accessToken,
     required PaymentRequest request,
@@ -79,14 +71,12 @@ class FakeKevinApiClient extends Fake implements KevinApiClient {
     Exception? refreshAuthTokenError,
     Exception? authStateError,
     Exception? bankPaymentError,
-    Exception? cardPaymentError,
     Exception? linkedPaymentError,
   }) {
     _authTokenError = authTokenError;
     _refreshAuthTokenError = refreshAuthTokenError;
     _authStateError = authStateError;
     _bankPaymentError = bankPaymentError;
-    _cardPaymentError = cardPaymentError;
     _linkedPaymentError = linkedPaymentError;
   }
 }

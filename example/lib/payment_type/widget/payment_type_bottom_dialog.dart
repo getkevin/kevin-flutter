@@ -9,7 +9,6 @@ import 'package:kevin_flutter_example/common_widgets/kevin_list_bottom_dialog.da
 import 'package:kevin_flutter_example/common_widgets/kevin_list_item.dart';
 import 'package:kevin_flutter_example/generated/locale_keys.g.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
-import 'package:kevin_flutter_example/theme/widget/app_theme.dart';
 
 class PaymentTypeBottomDialog extends StatefulWidget {
   const PaymentTypeBottomDialog({super.key});
@@ -28,14 +27,11 @@ class PaymentTypeBottomDialog extends StatefulWidget {
 class _PaymentTypeBottomDialogState extends State<PaymentTypeBottomDialog> {
   @override
   Widget build(BuildContext context) {
-    final theme = AppTheme.of(context);
-    final color = theme.color;
-
     return BlocBuilder<LinkedAccountsBloc, LinkedAccountsState>(
       builder: (context, state) {
         final paymentTypes = state.accounts.isEmpty
-            ? [PaymentType.bank, PaymentType.card]
-            : [PaymentType.bank, PaymentType.linked, PaymentType.card];
+            ? [PaymentType.bank]
+            : [PaymentType.bank, PaymentType.linked];
 
         return KevinListBottomDialog(
           key: ValueKey(context.locale.languageCode),
@@ -60,13 +56,7 @@ class _PaymentTypeBottomDialogState extends State<PaymentTypeBottomDialog> {
               case PaymentType.linked:
                 icon = AppImages.link;
                 text = LocaleKeys.payment_type_dialog_linked.tr();
-                listItemType = KevinListItemType.middle;
-                break;
-              case PaymentType.card:
-                icon = AppImages.card;
-                text = LocaleKeys.payment_type_dialog_card.tr();
                 listItemType = KevinListItemType.bottom;
-                iconBackgroundColor = color.icon;
                 break;
             }
 

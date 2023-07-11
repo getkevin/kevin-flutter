@@ -30,7 +30,6 @@
   "payment_type_dialog_title": "Choose payment type",
   "payment_type_dialog_bank": "Bank Payment",
   "payment_type_dialog_linked": "Bank Payment vid Linked Account",
-  "payment_type_dialog_card": "Card Payment",
 
   "payment_successful_dialog_title": "Payment successful",
 

@@ -15,7 +15,6 @@ class FakeKevinRepository extends Fake implements KevinRepository {
   final _refreshAuthTokenCallHistory = <RefreshAuthTokenRequest>[];
   final _authStateCallHistory = <LinkingRequest>[];
   final _bankCallHistory = <PaymentRequest>[];
-  final _cardCallHistory = <PaymentRequest>[];
   final _linkedCallHistory = <PaymentRequest>[];
   var _authToken = authToken;
   var _refreshedAuthToken = authToken;
@@ -23,7 +22,6 @@ class FakeKevinRepository extends Fake implements KevinRepository {
   Exception? _refreshAuthTokenError;
   Exception? _authStateError;
   Exception? _bankError;
-  Exception? _cardError;
   Exception? _linkedError;
 
   @override
@@ -66,15 +64,6 @@ class FakeKevinRepository extends Fake implements KevinRepository {
   }
 
   @override
-  Future<Payment> initializeCardPayment(PaymentRequest request) async {
-    _cardCallHistory.add(request);
-
-    _cardError?.let((it) => throw it);
-
-    return const Payment(id: 'cardPaymentId');
-  }
-
-  @override
   Future<Payment> initializeLinkedBankPayment({
     required String accessToken,
     required PaymentRequest request,
@@ -99,14 +88,12 @@ class FakeKevinRepository extends Fake implements KevinRepository {
     Exception? refreshAuthTokenError,
     Exception? authStateError,
     Exception? bankError,
-    Exception? cardError,
     Exception? linkedError,
   }) {
     _authTokenError = authTokenError;
     _refreshAuthTokenError = refreshAuthTokenError;
     _authStateError = authStateError;
     _bankError = bankError;
-    _cardError = cardError;
     _linkedError = linkedError;
   }
 
@@ -119,8 +106,6 @@ class FakeKevinRepository extends Fake implements KevinRepository {
       List.of(_authStateCallHistory);
 
   List<PaymentRequest> getBankCallHistory() => List.of(_bankCallHistory);
-
-  List<PaymentRequest> getCardCallHistory() => List.of(_cardCallHistory);
 
   List<PaymentRequest> getLinkedCallHistory() => List.of(_linkedCallHistory);
 }

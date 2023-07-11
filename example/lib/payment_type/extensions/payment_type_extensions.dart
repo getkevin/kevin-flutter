@@ -7,8 +7,6 @@ extension PaymentTypeExtensions on PaymentType {
       case PaymentType.bank:
       case PaymentType.linked:
         return KevinPaymentType.bank;
-      case PaymentType.card:
-        return KevinPaymentType.card;
     }
   }
 }
