@@ -14,7 +14,6 @@ import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
 import 'package:kevin_flutter_example/payments/model/payment_session.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/validation/model/validation_result.dart';
-import 'package:kevin_flutter_in_app_payments/kevin_flutter_in_app_payments.dart';
 import 'package:quiver/core.dart';
 
 import '../../fakes/fake_amount_validator.dart';
@@ -541,7 +540,6 @@ void main() {
         initializePaymentResult: Optional.of(
           const PaymentSession(
             paymentId: 'bankPaymentId',
-            paymentType: KevinPaymentType.bank,
             skipAuthentication: false,
             preselectedCountry: KevinCountry.lithuania,
           ),
@@ -556,7 +554,6 @@ void main() {
         initializePaymentResult: Optional.of(
           const PaymentSession(
             paymentId: 'linkedPaymentId',
-            paymentType: KevinPaymentType.bank,
             skipAuthentication: true,
             preselectedCountry: KevinCountry.lithuania,
           ),
@@ -596,7 +593,6 @@ void main() {
 
       const paymentSession = PaymentSession(
         paymentId: 'bankPaymentId',
-        paymentType: KevinPaymentType.bank,
         skipAuthentication: false,
         preselectedCountry: KevinCountry.lithuania,
       );
@@ -667,7 +663,6 @@ void main() {
 
       const paymentSession = PaymentSession(
         paymentId: 'linkedPaymentId',
-        paymentType: KevinPaymentType.bank,
         skipAuthentication: true,
         preselectedCountry: KevinCountry.lithuania,
       );
@@ -764,7 +759,6 @@ void main() {
       initializePaymentResult: Optional.of(
         const PaymentSession(
           paymentId: 'linkedPaymentId',
-          paymentType: KevinPaymentType.bank,
           skipAuthentication: true,
           preselectedCountry: KevinCountry.lithuania,
         ),

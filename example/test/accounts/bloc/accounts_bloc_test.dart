@@ -181,7 +181,6 @@ void main() {
               bic: 'bic',
             ),
             authorizationCode: 'authorizationCode',
-            linkingType: KevinAccountLinkingType.bank,
           ),
         ),
       );
@@ -224,7 +223,6 @@ void main() {
               bic: 'bic',
             ),
             authorizationCode: 'authorizationCode',
-            linkingType: KevinAccountLinkingType.bank,
           ),
         ),
       );

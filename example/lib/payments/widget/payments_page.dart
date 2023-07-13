@@ -269,7 +269,6 @@ class _PaymentsPageState extends State<PaymentsPage> {
     final result = await KevinPayments.startPayment(
       KevinPaymentSessionConfiguration(
         paymentId: paymentSession.paymentId,
-        paymentType: paymentSession.paymentType,
         skipAuthentication: paymentSession.skipAuthentication,
         preselectedCountry: paymentSession.preselectedCountry,
       ),
