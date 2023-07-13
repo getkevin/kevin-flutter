@@ -2,7 +2,6 @@ import Foundation
 
 internal struct PaymentSessionConfigurationEntity : Codable {
     let paymentId: String
-    let paymentType: String
     let preselectedCountry: String?
     let disableCountrySelection: Bool
     let countryFilter: [String]

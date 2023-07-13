@@ -19,7 +19,7 @@ void main() {
 
   void _setMethodCallReturnData({dynamic Function()? data}) {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(channel, (MethodCall methodCall) {
+        .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
       log.add(methodCall);
       return data?.call();
     });
@@ -73,7 +73,6 @@ void main() {
         'startPayment',
         arguments: <String, dynamic>{
           'paymentId': 'paymentId',
-          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],
@@ -102,7 +101,6 @@ void main() {
         'startPayment',
         arguments: <String, dynamic>{
           'paymentId': 'paymentId',
-          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],
@@ -131,7 +129,6 @@ void main() {
         'startPayment',
         arguments: <String, dynamic>{
           'paymentId': 'paymentId',
-          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],
@@ -160,7 +157,6 @@ void main() {
         'startPayment',
         arguments: <String, dynamic>{
           'paymentId': 'paymentId',
-          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],
@@ -187,7 +183,6 @@ void main() {
         'startPayment',
         arguments: <String, dynamic>{
           'paymentId': 'paymentId',
-          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],

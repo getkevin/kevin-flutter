@@ -1,3 +1,11 @@
+## 1.2.0
+
+* **BREAKING**: KevinPaymentType was deprecated and removed, only bank payments are accepted
+* Upgrade:
+    - `kevin_ios: 2.4.0`
+    - `kevin_flutter_core: 1.2.0`
+    - `kevin_flutter_in_app_payments_platform_interface: 1.2.0`
+
 ## 1.1.0
 
 * Update Dart min version to 3.0.0

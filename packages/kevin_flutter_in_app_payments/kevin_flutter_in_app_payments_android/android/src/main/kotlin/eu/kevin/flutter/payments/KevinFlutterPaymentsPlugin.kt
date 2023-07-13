@@ -1,7 +1,6 @@
 package eu.kevin.flutter.payments
 
 import android.content.Intent
-import androidx.annotation.NonNull
 import eu.kevin.core.entities.SessionResult
 import eu.kevin.core.enums.KevinCountry
 import eu.kevin.flutter.core.extension.emitError
@@ -18,7 +17,6 @@ import eu.kevin.inapppayments.paymentsession.PaymentSessionActivity
 import eu.kevin.inapppayments.paymentsession.PaymentSessionContract
 import eu.kevin.inapppayments.paymentsession.PaymentSessionResult
 import eu.kevin.inapppayments.paymentsession.entities.PaymentSessionConfiguration
-import eu.kevin.inapppayments.paymentsession.enums.PaymentType
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -39,16 +37,16 @@ class KevinFlutterPaymentsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
 
     private var paymentResult: MethodChannel.Result? = null
 
-    override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "kevin_flutter_payments_android")
         channel.setMethodCallHandler(this)
     }
 
-    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
     }
 
-    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: MethodChannel.Result) {
+    override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         when (KevinPaymentsMethod.getByKey(call.method)) {
             KevinPaymentsMethod.SET_PAYMENTS_CONFIGURATION -> onSetPaymentsConfiguration(
                 call,
@@ -130,6 +128,7 @@ class KevinFlutterPaymentsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
     ): SessionResult<PaymentSessionResult>? {
         return when {
             requestCode == REQUEST_CODE_PAYMENT && data != null -> {
+                @Suppress("DEPRECATION")
                 data.getParcelableExtra(PaymentSessionContract.RESULT_KEY)
             }
             else -> null
@@ -166,12 +165,10 @@ class KevinFlutterPaymentsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
         val configurationData =
             Json.decodeFromJsonElement<PaymentSessionConfigurationEntity>(data.toJsonElement())
 
-        val paymentType = PaymentType.valueOf(configurationData.paymentType.uppercase())
         val preselectedCountry = KevinCountry.parse(configurationData.preselectedCountry)
         val countryFilter = configurationData.countryFilter.mapNotNull { KevinCountry.parse(it) }
 
         val configurationBuilder = PaymentSessionConfiguration.Builder(configurationData.paymentId)
-            .setPaymentType(paymentType)
             .setPreselectedCountry(preselectedCountry)
             .setDisableCountrySelection(configurationData.disableCountrySelection)
             .setCountryFilter(countryFilter)

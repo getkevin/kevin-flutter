@@ -95,7 +95,6 @@ void main() {
         'startPayment',
         arguments: <String, dynamic>{
           'paymentId': 'paymentId',
-          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],
@@ -124,7 +123,6 @@ void main() {
         'startPayment',
         arguments: <String, dynamic>{
           'paymentId': 'paymentId',
-          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],
@@ -153,7 +151,6 @@ void main() {
         'startPayment',
         arguments: <String, dynamic>{
           'paymentId': 'paymentId',
-          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],
@@ -182,7 +179,6 @@ void main() {
         'startPayment',
         arguments: <String, dynamic>{
           'paymentId': 'paymentId',
-          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],
@@ -209,7 +205,6 @@ void main() {
         'startPayment',
         arguments: <String, dynamic>{
           'paymentId': 'paymentId',
-          'paymentType': 'bank',
           'preselectedCountry': null,
           'disableCountrySelection': false,
           'countryFilter': [],
