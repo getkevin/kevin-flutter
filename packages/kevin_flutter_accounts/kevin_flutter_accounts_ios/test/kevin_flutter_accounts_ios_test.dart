@@ -16,7 +16,7 @@ void main() {
 
   void _setMethodCallReturnData({dynamic Function()? data}) {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(channel, (MethodCall methodCall) {
+        .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
       log.add(methodCall);
       return data?.call();
     });
@@ -65,7 +65,6 @@ void main() {
         bic: 'bic',
       ),
       authorizationCode: 'authorizationCode',
-      linkingType: KevinAccountLinkingType.bank,
     );
 
     final mockedResult = jsonEncode(successResult.toMap());
@@ -86,7 +85,6 @@ void main() {
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
         },
       ),
     ]);
@@ -113,7 +111,6 @@ void main() {
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
         },
       ),
     ]);
@@ -140,7 +137,6 @@ void main() {
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
         },
       ),
     ]);
@@ -167,7 +163,6 @@ void main() {
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
         },
       ),
     ]);
@@ -192,7 +187,6 @@ void main() {
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
         },
       ),
     ]);

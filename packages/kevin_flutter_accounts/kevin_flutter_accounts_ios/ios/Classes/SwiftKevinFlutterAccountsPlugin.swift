@@ -43,7 +43,7 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
     }
     
     public func onKevinAccountLinkingSucceeded(authorizationCode: String, bank: ApiBank?, linkingType: KevinAccountLinkingType) {
-        let result = KevinAccountsSuccess(bank: bank?.toKevinBank(), authorizationCode: authorizationCode, linkingType: linkingType.toString())
+        let result = KevinAccountsSuccess(bank: bank?.toKevinBank(), authorizationCode: authorizationCode)
         
         do {
             let jsonString = try JsonParser.parseToJsonString(data: result)
@@ -143,10 +143,6 @@ public class SwiftKevinFlutterAccountsPlugin: NSObject, FlutterPlugin, KevinAcco
         
         if let preselectedBank = configurationData.preselectedBank {
             _ = configurationBuilder.setPreselectedBank(preselectedBank)
-        }
-        
-        if let accountLinkingType = KevinAccountLinkingType(string: configurationData.accountLinkingType) {
-            _ = configurationBuilder.setLinkingType(accountLinkingType)
         }
 
         return try configurationBuilder.build()

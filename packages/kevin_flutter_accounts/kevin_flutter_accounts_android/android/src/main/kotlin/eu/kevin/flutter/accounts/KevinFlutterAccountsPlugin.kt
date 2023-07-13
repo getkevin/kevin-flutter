@@ -1,14 +1,12 @@
 package eu.kevin.flutter.accounts
 
 import android.content.Intent
-import androidx.annotation.NonNull
 import eu.kevin.accounts.KevinAccountsConfiguration
 import eu.kevin.accounts.KevinAccountsPlugin
 import eu.kevin.accounts.accountsession.AccountSessionActivity
 import eu.kevin.accounts.accountsession.AccountSessionContract
 import eu.kevin.accounts.accountsession.AccountSessionResult
 import eu.kevin.accounts.accountsession.entities.AccountSessionConfiguration
-import eu.kevin.accounts.accountsession.enums.AccountLinkingType
 import eu.kevin.core.entities.SessionResult
 import eu.kevin.core.enums.KevinCountry
 import eu.kevin.flutter.accounts.entity.AccountSessionConfigurationEntity
@@ -39,16 +37,16 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
 
     private var accountResult: MethodChannel.Result? = null
 
-    override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "kevin_flutter_accounts_android")
         channel.setMethodCallHandler(this)
     }
 
-    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
     }
 
-    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: MethodChannel.Result) {
+    override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         when (KevinAccountsMethod.getByKey(call.method)) {
             KevinAccountsMethod.SET_ACCOUNTS_CONFIGURATION -> onSetAccountsConfiguration(
                 call,
@@ -179,8 +177,6 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
 
         val preselectedCountry = KevinCountry.parse(configurationData.preselectedCountry)
         val countryFilter = configurationData.countryFilter.mapNotNull { KevinCountry.parse(it) }
-        val accountLinkingType =
-            AccountLinkingType.valueOf(configurationData.accountLinkingType.uppercase())
 
         val configurationBuilder = AccountSessionConfiguration.Builder(configurationData.state)
             .setPreselectedCountry(preselectedCountry)
@@ -188,7 +184,6 @@ class KevinFlutterAccountsPlugin : FlutterPlugin, MethodCallHandler, ActivityAwa
             .setCountryFilter(countryFilter)
             .setBankFilter(configurationData.bankFilter)
             .setSkipBankSelection(configurationData.skipBankSelection)
-            .setLinkingType(accountLinkingType)
 
         configurationData.preselectedBank?.let { configurationBuilder.setPreselectedBank(it) }
 

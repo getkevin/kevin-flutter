@@ -1,4 +1,3 @@
-import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_account_linking_type.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 
 class KevinAccountSessionConfiguration {
@@ -9,7 +8,6 @@ class KevinAccountSessionConfiguration {
   final List<String> bankFilter;
   final String? preselectedBank;
   final bool skipBankSelection;
-  final KevinAccountLinkingType accountLinkingType;
 
   const KevinAccountSessionConfiguration({
     required this.state,
@@ -19,7 +17,6 @@ class KevinAccountSessionConfiguration {
     this.bankFilter = const [],
     this.preselectedBank,
     this.skipBankSelection = false,
-    this.accountLinkingType = KevinAccountLinkingType.bank,
   });
 
   Map<String, dynamic> toMap() {
@@ -31,7 +28,6 @@ class KevinAccountSessionConfiguration {
       'bankFilter': bankFilter,
       'preselectedBank': preselectedBank,
       'skipBankSelection': skipBankSelection,
-      'accountLinkingType': accountLinkingType.name,
     };
   }
 }

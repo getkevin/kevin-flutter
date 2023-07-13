@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kevin_flutter_accounts_platform_interface/src/kevin_flutter_accounts_method_channel.dart';
 import 'package:kevin_flutter_accounts_platform_interface/src/kevin_flutter_accounts_platform_interface.dart';
-import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_account_linking_type.dart';
 import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_account_session_configuration.dart';
 import 'package:kevin_flutter_accounts_platform_interface/src/model/account/kevin_accounts_configuration.dart';
 import 'package:kevin_flutter_accounts_platform_interface/src/model/kevin_bank.dart';
@@ -24,7 +23,7 @@ void main() {
 
   void _setMethodCallReturnData({dynamic Function()? data}) {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(channel, (MethodCall methodCall) {
+        .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
       log.add(methodCall);
       return data?.call();
     });
@@ -89,7 +88,6 @@ void main() {
         bic: 'bic',
       ),
       authorizationCode: 'authorizationCode',
-      linkingType: KevinAccountLinkingType.bank,
     );
 
     final mockedResult = jsonEncode(successResult.toMap());
@@ -110,7 +108,6 @@ void main() {
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
         },
       ),
     ]);
@@ -137,7 +134,6 @@ void main() {
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
         },
       ),
     ]);
@@ -164,7 +160,6 @@ void main() {
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
         },
       ),
     ]);
@@ -191,7 +186,6 @@ void main() {
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
         },
       ),
     ]);
@@ -216,7 +210,6 @@ void main() {
           'bankFilter': [],
           'preselectedBank': null,
           'skipBankSelection': false,
-          'accountLinkingType': 'bank',
         },
       ),
     ]);
