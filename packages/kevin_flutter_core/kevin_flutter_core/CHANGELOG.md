@@ -1,3 +1,9 @@
+## 1.2.0
+
+* Upgrade:
+    - `kevin_flutter_core_android: 1.2.0`
+    - `kevin_flutter_core_ios: 1.2.0`
+
 ## 1.1.0
 
 * Add new customisation parameters to KevinGridTableStyle on iOS

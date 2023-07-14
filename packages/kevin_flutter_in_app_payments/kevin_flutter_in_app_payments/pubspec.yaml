@@ -2,7 +2,7 @@ name: kevin_flutter_in_app_payments
 description: Flutter plugin, used to easily communicate with kevin. in app payments SDK.
 repository: https://github.com/getkevin/kevin-flutter/tree/master/packages/kevin_flutter_in_app_payments/kevin_flutter_in_app_payments
 homepage: https://developer.kevin.eu/mobile/
-version: 1.1.0
+version: 1.2.0
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -11,10 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  kevin_flutter_core: ^1.1.0
-  kevin_flutter_in_app_payments_android: ^1.1.0
-  kevin_flutter_in_app_payments_ios: ^1.1.0
-  kevin_flutter_in_app_payments_platform_interface: ^1.1.0
+  kevin_flutter_core: ^1.2.0
+  kevin_flutter_in_app_payments_android: ^1.2.0
+  kevin_flutter_in_app_payments_ios: ^1.2.0
+  kevin_flutter_in_app_payments_platform_interface: ^1.2.0
 
 dev_dependencies:
   flutter_test:

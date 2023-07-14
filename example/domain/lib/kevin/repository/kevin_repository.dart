@@ -14,8 +14,6 @@ abstract class KevinRepository {
 
   Future<Payment> initializeBankPayment(PaymentRequest request);
 
-  Future<Payment> initializeCardPayment(PaymentRequest request);
-
   Future<Payment> initializeLinkedBankPayment({
     required String accessToken,
     required PaymentRequest request,

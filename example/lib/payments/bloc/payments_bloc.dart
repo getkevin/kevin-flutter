@@ -12,7 +12,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin_flutter_core/kevin_flutter_core.dart';
 import 'package:kevin_flutter_example/country/country_extensions.dart';
 import 'package:kevin_flutter_example/generated/locale_keys.g.dart';
-import 'package:kevin_flutter_example/payment_type/extensions/payment_type_extensions.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_event.dart';
 import 'package:kevin_flutter_example/payments/bloc/payments_state.dart';
 import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
@@ -333,7 +332,6 @@ class PaymentsBloc extends Bloc<PaymentsEvent, PaymentsState> {
 
       final paymentSession = PaymentSession(
         paymentId: payment.id,
-        paymentType: paymentType.toKevinPaymentType,
         skipAuthentication: paymentType == PaymentType.linked,
         preselectedCountry: state.country.toKevinCountry(
           defaultCountry: KevinCountry.lithuania,

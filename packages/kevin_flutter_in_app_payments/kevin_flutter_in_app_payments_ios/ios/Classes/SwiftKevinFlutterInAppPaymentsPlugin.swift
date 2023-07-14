@@ -129,10 +129,6 @@ public class SwiftKevinFlutterInAppPaymentsPlugin: NSObject, FlutterPlugin, Kevi
             .setSkipAuthentication(configurationData.skipAuthentication)
             .setBankFilter(configurationData.bankFilter)
         
-        if let paymentType = KevinPaymentType(string: configurationData.paymentType) {
-            _ = configurationBuilder.setPaymentType(paymentType)
-        }
-        
         if let preselectedBank = configurationData.preselectedBank {
             _ = configurationBuilder.setPreselectedBank(preselectedBank)
         }

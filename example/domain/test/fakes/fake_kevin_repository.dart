@@ -23,7 +23,6 @@ class FakeKevinRepository extends Fake implements KevinRepository {
   Exception? _refreshAuthTokenError;
   Exception? _authStateError;
   Exception? _bankError;
-  Exception? _cardError;
   Exception? _linkedError;
 
   @override
@@ -66,15 +65,6 @@ class FakeKevinRepository extends Fake implements KevinRepository {
   }
 
   @override
-  Future<Payment> initializeCardPayment(PaymentRequest request) async {
-    _cardCallHistory.add(request);
-
-    _cardError?.let((it) => throw it);
-
-    return const Payment(id: 'cardPaymentId');
-  }
-
-  @override
   Future<Payment> initializeLinkedBankPayment({
     required String accessToken,
     required PaymentRequest request,
@@ -106,7 +96,6 @@ class FakeKevinRepository extends Fake implements KevinRepository {
     _refreshAuthTokenError = refreshAuthTokenError;
     _authStateError = authStateError;
     _bankError = bankError;
-    _cardError = cardError;
     _linkedError = linkedError;
   }
 

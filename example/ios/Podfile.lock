@@ -4,17 +4,17 @@ PODS:
     - Flutter
   - flutter_secure_storage (3.3.1):
     - Flutter
-  - kevin-ios (2.3.0)
+  - kevin-ios (2.4.0)
   - kevin_flutter_accounts_ios (0.0.1):
     - Flutter
-    - kevin-ios (= 2.3.0)
+    - kevin-ios (= 2.4.0)
     - kevin_flutter_core_ios
   - kevin_flutter_core_ios (0.0.1):
     - Flutter
-    - kevin-ios (= 2.3.0)
+    - kevin-ios (= 2.4.0)
   - kevin_flutter_in_app_payments_ios (0.0.1):
     - Flutter
-    - kevin-ios (= 2.3.0)
+    - kevin-ios (= 2.4.0)
     - kevin_flutter_core_ios
   - path_provider_ios (0.0.1):
     - Flutter
@@ -62,10 +62,10 @@ SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
-  kevin-ios: a9cc62b008992634748fcc6eabc120fa48dced7b
-  kevin_flutter_accounts_ios: c04a00e5acac76feb3237bc0a713289ba4593858
-  kevin_flutter_core_ios: ea4284009e6614ddf7f8e6ee29694e4a34f015c1
-  kevin_flutter_in_app_payments_ios: c21abf2c2e158dae28d923d81126ac88410bfd7f
+  kevin-ios: 028520951dcdfc4505bef6a23cebdf4d1095b621
+  kevin_flutter_accounts_ios: 372b7aee0b2c20cf6153a5fdbd85c5d86e2bbea6
+  kevin_flutter_core_ios: 5250865c5719a8353f659f87352e924595603e15
+  kevin_flutter_in_app_payments_ios: 3ed4c3298593d2575c2ceef08aac3da910253457
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de

@@ -8,5 +8,4 @@ internal struct AccountSessionConfigurationEntity: Codable {
     let bankFilter: [String]
     let preselectedBank: String?
     let skipBankSelection: Bool
-    let accountLinkingType: String
 }

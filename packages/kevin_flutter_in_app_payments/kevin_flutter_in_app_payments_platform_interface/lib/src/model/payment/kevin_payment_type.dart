@@ -1,1 +1,0 @@
-enum KevinPaymentType { bank, card }

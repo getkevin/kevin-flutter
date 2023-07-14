@@ -11,5 +11,4 @@ internal data class AccountSessionConfigurationEntity(
     val bankFilter: List<String>,
     val preselectedBank: String?,
     val skipBankSelection: Boolean,
-    val accountLinkingType: String,
 )

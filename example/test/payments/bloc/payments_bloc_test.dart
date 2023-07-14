@@ -14,7 +14,6 @@ import 'package:kevin_flutter_example/payments/model/creditor_list_item.dart';
 import 'package:kevin_flutter_example/payments/model/payment_session.dart';
 import 'package:kevin_flutter_example/theme/app_images.dart';
 import 'package:kevin_flutter_example/validation/model/validation_result.dart';
-import 'package:kevin_flutter_in_app_payments/kevin_flutter_in_app_payments.dart';
 import 'package:quiver/core.dart';
 
 import '../../fakes/fake_amount_validator.dart';
@@ -541,7 +540,6 @@ void main() {
         initializePaymentResult: Optional.of(
           const PaymentSession(
             paymentId: 'bankPaymentId',
-            paymentType: KevinPaymentType.bank,
             skipAuthentication: false,
             preselectedCountry: KevinCountry.lithuania,
           ),
@@ -556,7 +554,6 @@ void main() {
         initializePaymentResult: Optional.of(
           const PaymentSession(
             paymentId: 'linkedPaymentId',
-            paymentType: KevinPaymentType.bank,
             skipAuthentication: true,
             preselectedCountry: KevinCountry.lithuania,
           ),
@@ -596,7 +593,6 @@ void main() {
 
       const paymentSession = PaymentSession(
         paymentId: 'bankPaymentId',
-        paymentType: KevinPaymentType.bank,
         skipAuthentication: false,
         preselectedCountry: KevinCountry.lithuania,
       );
@@ -645,77 +641,6 @@ void main() {
   );
 
   blocTest(
-    'Initialize card payment success test',
-    build: () {
-      return subject;
-    },
-    seed: () => _initialState.copyWith(
-      amount: '1',
-      email: 'test@test.com',
-      creditors: [_creditor.toListItem(selected: true)],
-    ),
-    act: (PaymentsBloc bloc) {
-      bloc.add(
-        const InitializeSinglePaymentEvent(
-          paymentType: PaymentType.card,
-          callbackUrl: 'callbackUrl',
-        ),
-      );
-    },
-    verify: (PaymentsBloc bloc) {
-      final state = bloc.state;
-
-      const paymentSession = PaymentSession(
-        paymentId: 'cardPaymentId',
-        paymentType: KevinPaymentType.card,
-        skipAuthentication: false,
-        preselectedCountry: KevinCountry.lithuania,
-      );
-
-      expect(
-        state.initializePaymentResult,
-        Optional.of(paymentSession),
-      );
-      expect(initializeSinglePaymentUseCase.getRequestHistory(), [
-        {PaymentType.card: paymentRequest},
-      ]);
-    },
-  );
-
-  blocTest(
-    'Initialize card payment error test',
-    build: () {
-      initializeSinglePaymentUseCase.setError(error: exception);
-      return subject;
-    },
-    seed: () => _initialState.copyWith(
-      amount: '1',
-      email: 'test@test.com',
-      creditors: [_creditor.toListItem(selected: true)],
-    ),
-    act: (PaymentsBloc bloc) {
-      bloc.add(
-        const InitializeSinglePaymentEvent(
-          paymentType: PaymentType.card,
-          callbackUrl: 'callbackUrl',
-        ),
-      );
-    },
-    verify: (PaymentsBloc bloc) {
-      final state = bloc.state;
-
-      expect(state.generalError, Optional.of(exception));
-      expect(
-        state.initializePaymentResult,
-        const Optional.absent(),
-      );
-      expect(initializeSinglePaymentUseCase.getRequestHistory(), [
-        {PaymentType.card: paymentRequest},
-      ]);
-    },
-  );
-
-  blocTest(
     'Initialize linked payment success test',
     build: () {
       return subject;
@@ -738,7 +663,6 @@ void main() {
 
       const paymentSession = PaymentSession(
         paymentId: 'linkedPaymentId',
-        paymentType: KevinPaymentType.bank,
         skipAuthentication: true,
         preselectedCountry: KevinCountry.lithuania,
       );
@@ -835,7 +759,6 @@ void main() {
       initializePaymentResult: Optional.of(
         const PaymentSession(
           paymentId: 'linkedPaymentId',
-          paymentType: KevinPaymentType.bank,
           skipAuthentication: true,
           preselectedCountry: KevinCountry.lithuania,
         ),

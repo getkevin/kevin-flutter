@@ -30,7 +30,6 @@
   "payment_type_dialog_title": "Выберите метод оплаты",
   "payment_type_dialog_bank": "Банковский платёж",
   "payment_type_dialog_linked": "Платёж через привязанный счёт",
-  "payment_type_dialog_card": "Оплата картой",
 
   "payment_successful_dialog_title": "Платёж успешен",
 

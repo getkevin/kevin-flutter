@@ -1,3 +1,9 @@
+## 1.2.0
+
+* **BREAKING**: KevinAccountLinkingType was deprecated and removed, only bank linking is accepted
+* Upgrade:
+    - `kevin_flutter_core: 1.2.0`
+
 ## 1.1.0
 
 * Update Dart min version to 3.0.0

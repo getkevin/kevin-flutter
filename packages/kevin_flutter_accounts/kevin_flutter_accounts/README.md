@@ -11,7 +11,6 @@ Get started with our [SDK reference](https://developer.kevin.eu/mobile/) and che
 
 - [**Account linking**](https://pub.dev/packages/kevin_flutter_accounts) - we provide an easy solution to authenticate and manage user bank accounts.
 - [**Bank payments**](https://pub.dev/packages/kevin_flutter_in_app_payments) - we provide a possibility to integrate bank payments in your app with both SCA and non-SCA options.
-- [**Card payments**](https://pub.dev/packages/kevin_flutter_in_app_payments) - we also provide card payments with a hybrid payment support, so the payment would be performed via bank if we detect that the card belongs to one of our supported banks.
 
 ## Documentation
 

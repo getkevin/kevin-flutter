@@ -5,7 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class PaymentSessionConfigurationEntity(
     val paymentId: String,
-    val paymentType: String,
     val preselectedCountry: String?,
     val disableCountrySelection: Boolean,
     val countryFilter: List<String>,

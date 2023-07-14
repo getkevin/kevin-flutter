@@ -27,7 +27,6 @@ abstract class  LocaleKeys {
   static const payment_type_dialog_title = 'payment_type_dialog_title';
   static const payment_type_dialog_bank = 'payment_type_dialog_bank';
   static const payment_type_dialog_linked = 'payment_type_dialog_linked';
-  static const payment_type_dialog_card = 'payment_type_dialog_card';
   static const payment_successful_dialog_title = 'payment_successful_dialog_title';
   static const account_selection_dialog_title = 'account_selection_dialog_title';
   static const country_selection_dialog_title = 'country_selection_dialog_title';
